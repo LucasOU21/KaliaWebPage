@@ -1,4 +1,3 @@
-// src/components/layout/Navbar.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
@@ -46,7 +45,6 @@ const Navbar = () => {
           <div className="flex-shrink-0 h-10 flex items-center overflow-hidden" style={{ marginLeft: "-24px" }}>
             <Link to="/" className="flex items-center" aria-label="Kalia Reformas y Decoración">
               <div className="flex-shrink-0 py-4">
-                {/* Replace with your logo path */}
                 <img 
                   src="/src/assets/images/logos/KaliaLogo-300x300.png" 
                   alt="Kalia Logo" 
@@ -110,7 +108,7 @@ const Navbar = () => {
             <div className="flex items-center">
               <button 
                 onClick={toggleTheme} 
-                className="group flex h-8 w-8 items-center justify-center rounded-full font-medium text-neutral-600 dark:text-neutral-400 outline-none ring-zinc-500 transition duration-300 hover:bg-neutral-200 hover:text-orange-400 dark:hover:bg-neutral-700 dark:hover:text-orange-300"
+                className="group flex h-8 w-8 items-center justify-center rounded-full font-normal text-neutral-600 dark:text-neutral-400 outline-none ring-zinc-500 transition duration-300 hover:bg-neutral-200 hover:text-orange-400 dark:hover:bg-neutral-700 dark:hover:text-orange-300"
               >
                 {isDarkMode ? (
                   <svg 
@@ -180,7 +178,7 @@ const Navbar = () => {
         <div id="mobile-menu" className="md:hidden mx-2 mt-2">
           <div className="px-5 pt-4 pb-6 space-y-2 rounded-xl shadow-lg mx-2 sm:mx-4 bg-white dark:bg-black dark:border-gray-800 backdrop-blur-10">
             {/* Mobile nav items */}
-            <Link to="/" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-medium border-b border-gray-100 dark:border-gray-800">
+            <Link to="/" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-normal border-b border-gray-100 dark:border-gray-800">
               Inicio
             </Link>
             
@@ -188,7 +186,7 @@ const Navbar = () => {
             <div className="border-b border-gray-100 dark:border-gray-800">
               <button 
                 onClick={toggleServicesMenu} 
-                className="w-full text-left flex items-center justify-between px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-medium"
+                className="w-full text-left flex items-center justify-between px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-normal"
               >
                 <span>Servicios</span>
                 <svg 
@@ -229,10 +227,10 @@ const Navbar = () => {
               </div>
             </div>
             
-            <Link to="/nosotros" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-medium border-b border-gray-100 dark:border-gray-800">
+            <Link to="/nosotros" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-normal border-b border-gray-100 dark:border-gray-800">
               Nosotros
             </Link>
-            <Link to="/blog" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-medium border-b border-gray-100 dark:border-gray-800">
+            <Link to="/blog" className="block px-2 py-3 text-neutral-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg font-normal border-b border-gray-100 dark:border-gray-800">
               Blog
             </Link>
           </div>
