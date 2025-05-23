@@ -1,42 +1,41 @@
-// src/components/sections/HeroSection.jsx
-import React from 'react';
+// src/components/home/HeroSection.jsx
 import { Link } from 'react-router-dom';
+// Import your hero image
+// import heroImage from '../../assets/images/HeroImg1.jpg';
 
-const HeroSection = ({ 
-  title, 
-  subTitle, 
-  primaryBtn = "CALCULAR PRESUPUESTO", 
-  primaryBtnURL = "/calculadora", 
-  withReview = false, 
-  src, 
-  alt 
-}) => {
+const HeroSection = () => {
   return (
-    <section className="hero-container">
-      <div className="hero-background"></div>
+    <section className="relative z-10 w-[100vw] h-[110vh] min-h-[110vh] flex p-0 m-0 ml-[calc(-50vw+50%)] mr-[calc(-50vw+50%)] overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full z-[-1] bg-black"></div>
       
-      <div className="hero-content-side">
-        <div className="hero-content">
-          <h1 className="brand-name" dangerouslySetInnerHTML={{ __html: title }}>
+      <div className="relative w-1/2 h-[110vh] flex justify-center items-center z-2 animate-[fadeInLeft_1.2s_ease-out_forwards]">
+        <div className="bg-black/85 backdrop-blur-md p-[3.5rem_2.5rem] rounded-xl w-[90%] max-w-[40rem] text-center shadow-lg border border-white/10 flex flex-col items-center">
+          <h1 className="font-georgia text-4xl font-bold -tracking-[1px] leading-none mb-2 text-center text-kalia-gold">
+            <span className="text-white font-extrabold">Kalia</span><br /> Reformas<br />y Decoración
           </h1>
           
-          <p className="brand-subtitle">
-            {subTitle}
+          <p className="font-poppins text-xl font-light tracking-[2px] mb-6 text-white uppercase text-center">
+            Espacios excepcionales
           </p>
           
-          <p className="tagline">
+          <p className="font-poppins text-lg font-light text-white mb-8 leading-relaxed whitespace-nowrap inline-block">
             <span>Diseño personalizado</span>
-            <span className="tagline-bullet">•</span>
+            <span className="text-kalia-gold mx-1">•</span>
             <span>Calidad excepcional</span>
-            <span className="tagline-bullet">•</span>
+            <span className="text-kalia-gold mx-1">•</span>
             <span>Precio inmejorable</span>
           </p>
           
-          <div className="cta-container">
-            <Link to={primaryBtnURL} className="primary-button">
-              <span className="button-text">{primaryBtn}</span>
+          <div className="flex flex-col items-center gap-6 mt-4 w-full max-w-[400px]">
+            <Link 
+              to="/calculadora" 
+              className="bg-kalia-gold text-black border-none rounded-lg py-3.5 px-8 text-lg font-semibold font-poppins tracking-wide uppercase transition-all duration-300 cursor-pointer relative overflow-hidden inline-flex items-center justify-center w-full max-w-[300px] shadow-lg animate-[pulse_2s_infinite] hover:transform hover:-translate-y-1 hover:shadow-xl group"
+            >
+              <span className="relative z-2 transition-transform duration-300 group-hover:translate-x-2">
+                CALCULAR PRESUPUESTO
+              </span>
               <svg 
-                className="arrow" 
+                className="absolute right-5 opacity-0 transform -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="18" 
                 height="18" 
@@ -51,10 +50,13 @@ const HeroSection = ({
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </Link>
-            <p className="button-hint">¡Haz clic aquí para obtener tu presupuesto personalizado!</p>
+            <p className="font-poppins text-sm text-white -mt-2 mb-4 italic">
+              ¡Haz clic aquí para obtener tu presupuesto personalizado!
+            </p>
             
-            <a href="tel:603370840" className="call-button">
+            <a href="tel:603370840" className="flex flex-col items-center text-kalia-beige font-poppins text-lg font-light transition-all duration-300 mt-2 hover:text-kalia-gold">
               <svg 
+                className="w-12 h-12 bg-kalia-gold p-3 rounded-full transition-transform duration-300 mb-2 hover:scale-110" 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" 
                 fill="none" 
@@ -71,11 +73,12 @@ const HeroSection = ({
         </div>
       </div>
       
-      <div className="hero-image-side">
+      <div className="relative w-1/2 h-[110vh] overflow-hidden animate-[fadeInRight_1.2s_ease-out_forwards]">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/60 to-transparent z-1"></div>
         <img 
-          src={src} 
-          alt={alt} 
-          className="hero-image-full" 
+          src="/src/assets/images/HeroImg1.jpg" 
+          alt="Kalia Reformas interior design"
+          className="w-full h-[110vh] object-cover object-center"
         />
       </div>
     </section>
