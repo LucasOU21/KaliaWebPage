@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 import HeroSection from './components/layout/HeroSection';
 import FeaturesGeneral from './components/layout/FeaturesGeneral';
 import { useTheme } from './context/ThemeContext';
+import WhatsApp, { SimpleWhatsApp } from './components/ui/WhatsApp';
 
 // Sample features data - this would typically come from a data file or API
 const featuresData = [
@@ -27,6 +28,16 @@ const featuresData = [
 
 function App() {
   const { isDarkMode } = useTheme();
+  
+
+      
+      {/* WhatsApp floating button - appears on all pages */}
+      <WhatsApp 
+        phoneNumber="603370840"
+        message="Hola, me gustaría obtener información sobre los servicios de Kalia Reformas y Decoración."
+        position="bottom-right"
+        showTooltip={true}
+      />
   
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
@@ -77,5 +88,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
