@@ -1,7 +1,418 @@
 // src/components/layout/HeroSection.jsx
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const HeroSection = () => {
+  useEffect(() => {
+    // Inject the hero section styles
+    const heroStyles = `
+      /* Import Google fonts */
+      @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+      
+      .hero-container {
+        position: relative;
+        z-index: 10;
+        width: 100vw;
+        height: 110vh;
+        min-height: 110vh;
+        display: flex;
+        padding: 0;
+        margin: 0;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        overflow: hidden;
+      }
+      
+      .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-color: #000;
+      }
+      
+      .hero-content-side {
+        position: relative;
+        width: 50%;
+        height: 110vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        animation: fadeInLeft 1.2s ease-out forwards;
+      }
+      
+      .hero-image-side {
+        position: relative;
+        width: 50%;
+        height: 110vh;
+        overflow: hidden;
+        animation: fadeInRight 1.2s ease-out forwards;
+      }
+      
+      .hero-image-side::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+        z-index: 1;
+      }
+      
+      .hero-image-full {
+        width: 100%;
+        height: 110vh;
+        object-fit: cover;
+        object-position: center;
+      }
+      
+      @keyframes fadeInLeft {
+        0% { opacity: 0; transform: translateX(-50px); }
+        100% { opacity: 1; transform: translateX(0); }
+      }
+      
+      @keyframes fadeInRight {
+        0% { opacity: 0; transform: translateX(50px); }
+        100% { opacity: 1; transform: translateX(0); }
+      }
+      
+      .hero-content {
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(3px);
+        padding: 3.5rem 2.5rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 40rem;
+        text-align: center;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .brand-name {
+        font-family: 'Georgia', serif;
+        font-size: 4rem;
+        font-weight: 700;
+        letter-spacing: -1px;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        color: #FFD000;
+      }
+      
+      .brand-highlight {
+        color: #FFFFFF;
+        font-weight: 800;
+      }
+      
+      .brand-subtitle {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 300;
+        letter-spacing: 2px;
+        margin-bottom: 1.5rem;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      
+      .tagline {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: #FFFFFF;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        white-space: nowrap;
+        display: inline-block;
+      }
+      
+      .tagline-bullet {
+        color: #FFD000;
+        margin: 0 0.25rem;
+      }
+      
+      .cta-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .primary-button {
+        background-color: #FFD000;
+        color: #000000;
+        border: none;
+        border-radius: 8px;
+        padding: 0.875rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        animation: pulse 2s infinite;
+        text-decoration: none;
+      }
+      
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 208, 0, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 208, 0, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 208, 0, 0);
+        }
+      }
+      
+      .primary-button::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0;
+        background-color: #000000;
+        z-index: -1;
+        transition: width 0.3s ease;
+      }
+      
+      .primary-button:hover {
+        background-color: #FFD000;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        color: #000000;
+      }
+      
+      .primary-button .button-text {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+      }
+      
+      .primary-button:hover .button-text {
+        transform: translateX(10px);
+      }
+      
+      .primary-button .arrow {
+        position: absolute;
+        right: 20px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        transform: translateX(-10px);
+      }
+      
+      .primary-button:hover .arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .button-hint {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        color: #FFFFFF;
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+        font-style: italic;
+      }
+      
+      .call-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #F8F1E7;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 300;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+        text-decoration: none;
+      }
+      
+      .call-button svg {
+        width: 3rem;
+        height: 3rem;
+        background: #FFD000;
+        padding: 0.75rem;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+        margin-bottom: 0.5rem;
+      }
+      
+      .call-button:hover {
+        color: #FFD000;
+      }
+      
+      .call-button:hover svg {
+        transform: scale(1.1);
+      }
+      
+      @media (max-width: 1200px) {
+        .hero-content {
+          padding: 2.5rem 2rem;
+        }
+        
+        .brand-name {
+          font-size: 3.5rem;
+        }
+      }
+      
+      @media (max-width: 992px) {
+        .hero-container {
+          flex-direction: column;
+          height: auto;
+          min-height: 110vh;
+          position: relative;
+        }
+        
+        .hero-content-side, 
+        .hero-image-side {
+          width: 100%;
+        }
+        
+        .hero-content-side {
+          order: 2;
+          height: auto;
+          min-height: 60vh;
+          position: relative;
+          z-index: 2;
+          padding: 2rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: transparent;
+        }
+        
+        .hero-image-side {
+          order: 1;
+          position: absolute;
+          height: 100%;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+        
+        .hero-image-full {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+        
+        .hero-content {
+          background: rgba(0, 0, 0, 0.75);
+          margin: 6rem auto 2rem auto;
+          backdrop-filter: blur(3px);
+        }
+        
+        .hero-image-side::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+          z-index: 1;
+        }
+        
+        @keyframes fadeIn {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .hero-container {
+          min-height: 110vh;
+        }
+        
+        .hero-content-side {
+          min-height: 60vh;
+        }
+        
+        .hero-image-side {
+          height: 100%;
+        }
+        
+        .hero-content {
+          padding: 2rem 1.5rem;
+          width: 95%;
+          margin-top: 6rem;
+        }
+        
+        .brand-name {
+          font-size: 2.5rem;
+        }
+        
+        .brand-subtitle {
+          font-size: 1rem;
+          margin-bottom: 1rem;
+        }
+        
+        .tagline {
+          font-size: 0.95rem;
+          margin-bottom: 1.5rem;
+          white-space: normal;
+          max-width: 100%;
+        }
+        
+        .cta-container {
+          gap: 1rem;
+        }
+        
+        .primary-button {
+          padding: 0.75rem 1.5rem;
+          font-size: 0.9rem;
+        }
+        
+        .button-hint {
+          font-size: 0.8rem;
+        }
+        
+        .call-button {
+          font-size: 0.9rem;
+        }
+        
+        .call-button svg {
+          width: 2.5rem;
+          height: 2.5rem;
+        }
+      }
+    `;
+
+    // Create style element and inject CSS
+    const styleElement = document.createElement('style');
+    styleElement.textContent = heroStyles;
+    document.head.appendChild(styleElement);
+
+    // Cleanup function to remove styles when component unmounts
+    return () => {
+      if (document.head.contains(styleElement)) {
+        document.head.removeChild(styleElement);
+      }
+    };
+  }, []);
+
   return (
     <section className="hero-container">
       <div className="hero-background"></div>

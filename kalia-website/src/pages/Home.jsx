@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import HeroSection from '../components/layout/HeroSection';
-import FeaturesGeneral from '../components/sections/FeaturesGeneral';
-
-// Import feature image if you have one
-// import featureImage from '../assets/images/features-image.png';
+import FeaturesGeneral from '../components/layout/FeaturesGeneral';
 
 const Home = () => {
   useEffect(() => {
@@ -12,57 +9,22 @@ const Home = () => {
     document.title = "Kalia | Reformas y Decoración";
   }, []);
 
-  const features = [
-    {
-      heading: "Atención Personalizada",
-      content: "Nos adaptamos a tus necesidades y preferencias para crear espacios que reflejen tu estilo personal.",
-      svg: "verified"
-    },
-    {
-      heading: "Calidad Garantizada", 
-      content: "Utilizamos materiales de primera calidad y técnicas avanzadas para asegurar resultados duraderos.",
-      svg: "groups"
-    },
-    {
-      heading: "Precios Competitivos",
-      content: "Ofrecemos presupuestos transparentes y ajustados para que puedas transformar tu hogar sin comprometer tu economía.",
-      svg: "tools"
-    },
-    {
-      heading: "Experiencia Comprobada",
-      content: "Años de experiencia en el sector nos respaldan para ofrecer soluciones innovadoras y eficientes.",
-      svg: "earth2"
-    },
-    {
-      heading: "Asesoramiento Profesional",
-      content: "Te guiamos en cada paso del proceso, desde la planificación hasta la ejecución final del proyecto.",
-      svg: "books"
-    },
-    {
-      heading: "Acabados Impecables",
-      content: "Cuidamos cada detalle para garantizar un resultado final que supere tus expectativas.",
-      svg: "frame"
-    }
-  ];
-
   return (
     <>
       {/* Hero Section Component */}
       <HeroSection />
 
-      {/* Features Section with styling wrapper */}
-      <div className="feature-section">
-        <FeaturesGeneral
-          title="Diseño y Calidad para su Hogar"
-          subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
-          features={features}
-          // src={featureImage} // uncomment if you have a feature image
-          // alt="Kalia reformas y decoración, tu mejor elección" // uncomment if you have a feature image
-        />
-      </div>
+      {/* Features Section with styling wrapper - matches Astro version exactly */}
+      <FeaturesGeneral
+        title="Diseño y Calidad para su Hogar"
+        subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
+        src="/src/assets/images/features-image.png"
+        alt="Kalia reformas y decoración, tu mejor elección"
+        // No custom features - will use the Astro-matching defaults
+      />
 
       {/* Services Overview Section */}
-      <div className="mt-16 py-10 bg-gradient-to-r from-primary-500/15 to-secondary-500/15 rounded-xl shadow-md">
+      <div className="mt-16 py-10 bg-gradient-to-r from-primary-500/15 to-secondary-500/15 rounded-xl shadow-md mx-4">
         <section className="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
           <div className="mb-8 text-center">
             <h2 className="text-balance text-2xl font-bold text-[#000000] md:text-3xl lg:text-4xl font-georgia">
@@ -132,17 +94,17 @@ const Home = () => {
         <div className="relative overflow-hidden rounded-2xl bg-[#FFD000]">
           <div className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
             <div className="relative mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl font-georgia">
                 ¿Listo para transformar tu hogar?
               </h2>
-              <p className="mt-6 text-lg text-black">
+              <p className="mt-6 text-lg text-black font-poppins">
                 Contáctanos hoy mismo para un presupuesto sin compromiso y descubre cómo podemos hacer realidad tus ideas.
               </p>
               <div className="mt-10 flex justify-center gap-x-6">
-                <Link to="/contact" className="rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-neutral-800">
+                <a href="tel:603370840" className="rounded-lg bg-black px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-neutral-800 font-poppins">
                   Contáctanos
-                </Link>
-                <Link to="/calculadora" className="rounded-lg bg-white px-6 py-3 text-sm font-bold text-black shadow-md transition-all duration-300 hover:bg-neutral-100">
+                </a>
+                <Link to="/calculadora" className="rounded-lg bg-white px-6 py-3 text-sm font-bold text-black shadow-md transition-all duration-300 hover:bg-neutral-100 font-poppins">
                   Calcular presupuesto
                 </Link>
               </div>

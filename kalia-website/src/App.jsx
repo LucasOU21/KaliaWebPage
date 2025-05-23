@@ -2,34 +2,38 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import HeroSection from './components/layout/HeroSection';
-import FeaturesGeneral from './components/layout/FeaturesGeneral';
+import Home from './pages/Home';
 import { useTheme } from './context/ThemeContext';
-import WhatsApp, { SimpleWhatsApp } from './components/ui/WhatsApp';
-
-// Sample features data - this would typically come from a data file or API
-const featuresData = [
-  {
-    heading: "Atención Personalizada",
-    content: "Nos adaptamos a tus necesidades y preferencias para crear espacios que reflejen tu estilo personal.",
-    svg: "groups"
-  },
-  {
-    heading: "Calidad Garantizada", 
-    content: "Utilizamos materiales de primera calidad y técnicas avanzadas para asegurar resultados duraderos.",
-    svg: "verified"
-  },
-  {
-    heading: "Precios Competitivos",
-    content: "Ofrecemos presupuestos transparentes y ajustados para que puedas transformar tu hogar sin arruinar tu economía.",
-    svg: "frame"
-  }
-];
+import WhatsApp from './components/ui/WhatsApp';
 
 function App() {
   const { isDarkMode } = useTheme();
-  
 
+  return (
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <Navbar />
+      
+      <main>
+        <Routes>
+          {/* Use the Home component instead of inline JSX */}
+          <Route path="/" element={<Home />} />
+          
+          {/* Add other routes as needed */}
+          <Route path="/services" element={<div className="pt-20">Services Page</div>} />
+          <Route path="/services/montaje-de-muebles" element={<div className="pt-20">Montaje de Muebles</div>} />
+          <Route path="/services/diseno-de-muebles" element={<div className="pt-20">Diseño de Muebles</div>} />
+          <Route path="/services/intalacion-cocinas-electrodomesticos" element={<div className="pt-20">Instalación de Cocinas</div>} />
+          <Route path="/services/reformas-de-vivienda" element={<div className="pt-20">Reformas de Vivienda</div>} />
+          <Route path="/services/instalacion-puertas-tarimaflotante-rodapies" element={<div className="pt-20">Puertas, Tarima y Rodapiés</div>} />
+          <Route path="/services/servicios-de-acabados" element={<div className="pt-20">Servicios de Acabados</div>} />
+          <Route path="/services/manitas" element={<div className="pt-20">Manitas</div>} />
+          <Route path="/nosotros" element={<div className="pt-20">About Page</div>} />
+          <Route path="/blog" element={<div className="pt-20">Blog Page</div>} />
+          <Route path="/calculadora" element={<div className="pt-20">Calculator Page</div>} />
+        </Routes>
+      </main>
+      
+      <Footer />
       
       {/* WhatsApp floating button - appears on all pages */}
       <WhatsApp 
@@ -38,54 +42,8 @@ function App() {
         position="bottom-right"
         showTooltip={true}
       />
-  
-  return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
-      <Navbar />
-      
-      <main>
-        <Routes>
-          <Route path="/" element={
-            <>
-              {/* Hero Section */}
-              <HeroSection
-                title={`<span class="brand-highlight">Kalia</span><br /> Reformas<br />y Decoración`}
-                subTitle="Espacios excepcionales"
-                primaryBtn="CALCULAR PRESUPUESTO"
-                primaryBtnURL="/calculadora"
-                withReview={false}
-                src="/src/assets/images/HeroImg1.jpg"
-                alt="Kalia reformas y decoración, tu mejor elección"
-              />
-
-              {/* Features Section with wrapper */}
-              <div className="feature-section">
-                <FeaturesGeneral
-                  title="Diseño y Calidad para su Hogar"
-                  subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
-                  src="/src/assets/images/features-image.png"
-                  alt="Kalia reformas y decoración, tu mejor elección"
-                  features={featuresData}
-                />
-              </div>
-
-              {/* Additional sections can be added here */}
-              <div className="mt-16 py-10 bg-gradient-to-r from-primary-500/15 to-secondary-500/15 rounded-xl shadow-md">
-                {/* FeaturesNavs component would go here if converted */}
-              </div>
-            </>
-          } />
-          
-          {/* Add other routes as needed */}
-          <Route path="/services" element={<div>Services Page</div>} />
-          <Route path="/nosotros" element={<div>About Page</div>} />
-          <Route path="/blog" element={<div>Blog Page</div>} />
-          <Route path="/calculadora" element={<div>Calculator Page</div>} />
-        </Routes>
-      </main>
-      
-      <Footer />
     </div>
   );
 }
+
 export default App;
