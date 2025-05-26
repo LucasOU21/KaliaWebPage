@@ -2,9 +2,45 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Home from './pages/Home';
+import HeroSection from './components/layout/HeroSection';
+import FeaturesGeneral from './components/layout/FeaturesGeneral';
+import FeaturesNavs from './components/layout/FeaturesNavs';
 import { useTheme } from './context/ThemeContext';
 import WhatsApp from './components/ui/WhatsApp';
+
+// Sample tabs data for FeaturesNavs - this is what the Astro version expects
+const tabsData = [
+  {
+    heading: "Reformas Integrales con Kalia",
+    content: "Transformamos completamente tu hogar con las mejores técnicas y materiales del mercado.",
+    svg: "tools",
+    src: "/src/assets/images/tab-image-1.jpg",
+    alt: "Reformas integrales Kalia",
+    first: true
+  },
+  {
+    heading: "Diseño Personalizado",
+    content: "Cada proyecto es único. Creamos espacios que reflejan tu personalidad y estilo de vida.",
+    svg: "verified",
+    src: "/src/assets/images/tab-image-2.jpg",
+    alt: "Diseño personalizado Kalia"
+  },
+  {
+    heading: "Calidad Premium",
+    content: "Utilizamos solo los mejores materiales y trabajamos con artesanos especializados.",
+    svg: "groups",
+    src: "/src/assets/images/tab-image-3.jpg",
+    alt: "Calidad premium Kalia"
+  },
+  {
+    heading: "Servicio Integral",
+    content: "Desde la planificación hasta la entrega final, Kalia se encarga de todo el proceso.",
+    svg: "earth2",
+    src: "/src/assets/images/tab-image-4.jpg",
+    alt: "Servicio integral Kalia",
+    second: true
+  }
+];
 
 function App() {
   const { isDarkMode } = useTheme();
@@ -15,27 +51,38 @@ function App() {
       
       <main>
         <Routes>
-          {/* Use the Home component instead of inline JSX */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+            <>
+              {/* Hero Section */}
+              <HeroSection />
+
+              {/* Features General Section */}
+              <FeaturesGeneral
+                title="Diseño y Calidad para su Hogar"
+                subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
+                src="/src/assets/images/features-image.png"
+                alt="Kalia reformas y decoración, tu mejor elección"
+              />
+
+              {/* Features Navigation Section - NOW WITH PROPER DATA */}
+              <FeaturesNavs
+                title="Por qué elegir Kalia para tu próximo proyecto"
+                tabs={tabsData}
+              />
+            </>
+          } />
           
-          {/* Add other routes as needed */}
-          <Route path="/services" element={<div className="pt-20">Services Page</div>} />
-          <Route path="/services/montaje-de-muebles" element={<div className="pt-20">Montaje de Muebles</div>} />
-          <Route path="/services/diseno-de-muebles" element={<div className="pt-20">Diseño de Muebles</div>} />
-          <Route path="/services/intalacion-cocinas-electrodomesticos" element={<div className="pt-20">Instalación de Cocinas</div>} />
-          <Route path="/services/reformas-de-vivienda" element={<div className="pt-20">Reformas de Vivienda</div>} />
-          <Route path="/services/instalacion-puertas-tarimaflotante-rodapies" element={<div className="pt-20">Puertas, Tarima y Rodapiés</div>} />
-          <Route path="/services/servicios-de-acabados" element={<div className="pt-20">Servicios de Acabados</div>} />
-          <Route path="/services/manitas" element={<div className="pt-20">Manitas</div>} />
-          <Route path="/nosotros" element={<div className="pt-20">About Page</div>} />
-          <Route path="/blog" element={<div className="pt-20">Blog Page</div>} />
-          <Route path="/calculadora" element={<div className="pt-20">Calculator Page</div>} />
+          {/* Other routes */}
+          <Route path="/services" element={<div>Services Page</div>} />
+          <Route path="/nosotros" element={<div>About Page</div>} />
+          <Route path="/blog" element={<div>Blog Page</div>} />
+          <Route path="/calculadora" element={<div>Calculator Page</div>} />
         </Routes>
       </main>
       
       <Footer />
       
-      {/* WhatsApp floating button - appears on all pages */}
+      {/* WhatsApp floating button */}
       <WhatsApp 
         phoneNumber="603370840"
         message="Hola, me gustaría obtener información sobre los servicios de Kalia Reformas y Decoración."

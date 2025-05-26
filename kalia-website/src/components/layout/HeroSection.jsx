@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const HeroSection = () => {
   useEffect(() => {
-    // Inject the hero section styles
+    // Inject the hero section styles - exact match to Astro file
     const heroStyles = `
       /* Import Google fonts */
       @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -41,7 +41,6 @@ const HeroSection = () => {
         justify-content: center;
         align-items: center;
         z-index: 2;
-        animation: fadeInLeft 1.2s ease-out forwards;
       }
       
       .hero-image-side {
@@ -49,7 +48,6 @@ const HeroSection = () => {
         width: 50%;
         height: 110vh;
         overflow: hidden;
-        animation: fadeInRight 1.2s ease-out forwards;
       }
       
       .hero-image-side::before {
@@ -148,6 +146,7 @@ const HeroSection = () => {
         max-width: 400px;
       }
       
+      /* STATIC BUTTON - NO ANIMATIONS */
       .primary-button {
         background-color: #FFD000;
         color: #000000;
@@ -159,72 +158,23 @@ const HeroSection = () => {
         font-family: 'Poppins', sans-serif;
         letter-spacing: 1px;
         text-transform: uppercase;
-        transition: all 0.3s ease;
         cursor: pointer;
-        position: relative;
-        overflow: hidden;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         max-width: 300px;
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        animation: pulse 2s infinite;
         text-decoration: none;
-      }
-      
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(255, 208, 0, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(255, 208, 0, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 208, 0, 0);
-        }
-      }
-      
-      .primary-button::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 0;
-        background-color: #000000;
-        z-index: -1;
-        transition: width 0.3s ease;
-      }
-      
-      .primary-button:hover {
-        background-color: #FFD000;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        color: #000000;
       }
       
       .primary-button .button-text {
         position: relative;
-        z-index: 2;
-        transition: transform 0.3s ease;
-      }
-      
-      .primary-button:hover .button-text {
-        transform: translateX(10px);
       }
       
       .primary-button .arrow {
-        position: absolute;
-        right: 20px;
-        opacity: 0;
-        transition: all 0.3s ease;
-        transform: translateX(-10px);
-      }
-      
-      .primary-button:hover .arrow {
+        margin-left: 0.5rem;
         opacity: 1;
-        transform: translateX(0);
       }
       
       .button-hint {
@@ -244,7 +194,6 @@ const HeroSection = () => {
         font-family: 'Poppins', sans-serif;
         font-size: 1.1rem;
         font-weight: 300;
-        transition: all 0.3s ease;
         margin-top: 0.5rem;
         text-decoration: none;
       }
@@ -255,16 +204,7 @@ const HeroSection = () => {
         background: #FFD000;
         padding: 0.75rem;
         border-radius: 50%;
-        transition: transform 0.3s ease;
         margin-bottom: 0.5rem;
-      }
-      
-      .call-button:hover {
-        color: #FFD000;
-      }
-      
-      .call-button:hover svg {
-        transform: scale(1.1);
       }
       
       @media (max-width: 1200px) {
