@@ -1,13 +1,11 @@
-// src/App.jsx
+// src/App.jsx - Fixed to prevent double navbar/footer
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import { useTheme } from './context/ThemeContext';
+import MainLayout from './components/layout/MainLayout';
 import HeroSection from './components/layout/HeroSection';
 import FeaturesGeneral from './components/layout/FeaturesGeneral';
 import FeaturesNavs from './components/layout/FeaturesNavs';
-import { useTheme } from './context/ThemeContext';
-import WhatsApp from './components/ui/WhatsApp';
-import Calculadora from './pages/Calculadora';
+import CalculadoraContent from '/src/pages/Calculadora';
 
 // Sample tabs data for FeaturesNavs - this is what the Astro version expects
 const tabsData = [
@@ -48,9 +46,8 @@ function App() {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
-      <Navbar />
-      
-      <main>
+      {/* Use MainLayout to wrap all content - it handles navbar, footer, and WhatsApp */}
+      <MainLayout>
         <Routes>
           <Route path="/" element={
             <>
@@ -73,23 +70,15 @@ function App() {
             </>
           } />
           
-          {/* Other routes */}
-          <Route path="/services" element={<div>Services Page</div>} />
-          <Route path="/nosotros" element={<div>About Page</div>} />
-          <Route path="/blog" element={<div>Blog Page</div>} />
-          <Route path="/calculadora" element={<Calculadora />} />
+          {/* Other routes - simple pages without additional layout */}
+          <Route path="/services" element={<div className="pt-32 min-h-screen flex items-center justify-center">Services Page</div>} />
+          <Route path="/nosotros" element={<div className="pt-32 min-h-screen flex items-center justify-center">About Page</div>} />
+          <Route path="/blog" element={<div className="pt-32 min-h-screen flex items-center justify-center">Blog Page</div>} />
+          
+          {/* Calculadora without MainLayout since App.jsx already provides it */}
+          <Route path="/calculadora" element={<CalculadoraContent />} />
         </Routes>
-      </main>
-      
-      <Footer />
-      
-      {/* WhatsApp floating button */}
-      <WhatsApp 
-        phoneNumber="603370840"
-        message="Hola, me gustaría obtener información sobre los servicios de Kalia Reformas y Decoración."
-        position="bottom-right"
-        showTooltip={true}
-      />
+      </MainLayout>
     </div>
   );
 }

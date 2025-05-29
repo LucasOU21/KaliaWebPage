@@ -1,9 +1,8 @@
-// src/pages/Calculadora.jsx - Updated to use MainLayout and proper imports
+// src/components/CalculadoraContent.jsx - Content only, no MainLayout
 import React, { useState, useEffect } from 'react';
-import MainLayout from '../components/layout/MainLayout';
-import SecualOptions from '../components/ui/forms/SecualOption';
+import SecualOptions from '/src/components/ui/forms/SecualOption';
 
-const Calculadora = () => {
+const CalculadoraContent = () => {
   // State management
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -241,27 +240,7 @@ const Calculadora = () => {
     updateTotal();
   }, [productQuantities, productList]);
 
-  // Page title for SEO
-  const pageTitle = "Presupuestos | Kalia Reformas";
-  
-  // Structured data for SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://kaliareformas.com/calculadora",
-    url: "https://kaliareformas.com/calculadora",
-    name: "Presupuestos | Kalia Reformas",
-    description: "¿Tiene alguna pregunta o quiere hablar de un proyecto? Póngase en contacto con nosotros y déjenos elaborar la solución perfecta utilizando nuestras herramientas y servicios.",
-    isPartOf: {
-      "@type": "WebSite",
-      url: "https://kaliareformas.com",
-      name: "Kalia Reformas",
-      description: "Elegir a Kalia Reformas y Decoración significa optar por un servicio profesional, personalizado y de calidad con un enfoque en el ahorro y la eficiencia. Transformamos espacios con dedicación y pasión, asegurándonos de que tu hogar sea tan único como tú, y lo hacemos cuidando tu bolsillo. ¡Déjanos ayudarte a hacer realidad la cocina, los muebles y el hogar que siempre soñaste! Contáctanos y descubre por qué somos la mejor opción para tus reformas y proyectos en el hogar.",
-    },
-    inLanguage: "es-ES",
-  };
-
-  const calculatorContent = (
+  return (
     <>
       <style jsx>{`
         /* Hide spin buttons on number inputs */
@@ -821,16 +800,6 @@ const Calculadora = () => {
       </section>
     </>
   );
-
-  return (
-    <MainLayout 
-      title={pageTitle}
-      structuredData={structuredData}
-      lang="es"
-    >
-      {calculatorContent}
-    </MainLayout>
-  );
 };
 
-export default Calculadora;
+export default CalculadoraContent;
