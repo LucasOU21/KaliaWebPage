@@ -7,6 +7,7 @@ import FeaturesGeneral from './components/layout/FeaturesGeneral';
 import FeaturesNavs from './components/layout/FeaturesNavs';
 import { useTheme } from './context/ThemeContext';
 import WhatsApp from './components/ui/WhatsApp';
+import Calculadora from './pages/Calculadora';
 
 // Sample tabs data for FeaturesNavs - this is what the Astro version expects
 const tabsData = [
@@ -76,7 +77,7 @@ function App() {
           <Route path="/services" element={<div>Services Page</div>} />
           <Route path="/nosotros" element={<div>About Page</div>} />
           <Route path="/blog" element={<div>Blog Page</div>} />
-          <Route path="/calculadora" element={<div>Calculator Page</div>} />
+          <Route path="/calculadora" element={<Calculadora />} />
         </Routes>
       </main>
       
