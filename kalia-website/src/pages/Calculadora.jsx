@@ -1,23 +1,7 @@
-// src/pages/Calculadora.jsx
+// src/pages/Calculadora.jsx - Updated to use MainLayout and proper imports
 import React, { useState, useEffect } from 'react';
-
-// SecualOptions component - embedded
-const SecualOptions = ({ options }) => {
-  return (
-    <>
-      {options && options.map((option, index) => (
-        <option 
-          key={index}
-          value={option.precio} 
-          data-nombre={option.id} 
-          data-unidad={option.tipoUnidad}
-        >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{option.nombre}
-        </option>
-      ))}
-    </>
-  );
-};
+import MainLayout from '../components/layout/MainLayout';
+import SecualOptions from '../components/ui/forms/SecualOption';
 
 const Calculadora = () => {
   // State management
@@ -84,6 +68,54 @@ const Calculadora = () => {
         { id:"fregadero", nombre: "Fregadero", precio: 50, tipoUnidad: "unidad" },
       ],
     },
+    {
+      id: "premium",
+      nombre: "Premium",
+      svg: "premium",
+      beneficios: [
+        "Ajustes finos en cortes y alineaciones",
+        "Nivelación exacta para una estética impecable",
+        "Cuidado extra en cada unión y terminación",
+      ],
+      instalaciones: [
+        {
+          nombre: "Muebles",
+          subtipos: [
+            { id:"mueblesaltos", nombre: "Muebles Altos", precio: 90, tipoUnidad: "metro lineal" },
+            { id:"mueblesbajo", nombre: "Muebles Bajos", precio: 90, tipoUnidad: "metro lineal" },
+            { id:"torresdebaldas", nombre: "Torres de baldas", precio: 120, tipoUnidad: "metro lineal" },
+            { id:"rodapie", nombre: "Rodapiés", precio: 5, tipoUnidad: "metro lineal" },
+            { id:"encimerademadera", nombre: "Encimera de madera", precio: 45, tipoUnidad: "metro lineal" },
+            { id:"copete", nombre: "Copete", precio: 3, tipoUnidad: "metro lineal" },
+            { id:"panelesembellecedores", nombre: "Paneles Embellecedores", precio: 20, tipoUnidad: "unidad" },
+          ],
+        },
+        {
+          nombre: "Electrodomésticos Encastrables",
+          subtipos: [
+            { id:"vitroceramica",nombre: "Vitrocerámica", precio: 15, tipoUnidad: "unidad" },
+            { id:"horno",nombre: "Horno", precio: 15, tipoUnidad: "unidad" },
+            { id:"microondas",nombre: "Microondas", precio: 15, tipoUnidad: "unidad" },
+            { id:"lavadora",nombre: "Lavadora", precio: 15, tipoUnidad: "unidad" },
+            { id:"calientaplatos",nombre: "Calientaplatos", precio: 15, tipoUnidad: "unidad" },
+            { id:"vinoteca",nombre: "Vinoteca", precio: 15, tipoUnidad: "unidad" },
+            { id:"nevera",nombre: "Nevera", precio: 20, tipoUnidad: "unidad" },
+            { id:"lavavajillas",nombre: "Lavavajillas", precio: 15, tipoUnidad: "unidad" },
+            { id:"campanadecorativa",nombre: "Campana Decorativa", precio: 40, tipoUnidad: "unidad" },
+          ],
+        },
+        {
+          nombre: "Electrodomésticos Integrados",
+          subtipos: [
+            { id:"lavavajillasPanelado", nombre: "Lavavajillas Panelado", precio: 40, tipoUnidad: "unidad" },
+            { id:"lavadoraPanelado", nombre: "Lavadora Panelado", precio: 40, tipoUnidad: "unidad" },
+            { id:"frigorificoPanelado", nombre: "Frigorifico Panelado", precio: 80, tipoUnidad: "unidad" },
+            { id:"campanaextractoraIntegrada", nombre: "Campana Extractora Integrada", precio: 30, tipoUnidad: "unidad" },
+          ],
+        },
+        { id:"fregadero", nombre: "Fregadero", precio: 50, tipoUnidad: "unidad" },
+      ],
+    },
   ];
 
   // Product state management
@@ -102,7 +134,7 @@ const Calculadora = () => {
     const nombre = event.target.options[event.target.selectedIndex].dataset.nombre;
     const unidad = event.target.options[event.target.selectedIndex].dataset.unidad;
 
-    if (productList.find(p => p.id === nombre)) return;
+    if (!valorSeleccionado || productList.find(p => p.id === nombre)) return;
 
     const newProduct = {
       id: nombre,
@@ -209,65 +241,80 @@ const Calculadora = () => {
     updateTotal();
   }, [productQuantities, productList]);
 
-  return (
-    <div className="bg-neutral-200 dark:bg-neutral-800">
+  // Page title for SEO
+  const pageTitle = "Presupuestos | Kalia Reformas";
+  
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://kaliareformas.com/calculadora",
+    url: "https://kaliareformas.com/calculadora",
+    name: "Presupuestos | Kalia Reformas",
+    description: "¿Tiene alguna pregunta o quiere hablar de un proyecto? Póngase en contacto con nosotros y déjenos elaborar la solución perfecta utilizando nuestras herramientas y servicios.",
+    isPartOf: {
+      "@type": "WebSite",
+      url: "https://kaliareformas.com",
+      name: "Kalia Reformas",
+      description: "Elegir a Kalia Reformas y Decoración significa optar por un servicio profesional, personalizado y de calidad con un enfoque en el ahorro y la eficiencia. Transformamos espacios con dedicación y pasión, asegurándonos de que tu hogar sea tan único como tú, y lo hacemos cuidando tu bolsillo. ¡Déjanos ayudarte a hacer realidad la cocina, los muebles y el hogar que siempre soñaste! Contáctanos y descubre por qué somos la mejor opción para tus reformas y proyectos en el hogar.",
+    },
+    inLanguage: "es-ES",
+  };
+
+  const calculatorContent = (
+    <>
       <style jsx>{`
+        /* Hide spin buttons on number inputs */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;    
         }
-
-        /* Match the exact Astro styling */
-        .progress-active {
-          background-color: #daa520 !important;
-        }
-
-        .progress-inactive {
-          background-color: rgb(156, 163, 175) !important;
-        }
-
-        .text-kalia-gold {
-          color: #daa520 !important;
-        }
-
-        .bg-kalia-gold {
-          background-color: #daa520 !important;
-        }
-
-        .border-kalia-gold {
-          border-color: #daa520 !important;
-        }
-
-        .hover\\:bg-kalia-gold-dark:hover {
-          background-color: #c09018 !important;
-        }
-
-        .focus\\:border-kalia-gold:focus {
-          border-color: #daa520 !important;
-        }
-
-        .focus\\:ring-kalia-gold:focus {
-          --tw-ring-color: #daa520 !important;
+        
+        input[type="number"] {
+          -moz-appearance: textfield;
         }
 
         /* Category button hover effects */
+        .category-button {
+          transition: all 0.3s ease;
+        }
+        
         .category-button:hover {
           transform: scale(1.05);
           border-color: #daa520;
         }
 
-        .dark .category-button:hover {
-          border-color: #daa520;
+        /* Responsive grid improvements */
+        @media (max-width: 768px) {
+          .category-grid {
+            flex-direction: column;
+            gap: 1rem;
+          }
+          
+          .category-button {
+            min-width: 280px;
+            max-width: 100%;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .category-grid {
+            flex-direction: row;
+            gap: 2rem;
+          }
         }
       `}</style>
 
-      {/* Container matching Astro layout exactly */}
+      {/* Fixed spacing to prevent overlap with navbar */}
+      <div className="pt-32"></div>
+      
+      {/* Calculator section - exact match to Astro structure */}
       <section 
         id="calculator" 
         className="mx-auto flex max-w-4xl min-h-[calc(100vh-250px)] flex-col justify-center px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
       >
-        <h2 className="text-center text-xl font-bold text-neutral-800 dark:text-neutral-200 md:text-2xl md:leading-tight">
+        <h2 className="text-center text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-3xl md:leading-tight">
           Calculadora para tus Presupuestos
         </h2>
         
@@ -276,82 +323,94 @@ const Calculadora = () => {
           <div className="w-full">
             <div className="flex w-full items-center">
               <div
+                id="oneStepNumber"
                 className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 1 ? 'progress-active' : 'progress-inactive'
+                  currentStep >= 1 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
                 }`}
               >
                 <span className="text-sm font-bold text-white dark:text-black">1</span>
               </div>
               <div
+                id="oneStepBar"
                 className={`mx-4 h-[3px] w-full rounded-lg ${
-                  currentStep >= 2 ? 'progress-active' : 'progress-inactive'
+                  currentStep >= 2 ? 'bg-[#daa520]' : 'bg-gray-400'
                 }`}
               />
             </div>
             <div className="mr-4 mt-2">
-              <h6 className="text-sm font-bold text-kalia-gold">
+              <h6 className="text-sm font-bold text-[#daa520] dark:text-[#daa520]">
                 Paquete
               </h6>
-              {currentStep > 1 && (
-                <p className="text-xs text-gray-500 dark:text-white">
-                  Seleccionada
-                </p>
-              )}
+              <p 
+                id="oneStepStatus"
+                className={`text-xs text-gray-500 dark:text-white ${currentStep > 1 ? '' : 'hidden'}`}
+              >
+                Seleccionada
+              </p>
             </div>
           </div>
           
           <div className="w-full">
             <div className="flex w-full items-center">
               <div
+                id="twoStepNumber"
                 className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 2 ? 'progress-active' : 'progress-inactive'
+                  currentStep >= 2 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
                 }`}
               >
                 <span className="text-sm font-bold text-white dark:text-black">2</span>
               </div>
               <div
+                id="twoStepBar"
                 className={`mx-4 h-[3px] w-full rounded-lg ${
-                  currentStep >= 3 ? 'progress-active' : 'progress-inactive'
+                  currentStep >= 3 ? 'bg-[#daa520]' : 'bg-gray-400'
                 }`}
               />
             </div>
             <div className="mr-4 mt-2">
               <h6
+                id="twoStepText"
                 className={`text-sm font-bold ${
-                  currentStep >= 2 ? 'text-kalia-gold' : 'text-gray-800 dark:text-gray-400'
+                  currentStep >= 2 ? 'text-[#daa520] dark:text-[#daa520]' : 'text-gray-800 dark:text-gray-400'
                 }`}
               >
                 Servicios
               </h6>
-              {currentStep > 2 && (
-                <p className="text-xs text-gray-500 dark:text-white">
-                  Agregados
-                </p>
-              )}
+              <p 
+                id="twoStepStatus"
+                className={`text-xs text-gray-500 dark:text-white ${currentStep > 2 ? '' : 'hidden'}`}
+              >
+                Agregados
+              </p>
             </div>
           </div>
           
           <div>
             <div className="flex items-center">
               <div
+                id="threeStepNumber"
                 className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 3 ? 'progress-active' : 'progress-inactive'
+                  currentStep >= 3 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
                 }`}
               >
                 <span className="text-sm font-bold text-white dark:text-black">3</span>
               </div>
             </div>
             <div className="mt-2">
-              <h6 className={`text-sm font-bold ${
-                currentStep >= 3 ? 'text-kalia-gold' : 'text-gray-800 dark:text-gray-400'
-              }`}>
+              <h6 
+                id="threeStepText"
+                className={`text-sm font-bold ${
+                  currentStep >= 3 ? 'text-[#daa520] dark:text-[#daa520]' : 'text-gray-800 dark:text-gray-400'
+                }`}
+              >
                 Presupuesto
               </h6>
-              {showFinalMessage && (
-                <p className="text-xs text-gray-500 dark:text-white">
-                  Enviado
-                </p>
-              )}
+              <p 
+                id="threeStepStatus"
+                className={`text-xs text-gray-500 dark:text-white ${showFinalMessage ? '' : 'hidden'}`}
+              >
+                Enviado
+              </p>
             </div>
           </div>
         </div>
@@ -360,17 +419,17 @@ const Calculadora = () => {
         {currentStep === 1 && (
           <div className="mx-auto mb-8 flex flex-1 min-h-[224px] min-w-[100%] max-w-screen-lg items-center justify-center transition duration-300">
             <div className="mx-auto flex min-w-[100%] max-w-screen-md items-center justify-center">
-              <div className="flex flex-col md:flex-row w-full items-center justify-center gap-8">
+              <div className="category-grid flex w-full items-center justify-center gap-8">
                 {tipoInstalacion.map((categoria) => (
                   <button
                     key={categoria.id}
                     onClick={() => handleCategorySelect(categoria.id)}
-                    className="category-button p-5 min-w-[305px] flex cursor-pointer flex-col items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white shadow-sm transition duration-300 dark:border-gray-700 dark:bg-gray-800"
+                    className="category-button p-5 min-w-[305px] flex cursor-pointer flex-col items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
                   >
                     <div>
                       {categoria.svg === "estandar" && (
                         <svg
-                          className="mx-auto text-kalia-gold"
+                          className="mx-auto text-[#daa520] dark:text-[#daa520]"
                           xmlns="http://www.w3.org/2000/svg"
                           width="48"
                           height="48"
@@ -387,7 +446,7 @@ const Calculadora = () => {
                       )}
                       {categoria.svg === "premium" && (
                         <svg
-                          className="mx-auto text-kalia-gold"
+                          className="mx-auto text-[#daa520] dark:text-[#daa520]"
                           xmlns="http://www.w3.org/2000/svg"
                           width="48"
                           height="48"
@@ -418,7 +477,7 @@ const Calculadora = () => {
                     <ul className="flex flex-col justify-start gap-y-1 mt-1">
                       {categoria.beneficios.map((beneficio, index) => (
                         <li key={index} className="flex items-center text-xs text-neutral-600 dark:text-neutral-200 text-left">
-                          <span className="text-kalia-gold mr-1">✓</span> {beneficio}
+                          <span className="text-[#daa520] mr-1">✓</span> {beneficio}
                         </li>
                       ))}
                     </ul>
@@ -432,7 +491,7 @@ const Calculadora = () => {
         {/* Step 2: Product Selection */}
         {currentStep === 2 && selectedCategory && (
           <>
-            <div className="mx-auto mb-8 min-w-[100%] max-w-screen-md items-start transition duration-300 md:min-w-[50%] flex justify-center">
+            <div className="mx-auto mb-8 min-w-[100%] max-w-screen-md flex items-start justify-center transition duration-300 md:min-w-[50%]">
               <form className="mx-auto flex max-w-sm flex-col items-center w-full">
                 <label
                   htmlFor={`subtipos${selectedCategory === 'premium' ? 'Premium' : 'Estandar'}`}
@@ -443,7 +502,8 @@ const Calculadora = () => {
                 <select
                   id={`subtipos${selectedCategory === 'premium' ? 'Premium' : 'Estandar'}`}
                   onChange={handleProductSelect}
-                  className="block w-[80%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-kalia-gold focus:ring-kalia-gold dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-kalia-gold dark:focus:ring-kalia-gold"
+                  value=""
+                  className="block w-[80%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520]"
                 >
                   <option value="" disabled>Seleccionar</option>
                   {tipoInstalacion
@@ -479,7 +539,7 @@ const Calculadora = () => {
                 <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
                   Lista de Servicios -
                 </h5>
-                <span className="text-lg font-bold leading-none text-kalia-gold">
+                <span className="text-lg font-bold leading-none text-[#daa520] dark:text-[#daa520]">
                   &nbsp;{selectedCategory === 'premium' ? 'Premium' : 'Estándar'}
                 </span>
               </div>
@@ -525,7 +585,7 @@ const Calculadora = () => {
                                 value={productQuantities[product.id] || 0}
                                 min="0"
                                 readOnly
-                                className="block h-11 w-full border-x-0 border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                className="block h-11 w-full border-x-0 border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520]"
                               />
                               <button
                                 type="button"
@@ -558,7 +618,7 @@ const Calculadora = () => {
                                 min="0"
                                 step="any"
                                 onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                                className="block h-11 w-full border-x-0 border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                className="block h-11 w-full border border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520] rounded-lg"
                               />
                             </div>
                           </form>
@@ -702,7 +762,7 @@ const Calculadora = () => {
         {showFinalMessage && (
           <div className="flex justify-center">
             <div className="w-full max-w-md min-h-[20rem] rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8 flex flex-col items-center justify-center">
-              <svg className="w-20 h-20 mx-auto mb-4 text-kalia-gold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-20 h-20 mx-auto mb-4 text-[#daa520]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <h5 className="text-lg font-bold text-center text-gray-900 dark:text-white">¡Gracias! Nos pondremos en contacto</h5>
@@ -724,7 +784,7 @@ const Calculadora = () => {
                     setProductQuantities({});
                     setTotalPrice(0);
                   }}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-kalia-gold p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-kalia-gold-dark focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-kalia-gold dark:text-black dark:ring-zinc-200 dark:hover:bg-kalia-gold-dark dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
+                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
                 >
                   Atrás
                 </button>
@@ -734,14 +794,14 @@ const Calculadora = () => {
               {showFinalMessage && (
                 <button
                   onClick={resetCalculator}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-kalia-gold p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-kalia-gold-dark focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-kalia-gold dark:text-black dark:ring-zinc-200 dark:hover:bg-kalia-gold-dark dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
+                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
                 >
                   Reiniciar
                 </button>
               )}
 
               {/* Spacer when no left button */}
-              {(currentStep === 1 || showForm) && !showFinalMessage && <button></button>}
+              {(currentStep === 1 || showForm) && !showFinalMessage && <div></div>}
 
               {/* Next Button - Step 2 to Form */}
               {currentStep === 2 && !showForm && productList.length > 0 && totalPrice > 0 && (
@@ -750,7 +810,7 @@ const Calculadora = () => {
                     setShowForm(true);
                     setCurrentStep(3);
                   }}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-kalia-gold p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-kalia-gold-dark focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-kalia-gold dark:text-black dark:ring-zinc-200 dark:hover:bg-kalia-gold-dark dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
+                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
                 >
                   Siguiente
                 </button>
@@ -759,9 +819,18 @@ const Calculadora = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
+  );
+
+  return (
+    <MainLayout 
+      title={pageTitle}
+      structuredData={structuredData}
+      lang="es"
+    >
+      {calculatorContent}
+    </MainLayout>
   );
 };
 
 export default Calculadora;
-               
