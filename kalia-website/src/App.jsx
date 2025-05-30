@@ -1,13 +1,15 @@
-// src/App.jsx - Fixed to prevent double navbar/footer
+// src/App.jsx - Fixed version without MainLayout wrapper
 import { Routes, Route } from 'react-router-dom';
 import { useTheme } from './context/ThemeContext';
-import MainLayout from './components/layout/MainLayout';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import WhatsApp from './components/ui/WhatsApp';
 import HeroSection from './components/layout/HeroSection';
 import FeaturesGeneral from './components/layout/FeaturesGeneral';
 import FeaturesNavs from './components/layout/FeaturesNavs';
-import CalculadoraContent from '/src/pages/Calculadora';
+import CalculadoraContent from './pages/Calculadora';
 
-// Sample tabs data for FeaturesNavs - this is what the Astro version expects
+// Sample tabs data for FeaturesNavs
 const tabsData = [
   {
     heading: "Reformas Integrales con Kalia",
@@ -45,41 +47,53 @@ function App() {
   const { isDarkMode } = useTheme();
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
-      {/* Use MainLayout to wrap all content - it handles navbar, footer, and WhatsApp */}
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={
-            <>
-              {/* Hero Section */}
-              <HeroSection />
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`} style={{ backgroundColor: isDarkMode ? '#374151' : '#F8F1E7' }}>
+      {/* Layout structure without MainLayout wrapper */}
+      <div className="mx-auto flex max-w-screen-2xl flex-col px-4 sm:px-6 lg:px-8">
+        <Navbar />
+        <main className="min-h-[calc(100vh-295px)] flex-1">
+          <Routes>
+            <Route path="/" element={
+              <>
+                {/* Hero Section */}
+                <HeroSection />
 
-              {/* Features General Section */}
-              <FeaturesGeneral
-                title="Diseño y Calidad para su Hogar"
-                subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
-                src="/src/assets/images/features-image.png"
-                alt="Kalia reformas y decoración, tu mejor elección"
-              />
+                {/* Features General Section */}
+                <FeaturesGeneral
+                  title="Diseño y Calidad para su Hogar"
+                  subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
+                  src="/src/assets/images/features-image.png"
+                  alt="Kalia reformas y decoración, tu mejor elección"
+                />
 
-              {/* Features Navigation Section - NOW WITH PROPER DATA */}
-              <FeaturesNavs
-                title="Por qué elegir Kalia para tu próximo proyecto"
-                tabs={tabsData}
-              />
-            </>
-          } />
+                {/* Features Navigation Section */}
+                <FeaturesNavs />
+              </>
+            } />
+            
+            {/* Other routes */}
+            <Route path="/services" element={<div className="pt-32 min-h-screen flex items-center justify-center">Services Page</div>} />
+            <Route path="/nosotros" element={<div className="pt-32 min-h-screen flex items-center justify-center">About Page</div>} />
+            <Route path="/blog" element={<div className="pt-32 min-h-screen flex items-center justify-center">Blog Page</div>} />
+            
+            {/* Calculadora route */}
+            <Route path="/calculadora" element={<CalculadoraContent />} />
+          </Routes>
           
-          {/* Other routes - simple pages without additional layout */}
-          <Route path="/services" element={<div className="pt-32 min-h-screen flex items-center justify-center">Services Page</div>} />
-          <Route path="/nosotros" element={<div className="pt-32 min-h-screen flex items-center justify-center">About Page</div>} />
-          <Route path="/blog" element={<div className="pt-32 min-h-screen flex items-center justify-center">Blog Page</div>} />
-          
-          {/* Calculadora without MainLayout since App.jsx already provides it */}
-          <Route path="/calculadora" element={<CalculadoraContent />} />
-        </Routes>
-      </MainLayout>
+          {/* WhatsApp floating button - positioned fixed */}
+          <WhatsApp 
+            position="bottom-right"
+            phoneNumber="603370840"
+            message="Hola! Quisiera más información"
+          />
+        </main>
+      </div>
+      
+      {/* Footer outside the main container */}
+      <Footer />
     </div>
+
+
   );
 }
 

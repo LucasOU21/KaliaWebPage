@@ -12,7 +12,8 @@ const TabContent = ({
 }) => {
   // Set class based on 'first' property or isActive
   // If 'first' is present or isActive, show the tab content immediately
-  const firstClass = (isActive || first) ? "" : "hidden";
+  const firstClass = isActive ? "" : "hidden";
+
   
   // Set class based on 'second' property
   // If 'second' is present, use an alternate style for the image

@@ -1,4 +1,4 @@
-// src/components/CalculadoraContent.jsx - Content only, no MainLayout
+// src/pages/Calculadora.jsx - Styled to match the design
 import React, { useState, useEffect } from 'react';
 import SecualOptions from '/src/components/ui/forms/SecualOption';
 
@@ -243,6 +243,9 @@ const CalculadoraContent = () => {
   return (
     <>
       <style jsx>{`
+        /* Import Google fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         /* Hide spin buttons on number inputs */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
@@ -254,422 +257,721 @@ const CalculadoraContent = () => {
           -moz-appearance: textfield;
         }
 
-        /* Category button hover effects */
-        .category-button {
-          transition: all 0.3s ease;
-        }
-        
-        .category-button:hover {
-          transform: scale(1.05);
-          border-color: #daa520;
+        /* Main container styling */
+        .calc-container {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #F8F1E7 0%, #F0E8D8 100%);
+          font-family: 'Poppins', sans-serif;
+          padding: 8rem 1rem 2rem 1rem;
         }
 
-        /* Responsive grid improvements */
+        /* Title styling */
+        .calc-title {
+          font-size: 2.5rem;
+          font-weight: 600;
+          color: #2C3E50;
+          text-align: center;
+          margin-bottom: 3rem;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        /* Progress bar container */
+        .progress-container {
+          max-width: 600px;
+          margin: 0 auto 4rem auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+        }
+
+        .progress-step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          z-index: 2;
+          background: #F8F1E7;
+          padding: 0.5rem;
+          border-radius: 1rem;
+        }
+
+        .step-circle {
+          width: 3rem;
+          height: 3rem;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          font-size: 1.1rem;
+          margin-bottom: 0.5rem;
+          transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+          background: #DAA520;
+          color: white;
+          box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+        }
+
+        .step-circle.inactive {
+          background: #BDC3C7;
+          color: white;
+        }
+
+        .step-label {
+          font-weight: 500;
+          font-size: 0.9rem;
+          color: #2C3E50;
+          text-align: center;
+        }
+
+        .step-status {
+          font-size: 0.75rem;
+          color: #7F8C8D;
+          margin-top: 0.25rem;
+        }
+
+        .progress-line {
+          position: absolute;
+          top: 1.5rem;
+          left: 3rem;
+          right: 3rem;
+          height: 3px;
+          background: #BDC3C7;
+          z-index: 1;
+        }
+
+        .progress-line-fill {
+          height: 100%;
+          background: #DAA520;
+          transition: width 0.5s ease;
+          border-radius: 2px;
+        }
+
+        /* Category cards */
+        .category-container {
+          max-width: 900px;
+          margin: 0 auto;
+          display: flex;
+          gap: 2rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .category-card {
+          background: white;
+          border-radius: 1.5rem;
+          padding: 2rem;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border: 2px solid transparent;
+          min-width: 300px;
+          max-width: 400px;
+          flex: 1;
+        }
+
+        .category-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+          border-color: #DAA520;
+        }
+
+        .category-icon {
+          width: 4rem;
+          height: 4rem;
+          margin: 0 auto 1.5rem auto;
+          color: #DAA520;
+        }
+
+        .category-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #2C3E50;
+          text-align: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .benefit-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .benefit-item {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 0.75rem;
+          font-size: 0.9rem;
+          color: #5D6D7E;
+          line-height: 1.4;
+        }
+
+        .benefit-check {
+          color: #DAA520;
+          margin-right: 0.5rem;
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+
+        /* Product selection */
+        .product-selection {
+          max-width: 600px;
+          margin: 0 auto 2rem auto;
+          background: white;
+          border-radius: 1rem;
+          padding: 2rem;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .select-label {
+          display: block;
+          font-weight: 500;
+          color: #2C3E50;
+          margin-bottom: 1rem;
+          text-align: center;
+          font-size: 1.1rem;
+        }
+
+        .product-select {
+          width: 100%;
+          padding: 1rem;
+          border: 2px solid #E8E8E8;
+          border-radius: 0.75rem;
+          font-size: 1rem;
+          background: white;
+          transition: all 0.3s ease;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .product-select:focus {
+          outline: none;
+          border-color: #DAA520;
+          box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        }
+
+        /* Product list */
+        .product-list-container {
+          max-width: 600px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 1rem;
+          padding: 2rem;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-header {
+          text-align: center;
+          margin-bottom: 2rem;
+          padding-bottom: 1rem;
+          border-bottom: 2px solid #F8F9FA;
+        }
+
+        .list-title {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #2C3E50;
+        }
+
+        .package-type {
+          color: #DAA520;
+          font-weight: 600;
+        }
+
+        .product-item {
+          padding: 1.5rem 0;
+          border-bottom: 1px solid #F1F2F6;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .product-info {
+          flex: 1;
+        }
+
+        .product-name {
+          font-weight: 500;
+          color: #2C3E50;
+          margin-bottom: 0.25rem;
+        }
+
+        .product-price {
+          font-size: 0.9rem;
+          color: #7F8C8D;
+        }
+
+        .quantity-control {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .quantity-btn {
+          width: 2.5rem;
+          height: 2.5rem;
+          border: 1px solid #E8E8E8;
+          background: #F8F9FA;
+          border-radius: 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+          background: #DAA520;
+          border-color: #DAA520;
+          color: white;
+        }
+
+        .quantity-input {
+          width: 4rem;
+          height: 2.5rem;
+          text-align: center;
+          border: 1px solid #E8E8E8;
+          border-radius: 0.5rem;
+          background: white;
+        }
+
+        .delete-btn {
+          color: #E74C3C;
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .delete-btn:hover {
+          background: #FCE4EC;
+        }
+
+        .total-section {
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 2px solid #F8F9FA;
+        }
+
+        .total-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #2C3E50;
+        }
+
+        .total-amount {
+          color: #DAA520;
+          font-size: 1.5rem;
+        }
+
+        /* Form styling */
+        .contact-form {
+          max-width: 500px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 1rem;
+          padding: 2rem;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #2C3E50;
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+          display: block;
+          font-weight: 500;
+          color: #2C3E50;
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 0.875rem;
+          border: 2px solid #E8E8E8;
+          border-radius: 0.75rem;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: #DAA520;
+          box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        }
+
+        .form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+          padding: 0.875rem 2rem;
+          border-radius: 0.75rem;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+          background: #DAA520;
+          color: white;
+        }
+
+        .btn-primary:hover {
+          background: #B8941A;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+        }
+
+        .btn-secondary {
+          background: #6C757D;
+          color: white;
+        }
+
+        .btn-secondary:hover {
+          background: #545B62;
+        }
+
+        .button-group {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+
+        /* Success message */
+        .success-message {
+          max-width: 500px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 1rem;
+          padding: 3rem 2rem;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+
+        .success-icon {
+          width: 5rem;
+          height: 5rem;
+          color: #DAA520;
+          margin: 0 auto 1.5rem auto;
+        }
+
+        .success-title {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #2C3E50;
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
-          .category-grid {
+          .calc-title {
+            font-size: 2rem;
+          }
+          
+          .category-container {
             flex-direction: column;
             gap: 1rem;
           }
           
-          .category-button {
-            min-width: 280px;
-            max-width: 100%;
+          .category-card {
+            min-width: auto;
+            max-width: none;
           }
-        }
-
-        @media (min-width: 768px) {
-          .category-grid {
-            flex-direction: row;
-            gap: 2rem;
+          
+          .progress-container {
+            max-width: 100%;
+            padding: 0 1rem;
+          }
+          
+          .form-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .button-group {
+            flex-direction: column;
+          }
+          
+          .btn {
+            width: 100%;
           }
         }
       `}</style>
 
-      {/* Fixed spacing to prevent overlap with navbar */}
-      <div className="pt-32"></div>
-      
-      {/* Calculator section - exact match to Astro structure */}
-      <section 
-        id="calculator" 
-        className="mx-auto flex max-w-4xl min-h-[calc(100vh-250px)] flex-col justify-center px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
-      >
-        <h2 className="text-center text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-3xl md:leading-tight">
-          Calculadora para tus Presupuestos
-        </h2>
+      <div className="calc-container">
+        <h1 className="calc-title">Calculadora para tus Presupuestos</h1>
         
-        {/* Progress Bar - Exact match to Astro */}
-        <div className="mx-auto my-8 flex min-w-[100%] max-w-screen-md items-start justify-center md:min-w-[50%]">
-          <div className="w-full">
-            <div className="flex w-full items-center">
-              <div
-                id="oneStepNumber"
-                className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 1 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
-                }`}
-              >
-                <span className="text-sm font-bold text-white dark:text-black">1</span>
-              </div>
-              <div
-                id="oneStepBar"
-                className={`mx-4 h-[3px] w-full rounded-lg ${
-                  currentStep >= 2 ? 'bg-[#daa520]' : 'bg-gray-400'
-                }`}
-              />
-            </div>
-            <div className="mr-4 mt-2">
-              <h6 className="text-sm font-bold text-[#daa520] dark:text-[#daa520]">
-                Paquete
-              </h6>
-              <p 
-                id="oneStepStatus"
-                className={`text-xs text-gray-500 dark:text-white ${currentStep > 1 ? '' : 'hidden'}`}
-              >
-                Seleccionada
-              </p>
-            </div>
+        {/* Progress Bar */}
+        <div className="progress-container">
+          <div className="progress-line">
+            <div 
+              className="progress-line-fill" 
+              style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
+            />
           </div>
           
-          <div className="w-full">
-            <div className="flex w-full items-center">
-              <div
-                id="twoStepNumber"
-                className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 2 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
-                }`}
-              >
-                <span className="text-sm font-bold text-white dark:text-black">2</span>
-              </div>
-              <div
-                id="twoStepBar"
-                className={`mx-4 h-[3px] w-full rounded-lg ${
-                  currentStep >= 3 ? 'bg-[#daa520]' : 'bg-gray-400'
-                }`}
-              />
+          <div className="progress-step">
+            <div className={`step-circle ${currentStep >= 1 ? 'active' : 'inactive'}`}>
+              1
             </div>
-            <div className="mr-4 mt-2">
-              <h6
-                id="twoStepText"
-                className={`text-sm font-bold ${
-                  currentStep >= 2 ? 'text-[#daa520] dark:text-[#daa520]' : 'text-gray-800 dark:text-gray-400'
-                }`}
-              >
-                Servicios
-              </h6>
-              <p 
-                id="twoStepStatus"
-                className={`text-xs text-gray-500 dark:text-white ${currentStep > 2 ? '' : 'hidden'}`}
-              >
-                Agregados
-              </p>
-            </div>
+            <div className="step-label">Paquete</div>
+            {currentStep > 1 && <div className="step-status">Seleccionada</div>}
           </div>
           
-          <div>
-            <div className="flex items-center">
-              <div
-                id="threeStepNumber"
-                className={`mx-[-1px] flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  currentStep >= 3 ? 'bg-[#daa520] dark:bg-[#daa520]' : 'bg-gray-400'
-                }`}
-              >
-                <span className="text-sm font-bold text-white dark:text-black">3</span>
-              </div>
+          <div className="progress-step">
+            <div className={`step-circle ${currentStep >= 2 ? 'active' : 'inactive'}`}>
+              2
             </div>
-            <div className="mt-2">
-              <h6 
-                id="threeStepText"
-                className={`text-sm font-bold ${
-                  currentStep >= 3 ? 'text-[#daa520] dark:text-[#daa520]' : 'text-gray-800 dark:text-gray-400'
-                }`}
-              >
-                Presupuesto
-              </h6>
-              <p 
-                id="threeStepStatus"
-                className={`text-xs text-gray-500 dark:text-white ${showFinalMessage ? '' : 'hidden'}`}
-              >
-                Enviado
-              </p>
+            <div className="step-label">Servicios</div>
+            {currentStep > 2 && <div className="step-status">Agregados</div>}
+          </div>
+          
+          <div className="progress-step">
+            <div className={`step-circle ${currentStep >= 3 ? 'active' : 'inactive'}`}>
+              3
             </div>
+            <div className="step-label">Presupuesto</div>
+            {showFinalMessage && <div className="step-status">Enviado</div>}
           </div>
         </div>
 
         {/* Step 1: Category Selection */}
         {currentStep === 1 && (
-          <div className="mx-auto mb-8 flex flex-1 min-h-[224px] min-w-[100%] max-w-screen-lg items-center justify-center transition duration-300">
-            <div className="mx-auto flex min-w-[100%] max-w-screen-md items-center justify-center">
-              <div className="category-grid flex w-full items-center justify-center gap-8">
-                {tipoInstalacion.map((categoria) => (
-                  <button
-                    key={categoria.id}
-                    onClick={() => handleCategorySelect(categoria.id)}
-                    className="category-button p-5 min-w-[305px] flex cursor-pointer flex-col items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
-                  >
-                    <div>
-                      {categoria.svg === "estandar" && (
-                        <svg
-                          className="mx-auto text-[#daa520] dark:text-[#daa520]"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="48"
-                          height="48"
-                          viewBox="0 0 24 24"
-                        >
-                          <g fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path
-                              strokeLinecap="round"
-                              d="M8 13h8c1.71 0 3.15 1.28 3.35 2.98L20 21.5M8 13c-1.71 0-3.15 1.28-3.35 2.98L4 21.5M8 13v5c0 1.886 0 2.828.586 3.414S10.114 22 12 22s2.828 0 3.414-.586S16 19.886 16 18v-1"
-                            />
-                            <circle cx="12" cy="6" r="4" />
-                          </g>
-                        </svg>
-                      )}
-                      {categoria.svg === "premium" && (
-                        <svg
-                          className="mx-auto text-[#daa520] dark:text-[#daa520]"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="48"
-                          height="48"
-                          viewBox="0 0 24 24"
-                        >
-                          <g fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M12 16c-5.76 0-6.78-5.74-6.96-10.294c-.051-1.266-.076-1.9.4-2.485c.475-.586 1.044-.682 2.183-.874A26.4 26.4 0 0 1 12 2c1.784 0 3.253.157 4.377.347c1.139.192 1.708.288 2.184.874s.45 1.219.4 2.485C18.781 10.26 17.761 16 12.001 16Z" />
-                            <path strokeLinecap="round" d="M12 16v3" opacity="0.5" />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M15.5 22h-7l.34-1.696a1 1 0 0 1 .98-.804h4.36a1 1 0 0 1 .98.804z"
-                            />
-                            <path
-                              d="m19 5l.949.316c.99.33 1.485.495 1.768.888S22 7.12 22 8.162v.073c0 .86 0 1.291-.207 1.643s-.584.561-1.336.98L17.5 12.5M5 5l-.949.316c-.99.33-1.485.495-1.768.888S2 7.12 2 8.162v.073c0 .86 0 1.291.207 1.643s.584.561 1.336.98L6.5 12.5"
-                              opacity="0.5"
-                            />
-                            <path d="M11.146 6.023C11.526 5.34 11.716 5 12 5s.474.34.854 1.023l.098.176c.108.194.162.29.246.354c.085.064.19.088.4.135l.19.044c.738.167 1.107.25 1.195.532s-.164.577-.667 1.165l-.13.152c-.143.167-.215.25-.247.354s-.021.215 0 .438l.02.203c.076.785.114 1.178-.115 1.352c-.23.174-.576.015-1.267-.303l-.178-.082c-.197-.09-.295-.135-.399-.135s-.202.045-.399.135l-.178.082c-.691.319-1.037.477-1.267.303s-.191-.567-.115-1.352l.02-.203c.021-.223.032-.334 0-.438s-.104-.187-.247-.354l-.13-.152c-.503-.588-.755-.882-.667-1.165c.088-.282.457-.365 1.195-.532l.19-.044c.21-.047.315-.07.4-.135c.084-.064.138-.16.246-.354z" />
-                            <path strokeLinecap="round" d="M18 22H6" opacity="0.5" />
-                          </g>
-                        </svg>
-                      )}
-                      <h5 className="mt-1 text-center text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                        {categoria.nombre}
-                      </h5>
-                    </div>
-
-                    <ul className="flex flex-col justify-start gap-y-1 mt-1">
-                      {categoria.beneficios.map((beneficio, index) => (
-                        <li key={index} className="flex items-center text-xs text-neutral-600 dark:text-neutral-200 text-left">
-                          <span className="text-[#daa520] mr-1">✓</span> {beneficio}
-                        </li>
-                      ))}
-                    </ul>
-                  </button>
-                ))}
+          <div className="category-container">
+            {tipoInstalacion.map((categoria) => (
+              <div
+                key={categoria.id}
+                onClick={() => handleCategorySelect(categoria.id)}
+                className="category-card"
+              >
+                <div className="category-icon">
+                  {categoria.svg === "estandar" && (
+                    <svg
+                      className="mx-auto text-[#daa520] dark:text-[#daa520]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="48"
+                      height="48"
+                      viewBox="0 0 24 24"
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                      <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path
+                          strokeLinecap="round"
+                          d="M8 13h8c1.71 0 3.15 1.28 3.35 2.98L20 21.5M8 13c-1.71 0-3.15 1.28-3.35 2.98L4 21.5M8 13v5c0 1.886 0 2.828.586 3.414S10.114 22 12 22s2.828 0 3.414-.586S16 19.886 16 18v-1"
+                        />
+                        <circle cx="12" cy="6" r="4" />
+                      </g>
+                    </svg>
+                  )}
+                  {categoria.svg === "premium" && (
+                    <svg
+                      className="mx-auto text-[#daa520] dark:text-[#daa520]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="48"
+                      height="48"
+                      viewBox="0 0 24 24"
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                      <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M12 16c-5.76 0-6.78-5.74-6.96-10.294c-.051-1.266-.076-1.9.4-2.485c.475-.586 1.044-.682 2.183-.874A26.4 26.4 0 0 1 12 2c1.784 0 3.253.157 4.377.347c1.139.192 1.708.288 2.184.874s.45 1.219.4 2.485C18.781 10.26 17.761 16 12.001 16Z" />
+                        <path strokeLinecap="round" d="M12 16v3" opacity="0.5" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.5 22h-7l.34-1.696a1 1 0 0 1 .98-.804h4.36a1 1 0 0 1 .98.804z"
+                        />
+                        <path
+                          d="m19 5l.949.316c.99.33 1.485.495 1.768.888S22 7.12 22 8.162v.073c0 .86 0 1.291-.207 1.643s-.584.561-1.336.98L17.5 12.5M5 5l-.949.316c-.99.33-1.485.495-1.768.888S2 7.12 2 8.162v.073c0 .86 0 1.291.207 1.643s.584.561 1.336.98L6.5 12.5"
+                          opacity="0.5"
+                        />
+                        <path d="M11.146 6.023C11.526 5.34 11.716 5 12 5s.474.34.854 1.023l.098.176c.108.194.162.29.246.354c.085.064.19.088.4.135l.19.044c.738.167 1.107.25 1.195.532s-.164.577-.667 1.165l-.13.152c-.143.167-.215.25-.247.354s-.021.215 0 .438l.02.203c.076.785.114 1.178-.115 1.352c-.23.174-.576.015-1.267-.303l-.178-.082c-.197-.09-.295-.135-.399-.135s-.202.045-.399.135l-.178.082c-.691.319-1.037.477-1.267.303s-.191-.567-.115-1.352l.02-.203c.021-.223.032-.334 0-.438s-.104-.187-.247-.354l-.13-.152c-.503-.588-.755-.882-.667-1.165c.088-.282.457-.365 1.195-.532l.19-.044c.21-.047.315-.07.4-.135c.084-.064.138-.16.246-.354z" />
+                        <path strokeLinecap="round" d="M18 22H6" opacity="0.5" />
+                      </g>
+                    </svg>
+                  )}
+                </div>
+                <h3 className="category-title">{categoria.nombre}</h3>
+                <ul className="benefit-list">
+                  {categoria.beneficios.map((beneficio, index) => (
+                    <li key={index} className="benefit-item">
+                      <span className="benefit-check">✓</span>
+                      <span>{beneficio}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
+            ))}
           </div>
         )}
 
         {/* Step 2: Product Selection */}
         {currentStep === 2 && selectedCategory && (
           <>
-            <div className="mx-auto mb-8 min-w-[100%] max-w-screen-md flex items-start justify-center transition duration-300 md:min-w-[50%]">
-              <form className="mx-auto flex max-w-sm flex-col items-center w-full">
-                <label
-                  htmlFor={`subtipos${selectedCategory === 'premium' ? 'Premium' : 'Estandar'}`}
-                  className="mb-2 block w-[80%] text-sm font-medium text-gray-900 dark:text-white text-center"
-                >
-                  Añade tus {selectedCategory === 'premium' ? 'servicios' : 'productos'}
-                </label>
-                <select
-                  id={`subtipos${selectedCategory === 'premium' ? 'Premium' : 'Estandar'}`}
-                  onChange={handleProductSelect}
-                  value=""
-                  className="block w-[80%] rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520]"
-                >
-                  <option value="" disabled>Seleccionar</option>
-                  {tipoInstalacion
-                    .find(t => t.id === selectedCategory)
-                    ?.instalaciones.map((instalacion, index) => {
-                      if (instalacion.subtipos !== undefined) {
-                        return (
-                          <React.Fragment key={index}>
-                            <option value={instalacion.nombre} disabled>{instalacion.nombre}</option>
-                            <SecualOptions options={instalacion.subtipos} />
-                          </React.Fragment>
-                        );
-                      } else {
-                        return (
-                          <option 
-                            key={index}
-                            value={instalacion.precio} 
-                            data-nombre={instalacion.id} 
-                            data-unidad={instalacion.tipoUnidad}
-                          >
-                            {instalacion.nombre}
-                          </option>
-                        );
-                      }
-                    })}
-                </select>
-              </form>
+            <div className="product-selection">
+              <label htmlFor="product-select" className="select-label">
+                Añade tus {selectedCategory === 'premium' ? 'servicios' : 'productos'}
+              </label>
+              <select
+                id="product-select"
+                onChange={handleProductSelect}
+                value=""
+                className="product-select"
+              >
+                <option value="" disabled>Seleccionar</option>
+                {tipoInstalacion
+                  .find(t => t.id === selectedCategory)
+                  ?.instalaciones.map((instalacion, index) => {
+                    if (instalacion.subtipos !== undefined) {
+                      return (
+                        <React.Fragment key={index}>
+                          <option value={instalacion.nombre} disabled>{instalacion.nombre}</option>
+                          <SecualOptions options={instalacion.subtipos} />
+                        </React.Fragment>
+                      );
+                    } else {
+                      return (
+                        <option 
+                          key={index}
+                          value={instalacion.precio} 
+                          data-nombre={instalacion.id} 
+                          data-unidad={instalacion.tipoUnidad}
+                        >
+                          {instalacion.nombre}
+                        </option>
+                      );
+                    }
+                  })}
+              </select>
             </div>
 
             {/* Product List */}
-            <div className="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
-              <div className="mb-4 flex items-center justify-center">
-                <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
-                  Lista de Servicios -
-                </h5>
-                <span className="text-lg font-bold leading-none text-[#daa520] dark:text-[#daa520]">
-                  &nbsp;{selectedCategory === 'premium' ? 'Premium' : 'Estándar'}
-                </span>
-              </div>
-              <div className="flow-root">
-                <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {productList.map((product) => (
-                    <li key={product.id} className="py-2 sm:py-4">
-                      <div className="flex items-center">
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {product.nombre}
-                          </p>
-                          <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                            precio: <span>{product.tipoUnidad === "metro lineal" ? product.precio.toFixed(2) : product.precio}</span> € / <span>{product.tipoUnidad === "unidad" ? "und." : "ml"}</span>
-                          </p>
-                        </div>
-                        
-                        {product.tipoUnidad === "unidad" ? (
-                          <form className="mx-auto max-w-xs">
-                            <div className="relative flex max-w-[10rem] items-center">
-                              <button
-                                type="button"
-                                onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) - 1)}
-                                className="h-11 rounded-s-lg border border-gray-300 bg-gray-100 p-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                              >
-                                <svg
-                                  className="h-3 w-3 text-gray-900 dark:text-white"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 18 2"
-                                >
-                                  <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M1 1h16"
-                                  />
-                                </svg>
-                              </button>
-                              <input
-                                type="number"
-                                value={productQuantities[product.id] || 0}
-                                min="0"
-                                readOnly
-                                className="block h-11 w-full border-x-0 border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520]"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) + 1)}
-                                className="h-11 rounded-e-lg border border-gray-300 bg-gray-100 p-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                              >
-                                <svg
-                                  className="h-3 w-3 text-gray-900 dark:text-white"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 18 18"
-                                >
-                                  <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M9 1v16M1 9h16"
-                                  />
-                                </svg>
-                              </button>
-                            </div>
-                          </form>
-                        ) : (
-                          <form className="mx-auto max-w-xs">
-                            <div className="relative flex max-w-[10rem] items-center">
-                              <input
-                                type="number"
-                                value={productQuantities[product.id] || 0}
-                                min="0"
-                                step="any"
-                                onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                                className="block h-11 w-full border border-gray-300 bg-gray-50 py-2.5 text-center text-sm text-gray-900 focus:border-[#daa520] focus:ring-[#daa520] dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-[#daa520] dark:focus:ring-[#daa520] rounded-lg"
-                              />
-                            </div>
-                          </form>
-                        )}
-                        
-                        <button 
-                          type="button" 
-                          onClick={() => removeProduct(product.id)}
-                          className="delete-product ml-2 rounded-lg text-red-500 hover:bg-red-100 p-1 transition-colors duration-200 dark:hover:bg-red-900/30"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                <ul role="list" className="divide-gray-200 dark:divide-gray-700">
-                  <hr className="bg-gray-800" />
-                  <li className="pt-3 sm:py-4">
-                    <div className="flex items-center">
-                      <div className="ms-4 min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                          Total
-                        </p>
-                      </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        <input 
-                          className="border-none max-w-[250px] text-right focus:outline-none focus:ring-0 focus:border-transparent dark:bg-gray-800" 
-                          type="number" 
-                          value={totalPrice.toFixed(2)} 
-                          readOnly
-                        /> €
+            {productList.length > 0 && (
+              <div className="product-list-container">
+                <div className="list-header">
+                  <h3 className="list-title">
+                    Lista de Servicios - <span className="package-type">{selectedCategory === 'premium' ? 'Premium' : 'Estándar'}</span>
+                  </h3>
+                </div>
+                
+                {productList.map((product) => (
+                  <div key={product.id} className="product-item">
+                    <div className="product-info">
+                      <div className="product-name">{product.nombre}</div>
+                      <div className="product-price">
+                        precio: {product.tipoUnidad === "metro lineal" ? product.precio.toFixed(2) : product.precio} € / {product.tipoUnidad === "unidad" ? "und." : "ml"}
                       </div>
                     </div>
-                  </li>
-                  <li className="text-xs text-gray-500 dark:text-gray-400 border-t-0 text-right">
-                    <strong className="text-gray-900 dark:text-white">und:</strong> unidad / <strong className="text-gray-900 dark:text-white">ml:</strong> metro lineal
-                  </li>
-                </ul>
+                    
+                    <div className="quantity-control">
+                      {product.tipoUnidad === "unidad" ? (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) - 1)}
+                            className="quantity-btn"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <input
+                            type="number"
+                            value={productQuantities[product.id] || 0}
+                            readOnly
+                            className="quantity-input"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) + 1)}
+                            className="quantity-btn"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </>
+                      ) : (
+                        <input
+                          type="number"
+                          value={productQuantities[product.id] || 0}
+                          min="0"
+                          step="any"
+                          onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                          className="quantity-input"
+                          placeholder="0.0"
+                        />
+                      )}
+                    </div>
+                    
+                    <button 
+                      type="button" 
+                      onClick={() => removeProduct(product.id)}
+                      className="delete-btn"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+
+                <div className="total-section">
+                  <div className="total-row">
+                    <span>Total</span>
+                    <span className="total-amount">{totalPrice.toFixed(2)} €</span>
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: '#7F8C8D', textAlign: 'right', marginTop: '0.5rem' }}>
+                    <strong>und:</strong> unidad / <strong>ml:</strong> metro lineal
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
 
         {/* Step 3: Form */}
         {showForm && (
-          <div className="flex justify-center">
-            <form 
-              onSubmit={handleFormSubmit}
-              className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-            >
-              <label className="text-lg font-bold leading-none text-gray-900 dark:text-white">Te atenderemos</label>
-              <div className="mb-6 mt-4">
-                <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre*</label>
+          <div className="contact-form">
+            <h3 className="form-title">Te atenderemos</h3>
+            <form onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label htmlFor="nombre" className="form-label">Nombre *</label>
                 <input 
                   type="text" 
                   id="nombre" 
                   name="nombre" 
                   value={formData.nombre}
                   onChange={(e) => setFormData(prev => ({ ...prev, nombre: e.target.value }))}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  className="form-input"
                   placeholder="Tu nombre" 
                   required 
                 />
               </div>
               
-              <div className="grid gap-6 mb-6 md:grid-cols-2 mt-4">
-                <div>
-                  <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono*</label>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label htmlFor="telefono" className="form-label">Teléfono *</label>
                   <input 
                     type="tel" 
                     id="telefono" 
@@ -679,13 +981,13 @@ const CalculadoraContent = () => {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 9);
                       setFormData(prev => ({ ...prev, telefono: value }));
                     }}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    placeholder="Ej: 612345678" 
+                    className="form-input"
+                    placeholder="612345678" 
                     required
                   />
                 </div>
-                <div>
-                  <label htmlFor="codigopostal" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código Postal*</label>
+                <div className="form-group">
+                  <label htmlFor="codigopostal" className="form-label">Código Postal *</label>
                   <input 
                     type="text" 
                     id="codigopostal" 
@@ -695,40 +997,40 @@ const CalculadoraContent = () => {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 5);
                       setFormData(prev => ({ ...prev, codigopostal: value }));
                     }}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    placeholder="Ej: 28001" 
+                    className="form-input"
+                    placeholder="28001" 
                     required
                   />
-                </div>  
+                </div>
               </div>
               
-              <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+              <div className="form-group">
+                <label htmlFor="email" className="form-label">Email</label>
                 <input 
                   type="email" 
                   id="email" 
                   name="email" 
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  className="form-input"
                   placeholder="tu@email.com"
                 />
               </div>
 
-              <div className="flex items-center justify-between mt-6">
+              <div className="button-group">
                 <button 
                   type="button" 
                   onClick={() => {
                     setShowForm(false);
                     setCurrentStep(2);
                   }}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-yellow-500 p-3 text-sm font-bold text-white outline-none ring-yellow-500 transition duration-300 hover:bg-yellow-600 focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-yellow-700 dark:hover:bg-yellow-600 dark:focus:outline-none dark:focus:ring-1 sm:w-auto mr-2"
+                  className="btn btn-secondary"
                 >
                   Atrás
                 </button>
                 <button 
                   type="submit"
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-yellow-500 p-3 text-sm font-bold text-white outline-none ring-yellow-500 transition duration-300 hover:bg-yellow-600 focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-yellow-700 dark:hover:bg-yellow-600 dark:focus:outline-none dark:focus:ring-1 sm:w-auto mr-2"
+                  className="btn btn-primary"
                 >
                   Enviar
                 </button>
@@ -739,65 +1041,56 @@ const CalculadoraContent = () => {
 
         {/* Final Message */}
         {showFinalMessage && (
-          <div className="flex justify-center">
-            <div className="w-full max-w-md min-h-[20rem] rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8 flex flex-col items-center justify-center">
-              <svg className="w-20 h-20 mx-auto mb-4 text-[#daa520]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h5 className="text-lg font-bold text-center text-gray-900 dark:text-white">¡Gracias! Nos pondremos en contacto</h5>
-            </div>
+          <div className="success-message">
+            <svg className="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="success-title">¡Gracias! Nos pondremos en contacto</h3>
           </div>
         )}
 
         {/* Navigation Buttons */}
-        <div className="mx-auto my-8 flex max-w-screen-md items-start">
-          <div className="w-full">
-            <div className="flex w-full items-center justify-between gap-4">
-              {/* Back Button - Step 2 to Step 1 */}
-              {currentStep === 2 && !showForm && (
-                <button
-                  onClick={() => {
-                    setCurrentStep(1);
-                    setSelectedCategory('');
-                    setProductList([]);
-                    setProductQuantities({});
-                    setTotalPrice(0);
-                  }}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
-                >
-                  Atrás
-                </button>
-              )}
+        <div className="button-group">
+          {/* Back Button - Step 2 to Step 1 */}
+          {currentStep === 2 && !showForm && (
+            <button
+              onClick={() => {
+                setCurrentStep(1);
+                setSelectedCategory('');
+                setProductList([]);
+                setProductQuantities({});
+                setTotalPrice(0);
+              }}
+              className="btn btn-secondary"
+            >
+              Atrás
+            </button>
+          )}
 
-              {/* Reset Button */}
-              {showFinalMessage && (
-                <button
-                  onClick={resetCalculator}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
-                >
-                  Reiniciar
-                </button>
-              )}
+          {/* Reset Button */}
+          {showFinalMessage && (
+            <button
+              onClick={resetCalculator}
+              className="btn btn-primary"
+            >
+              Reiniciar
+            </button>
+          )}
 
-              {/* Spacer when no left button */}
-              {(currentStep === 1 || showForm) && !showFinalMessage && <div></div>}
-
-              {/* Next Button - Step 2 to Form */}
-              {currentStep === 2 && !showForm && productList.length > 0 && totalPrice > 0 && (
-                <button
-                  onClick={() => {
-                    setShowForm(true);
-                    setCurrentStep(3);
-                  }}
-                  className="w-full min-w-[100px] flex items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-[#daa520] p-3 text-sm font-bold text-white outline-none ring-zinc-500 transition duration-300 hover:bg-[#c09018] focus-visible:ring disabled:pointer-events-none disabled:opacity-50 dark:bg-[#daa520] dark:text-black dark:ring-zinc-200 dark:hover:bg-[#c09018] dark:focus:outline-none dark:focus:ring-1 sm:w-auto"
-                >
-                  Siguiente
-                </button>
-              )}
-            </div>
-          </div>
+          {/* Next Button - Step 2 to Form */}
+          {currentStep === 2 && !showForm && productList.length > 0 && totalPrice > 0 && (
+            <button
+              onClick={() => {
+                setShowForm(true);
+                setCurrentStep(3);
+              }}
+              className="btn btn-primary"
+            >
+              Siguiente
+            </button>
+          )}
         </div>
-      </section>
+      </div>
     </>
   );
 };
