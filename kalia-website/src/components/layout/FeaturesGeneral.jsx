@@ -1,4 +1,4 @@
-// src/components/layout/FeaturesGeneral.jsx
+// src/components/layout/FeaturesGeneral.jsx - Updated to use actual features data
 import React from 'react';
 
 // Icon components with proper sizing
@@ -14,9 +14,33 @@ const GroupsIcon = () => (
   </svg>
 );
 
-const ToolsIcon = () => (
+const FrameIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21,15 16,10 5,21" />
+  </svg>
+);
+
+const BooksIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+  </svg>
+);
+
+const HouseFIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+    <polyline points="9,22 9,12 15,12 15,22" />
+  </svg>
+);
+
+const Community2Icon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
   </svg>
 );
 
@@ -28,29 +52,15 @@ const EarthIcon = () => (
   </svg>
 );
 
-const BooksIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
-  </svg>
-);
-
-const FrameIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-    <circle cx="8.5" cy="8.5" r="1.5" />
-    <polyline points="21,15 16,10 5,21" />
-  </svg>
-);
-
 // Icon mapping
 const iconMap = {
-  verified: VerifiedIcon,
-  groups: GroupsIcon,
-  tools: ToolsIcon,
-  earth2: EarthIcon,
-  books: BooksIcon,
   frame: FrameIcon,
+  groups: GroupsIcon,
+  books: BooksIcon,
+  houseF: HouseFIcon,
+  verified: VerifiedIcon,
+  community2: Community2Icon,
+  earth2: EarthIcon,
 };
 
 const IconComponent = ({ name }) => {
@@ -65,41 +75,42 @@ const FeaturesGeneral = ({
   src, 
   alt 
 }) => {
-  // Default features if none provided
-  const defaultFeatures = [
+  // Your actual features data from features.json
+  const actualFeatures = [
     {
-      heading: "Atención Personalizada",
-      content: "Nos adaptamos a tus necesidades y preferencias para crear espacios que reflejen tu estilo personal.",
-      svg: "verified"
+      heading: "Experiencia y profesionalismo",
+      content: "Contamos con un equipo de expertos en reformas y decoración con años de experiencia en el sector. Garantizamos un trabajo impecable y profesional.",
+      svg: "frame"
     },
     {
-      heading: "Calidad Garantizada", 
-      content: "Utilizamos materiales de primera calidad y técnicas avanzadas para asegurar resultados duraderos.",
+      heading: "Soluciones personalizadas",
+      content: "Entendemos que cada cliente es único, por eso diseñamos proyectos adaptados a tus preferencias, presupuesto y estilo de vida.",
       svg: "groups"
     },
     {
-      heading: "Precios Competitivos",
-      content: "Ofrecemos presupuestos transparentes y ajustados para que puedas transformar tu hogar sin comprometer tu economía.",
-      svg: "tools"
-    },
-    {
-      heading: "Experiencia Comprobada",
-      content: "Años de experiencia en el sector nos respaldan para ofrecer soluciones innovadoras y eficientes.",
-      svg: "earth2"
-    },
-    {
-      heading: "Asesoramiento Profesional",
-      content: "Te guiamos en cada paso del proceso, desde la planificación hasta la ejecución final del proyecto.",
+      heading: "Servicios integrales",
+      content: "Ofrecemos una amplia gama de servicios para que no tengas que preocuparte por nada. Desde la reforma completa de tu cocina hasta el montaje de muebles, pintura, electricidad y más.",
       svg: "books"
     },
     {
-      heading: "Acabados Impecables",
-      content: "Cuidamos cada detalle para garantizar un resultado final que supere tus expectativas.",
-      svg: "frame"
+      heading: "Ahorro inteligente",
+      content: "Sabemos que la economía importa, por eso diseñamos soluciones que combinan calidad y precios competitivos. Gracias a nuestra experiencia, seleccionamos los materiales y procesos más eficientes.",
+      svg: "houseF"
+    },
+    {
+      heading: "Calidad garantizada",
+      content: "Trabajamos con los mejores materiales y las últimas tendencias en diseño para garantizar acabados de alta calidad. Nos preocupamos por cada detalle, asegurando resultados duraderos y funcionales que maximizan tu inversión.",
+      svg: "verified"
+    },
+    {
+      heading: "Cercanía y confianza",
+      content: "Como empresa local, estamos comprometidos con brindar un servicio cercano y confiable en la Comunidad de Madrid y alrededores. Nos enorgullece construir relaciones basadas en la honestidad y el respeto.",
+      svg: "community2"
     }
+    // Note: Excluding the environmental commitment feature as requested in the Astro version
   ];
 
-  const featuresToShow = features.length > 0 ? features : defaultFeatures;
+  const featuresToShow = features.length > 0 ? features : actualFeatures;
   
   // Filter out the "Compromiso con el medio ambiente" card if it exists
   const filteredFeatures = featuresToShow.filter(feature => 
