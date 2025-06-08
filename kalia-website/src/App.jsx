@@ -1,4 +1,4 @@
-// src/App.jsx - Updated to include FeaturesGeneral component
+// src/App.jsx - Updated to include Services page
 import { Routes, Route } from 'react-router-dom';
 import { useTheme } from './context/ThemeContext';
 import Navbar from './components/layout/Navbar';
@@ -8,6 +8,9 @@ import HeroSection from './components/layout/HeroSection';
 import FeaturesGeneral from './components/layout/FeaturesGeneral';
 import FeaturesNavs from './components/layout/FeaturesNavs';
 import CalculadoraContent from './pages/Calculadora';
+import Services from './pages/Services';
+import MontajeDeMuebles from './pages/MontajeDeMuebles';
+import DisenoDeMuebles from './pages/DisenoDeMuebles';
 
 function App() {
   const { isDarkMode } = useTheme();
@@ -39,8 +42,12 @@ function App() {
               </>
             } />
             
+            {/* Services page - now using the actual Services component */}
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/montaje-de-muebles" element={<MontajeDeMuebles />} />
+            <Route path="/services/diseno-de-muebles" element={<DisenoDeMuebles />} />
+            
             {/* Other routes */}
-            <Route path="/services" element={<div className="pt-32 min-h-screen flex items-center justify-center">Services Page</div>} />
             <Route path="/nosotros" element={<div className="pt-32 min-h-screen flex items-center justify-center">About Page</div>} />
             <Route path="/blog" element={<div className="pt-32 min-h-screen flex items-center justify-center">Blog Page</div>} />
             

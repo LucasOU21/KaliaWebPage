@@ -1,482 +1,700 @@
-// src/pages/Services.jsx - Services listing page with clean image cards
-import React, { useState, useEffect } from 'react';
+// src/pages/Services.jsx - Complete services page matching the Astro design
+import React, { useState } from 'react';
 
 const Services = () => {
-  // Services data matching the content structure
-  const servicesData = [
+  const [formData, setFormData] = useState({
+    apellido: '',
+    nombre: '',
+    email: '',
+    telefono: '',
+    message: ''
+  });
+
+  // Services data matching the HTML structure
+  const services = [
     {
       id: 'montaje-de-muebles',
-      data: {
-        title: 'Montaje de Muebles',
-        cardTitle: 'Montaje de Muebles',
-        main: {
-          id: 1,
-          imgCard: '/src/assets/images/montaje-muebles-main.jpg',
-          imgAlt: 'Servicio Profesional de Montaje de Muebles'
-        }
-      }
+      title: 'Montaje de Muebles',
+      image: '/src/assets/images/montaje-muebles-main.jpg',
+      alt: 'Servicio Profesional de Montaje de Muebles | Precisión y Garantía',
+      cardType: 'small'
     },
     {
       id: 'diseno-de-muebles',
-      data: {
-        title: 'Diseño de Muebles',
-        cardTitle: 'Diseño de Muebles',
-        main: {
-          id: 2,
-          imgCard: '/src/assets/images/realEstanteria1.jpg',
-          imgAlt: 'Servicio Profesional de Diseños de Muebles a Medida'
-        }
-      }
+      title: 'Diseño de Muebles',
+      image: '/src/assets/images/realEstanteria1.jpg',
+      alt: 'Servicio Profesional de Diseños de Muebles a Medida',
+      cardType: 'wide'
     },
     {
       id: 'intalacion-cocinas-electrodomesticos',
-      data: {
-        title: 'Instalación de Cocinas y Electrodomésticos',
-        cardTitle: 'Instalación de Cocinas y Electrodomésticos',
-        main: {
-          id: 3,
-          imgCard: '/src/assets/images/realKitchen1.jpg',
-          imgAlt: 'Instalación de Cocinas y Electrodomésticos'
-        }
-      }
+      title: 'Instalación de Cocinas y Electrodomésticos',
+      image: '/src/assets/images/realKitchen1.jpg',
+      alt: 'Instalación de Cocinas y Electrodomésticos',
+      cardType: 'wide'
     },
     {
       id: 'reformas-de-vivienda',
-      data: {
-        title: 'Reformas de Vivienda',
-        cardTitle: 'Reformas de Vivienda',
-        main: {
-          id: 4,
-          imgCard: '/src/assets/images/reformas-vivienda2.jpg',
-          imgAlt: 'Reformas de Vivienda'
-        }
-      }
+      title: 'Reformas de Vivienda',
+      image: '/src/assets/images/reformas-vivienda2.jpg',
+      alt: 'Reformas de Vivienda',
+      cardType: 'small'
     },
     {
       id: 'instalacion-puertas-tarimaflotante-rodapies',
-      data: {
-        title: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
-        cardTitle: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
-        main: {
-          id: 5,
-          imgCard: '/src/assets/images/puertas-tarima-rodapies-main.jpg',
-          imgAlt: 'Instalación de Puertas, Tarima Flotante y Rodapiés'
-        }
-      }
+      title: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
+      image: '/src/assets/images/puertas-tarima-rodapies-main.jpg',
+      alt: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
+      cardType: 'small'
     },
     {
       id: 'servicios-de-acabados',
-      data: {
-        title: 'Servicios de Acabados',
-        cardTitle: 'Servicios de Acabados',
-        main: {
-          id: 6,
-          imgCard: '/src/assets/images/acabados-main.jpg',
-          imgAlt: 'Servicios de Acabados'
-        }
-      }
+      title: 'Servicios de Acabados',
+      image: '/src/assets/images/acabados-main.jpg',
+      alt: 'Servicios de Acabados',
+      cardType: 'wide'
     },
     {
       id: 'manitas',
-      data: {
-        title: 'Manitas',
-        cardTitle: 'Manitas',
-        main: {
-          id: 7,
-          imgCard: '/src/assets/images/manitas-main.jpg',
-          imgAlt: 'Servicio Profesional de Manitas'
-        }
-      }
+      title: 'Manitas',
+      image: '/src/assets/images/manitas-main.jpg',
+      alt: 'Servicio Profesional de Manitas',
+      cardType: 'wide'
     }
   ];
 
-  const [services, setServices] = useState([]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-  // Load services data on component mount
-  useEffect(() => {
-    // Sort by main.id as in the original Astro file
-    const sortedServices = [...servicesData].sort((a, b) => a.data.main.id - b.data.main.id);
-    setServices(sortedServices);
+  const handleSubmit = (e) => {
+    e.preventDefault();
     
-    // Set page title
-    document.title = 'Servicios | Kalia Reformas';
-  }, []);
-
-  // Handle navigation to individual service pages
-  const navigateToService = (serviceId) => {
-    console.log(`Navigate to: /services/${serviceId}`);
-    // In a real app: navigate(`/services/${serviceId}`);
-  };
-
-  // Clean service card component - just image and title with hover effects
-  const ServiceCard = ({ service, isWide = false }) => {
-    const cardClass = isWide 
-      ? "col-span-1 sm:col-span-2 md:col-span-2 wide-card" 
-      : "col-span-1";
-
-    return (
-      <div className={`service-card group ${cardClass}`}>
-        <div 
-          className="block h-full cursor-pointer"
-          onClick={() => navigateToService(service.id)}
-        >
-          <div className={`card-container relative overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 dark:bg-neutral-800 group`} style={{ height: isWide ? '280px' : '320px' }}>
-            {/* Image with overlay effects */}
-            <div className="relative h-full overflow-hidden">
-              <img
-                src={service.data.main.imgCard}
-                alt={service.data.main.imgAlt}
-                className="absolute inset-0 h-full w-full object-cover object-center transition duration-[600ms] ease-[cubic-bezier(0.45,0,0.55,1)] group-hover:scale-110"
-                loading="lazy"
-                draggable="false"
-              />
-              
-              {/* Dark overlay that appears on hover */}
-              <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/40" />
-              
-              {/* Title overlay */}
-              <div className="absolute inset-0 flex items-end p-6">
-                <div className="transform transition-all duration-500 translate-y-8 group-hover:translate-y-0">
-                  <h3 className="text-xl font-bold text-white font-georgia mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                    {service.data.cardTitle}
-                  </h3>
-                  
-                  {/* Click indicator */}
-                  <div className="flex items-center text-[#FFD000] font-medium font-poppins text-sm opacity-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                    <span>Ver detalles</span>
-                    <svg
-                      className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Subtle title at bottom when not hovered */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 transition-opacity duration-500 group-hover:opacity-0">
-                <h3 className="text-lg font-semibold text-white font-georgia">
-                  {service.data.cardTitle}
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Contact form component
-  const ContactForm = () => {
-    const [formData, setFormData] = useState({
+    // Simulate emailjs functionality
+    console.log('Form submitted:', formData);
+    
+    // Here you would integrate with emailjs
+    // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
+    //   .then(function (response) {
+    //     alert("Se ha enviado el mensaje satisfactoriamente, ¡Gracias por su preferencia!");
+    //     console.log("Correo enviado", response);
+    //   })
+    //   .catch(function (error) {
+    //     console.error("Error", error);
+    //   });
+    
+    alert("Se ha enviado el mensaje satisfactoriamente, ¡Gracias por su preferencia!");
+    
+    // Reset form
+    setFormData({
+      apellido: '',
       nombre: '',
-      telefono: '',
       email: '',
-      servicio: '',
-      mensaje: ''
+      telefono: '',
+      message: ''
     });
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log('Form submitted:', formData);
-      // Here you would handle the form submission
-      alert('Gracias por tu mensaje. Te contactaremos pronto.');
-    };
-
-    const handleChange = (e) => {
-      setFormData(prev => ({
-        ...prev,
-        [e.target.name]: e.target.value
-      }));
-    };
-
-    return (
-      <section className="bg-white dark:bg-neutral-800 py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-800 dark:text-neutral-200 mb-4 font-georgia">
-              Solicita tu Presupuesto
-            </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 font-poppins">
-              ¿Interesado en alguno de nuestros servicios? Contáctanos para recibir una valoración gratuita y sin compromiso.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label htmlFor="nombre" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 font-poppins">
-                  Nombre *
-                </label>
-                <input
-                  type="text"
-                  id="nombre"
-                  name="nombre"
-                  required
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-[#FFD000] focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white font-poppins"
-                  placeholder="Tu nombre"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="telefono" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 font-poppins">
-                  Teléfono *
-                </label>
-                <input
-                  type="tel"
-                  id="telefono"
-                  name="telefono"
-                  required
-                  value={formData.telefono}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-[#FFD000] focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white font-poppins"
-                  placeholder="603 37 08 40"
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 font-poppins">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-[#FFD000] focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white font-poppins"
-                placeholder="tu@email.com"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="servicio" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 font-poppins">
-                Servicio de Interés
-              </label>
-              <select
-                id="servicio"
-                name="servicio"
-                value={formData.servicio}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-[#FFD000] focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white font-poppins"
-              >
-                <option value="">Selecciona un servicio</option>
-                <option value="montaje-muebles">Montaje de Muebles</option>
-                <option value="diseno-muebles">Diseño de Muebles</option>
-                <option value="cocinas-electrodomesticos">Instalación de Cocinas y Electrodomésticos</option>
-                <option value="reformas-vivienda">Reformas de Vivienda</option>
-                <option value="puertas-tarima-rodapies">Instalación de Puertas, Tarima Flotante y Rodapiés</option>
-                <option value="acabados">Servicios de Acabados</option>
-                <option value="manitas">Manitas</option>
-              </select>
-            </div>
-
-            <div className="mb-8">
-              <label htmlFor="mensaje" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 font-poppins">
-                Mensaje
-              </label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                rows="4"
-                value={formData.mensaje}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-[#FFD000] focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white font-poppins"
-                placeholder="Cuéntanos sobre tu proyecto..."
-              ></textarea>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center px-8 py-3 bg-[#FFD000] text-black font-semibold rounded-lg hover:bg-[#E0C000] transition-colors duration-300 font-poppins"
-              >
-                Enviar Solicitud
-              </button>
-              <a
-                href="tel:603370840"
-                className="inline-flex items-center justify-center px-8 py-3 border-2 border-[#FFD000] text-[#FFD000] font-semibold rounded-lg hover:bg-[#FFD000] hover:text-black transition-colors duration-300 font-poppins"
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                Llamar Ahora
-              </a>
-            </div>
-          </form>
-        </div>
-      </section>
-    );
   };
 
   return (
     <>
       <style jsx>{`
+        /* Import Google fonts */
         @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        .font-georgia {
-          font-family: 'Georgia', serif;
-        }
-        
-        .font-poppins {
-          font-family: 'Poppins', sans-serif;
-        }
-
-        /* Page background */
         .services-page {
+          font-family: 'Poppins', sans-serif;
           background-color: #F8F1E7;
           min-height: 100vh;
+          padding-top: 7rem; /* Account for navbar */
         }
 
         .dark .services-page {
           background-color: #374151;
         }
 
-        /* Enhanced hover effects for service cards */
-        .service-card {
-          perspective: 1000px;
+        .services-header {
+          max-width: 85rem;
+          margin: 0 auto;
+          padding: 2.5rem 1rem 0 1rem;
         }
 
-        .service-card:hover {
-          transform: translateY(-8px);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .services-title {
+          font-family: 'Georgia', serif;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #000000;
+          margin-bottom: 2rem;
         }
 
-        /* Ensure consistent card heights */
-        .service-card .card-container {
-          height: 320px;
+        .dark .services-title {
+          color: #F8F1E7;
         }
 
-        /* Wide cards for alternating layout */
-        .service-card.wide-card .card-container {
-          height: 280px;
-        }
-
-        /* Smooth image scaling and overlay effects */
-        .service-card img {
-          transition: transform 600ms cubic-bezier(0.45, 0, 0.55, 1);
-          position: absolute;
-          inset: 0;
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-          object-position: center;
-        }
-
-        .service-card:hover img {
-          transform: scale(1.1);
-        }
-
-        /* Custom shadow effects */
-        .service-card:hover > div > div {
-          box-shadow: 
-            0 25px 50px -12px rgba(0, 0, 0, 0.25),
-            0 0 0 1px rgba(255, 208, 0, 0.1);
-        }
-
-        /* Responsive grid adjustments */
-        @media (max-width: 768px) {
-          .services-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-          
-          .service-card .card-container {
-            height: 280px;
-          }
-          
-          .service-card.wide-card .card-container {
-            height: 280px;
+        @media (min-width: 768px) {
+          .services-title {
+            font-size: 2.5rem;
           }
         }
 
-        @media (min-width: 769px) and (max-width: 1024px) {
+        /* Services Grid */
+        .services-grid {
+          max-width: 85rem;
+          margin: 0 auto;
+          padding: 0 1rem 2.5rem 1rem;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
           .services-grid {
             grid-template-columns: repeat(2, 1fr);
           }
-          
-          .service-card .card-container {
-            height: 300px;
+        }
+
+        @media (min-width: 768px) {
+          .services-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
           }
         }
 
-        /* Focus states for accessibility */
-        .service-card:focus-within > div > div {
-          outline: 3px solid #FFD000;
-          outline-offset: 2px;
+        @media (min-width: 1280px) {
+          .services-grid {
+            gap: 2rem;
+          }
         }
 
-        /* Form styling */
-        input:focus, select:focus, textarea:focus {
-          box-shadow: 0 0 0 3px rgba(255, 208, 0, 0.1);
+        /* Service Card Styles */
+        .service-card {
+          position: relative;
+          display: flex;
+          align-items: flex-end;
+          height: 12rem;
+          overflow: hidden;
+          border-radius: 0.75rem;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          outline: none;
+          transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+          text-decoration: none;
         }
 
-        /* Loading state for images */
-        img {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: loading 1.5s infinite;
+        .service-card:focus-visible {
+          ring: 2px solid #6b7280;
         }
 
-        @keyframes loading {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
+        .dark .service-card:focus-visible {
+          ring: 2px solid #e5e7eb;
         }
 
-        .dark img {
-          background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
-          background-size: 200% 100%;
+        .service-card.wide {
+          grid-column: span 2;
         }
 
-        /* Smooth animations for text overlays */
-        .service-card h3, .service-card div {
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        @media (min-width: 768px) {
+          .service-card {
+            height: 20rem;
+          }
+        }
+
+        .service-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .service-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .service-card:hover .service-image {
+          transform: scale(1.1);
+        }
+
+        .service-overlay {
+          pointer-events: none;
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(38, 38, 38, 0.8) 0%, transparent 50%, transparent 100%);
+          opacity: 0.5;
+        }
+
+        .service-title {
+          position: relative;
+          margin-bottom: 0.75rem;
+          margin-left: 1rem;
+          display: inline-block;
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: #fafafa;
+          transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        @media (min-width: 768px) {
+          .service-title {
+            margin-left: 1.25rem;
+            font-size: 1.125rem;
+          }
+        }
+
+        .service-card:hover .service-title {
+          transform: scale(1.1);
+        }
+
+        .service-arrow {
+          margin-left: 0.125rem;
+          width: 0.75rem;
+          height: 0.75rem;
+          display: inline;
+          padding-bottom: 0.125rem;
+        }
+
+        @media (min-width: 768px) {
+          .service-arrow {
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+
+        /* Contact Section */
+        .contact-section {
+          max-width: 85rem;
+          margin: 0 auto;
+          padding: 2.5rem 1rem;
+        }
+
+        .contact-container {
+          max-width: 42rem;
+          margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+          .contact-container {
+            max-width: 80rem;
+          }
+        }
+
+        .contact-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .contact-title {
+          font-family: 'Georgia', serif;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #000000;
+          margin-bottom: 0.25rem;
+        }
+
+        .dark .contact-title {
+          color: #F8F1E7;
+        }
+
+        @media (min-width: 768px) {
+          .contact-title {
+            font-size: 2.5rem;
+          }
+        }
+
+        .contact-subtitle {
+          color: #525252;
+          margin-top: 0.25rem;
+        }
+
+        .dark .contact-subtitle {
+          color: #a3a3a3;
+        }
+
+        .contact-grid {
+          margin-top: 3rem;
+          display: grid;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+          .contact-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+          }
+        }
+
+        .form-container {
+          display: flex;
+          flex-direction: column;
+          border-radius: 0.75rem;
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (min-width: 640px) {
+          .form-container {
+            padding: 1.5rem;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .form-container {
+            padding: 2rem;
+          }
+        }
+
+        .form-title {
+          margin-bottom: 2rem;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #404040;
+        }
+
+        .dark .form-title {
+          color: #d4d4d8;
+        }
+
+        .form-grid {
+          display: grid;
+          gap: 1rem;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+          .form-row {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .form-input, .form-textarea {
+          display: block;
+          width: 100%;
+          border-radius: 0.5rem;
+          border: 1px solid #d4d4d8;
+          background-color: #fafafa;
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+          color: #404040;
+          transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+          color: #71717a;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+          outline: none;
+          border-color: #d4d4d8;
+          box-shadow: 0 0 0 3px rgba(163, 163, 163, 0.1);
+        }
+
+        .dark .form-input, .dark .form-textarea {
+          border-color: #525252;
+          background-color: rgba(64, 64, 64, 0.3);
+          color: #d4d4d8;
+        }
+
+        .dark .form-input::placeholder, .dark .form-textarea::placeholder {
+          color: #a3a3a3;
+        }
+
+        .dark .form-input:focus, .dark .form-textarea:focus {
+          box-shadow: 0 0 0 1px #fafafa;
+        }
+
+        .submit-button {
+          display: inline-flex;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          border-radius: 0.5rem;
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: white;
+          outline: none;
+          transition: all 0.3s ease;
+          border: 1px solid transparent;
+          background-color: #3b82f6;
+          cursor: pointer;
+        }
+
+        .submit-button:hover {
+          background-color: #1e3a8a;
+        }
+
+        .dark .submit-button {
+          color: #404040;
+          background-color: #eab308;
+        }
+
+        .dark .submit-button:hover {
+          background-color: #fbbf24;
+        }
+
+        @media (min-width: 1536px) {
+          .submit-button {
+            font-size: 1rem;
+          }
+        }
+
+        .submit-button:disabled {
+          pointer-events: none;
+          opacity: 0.5;
+        }
+
+        .submit-button:focus-visible {
+          box-shadow: 0 0 0 2px #6b7280;
+        }
+
+        .dark .submit-button:focus-visible {
+          box-shadow: 0 0 0 2px #e5e7eb;
+        }
+
+        .form-note {
+          margin-top: 0.75rem;
+          text-align: center;
+        }
+
+        .form-note-text {
+          font-size: 0.75rem;
+          color: #525252;
+        }
+
+        .dark .form-note-text {
+          color: #a3a3a3;
+        }
+
+        .contact-info {
+          border-top: 1px solid #d4d4d8;
+          border-bottom: 1px solid #d4d4d8;
+        }
+
+        .dark .contact-info {
+          border-color: #404040;
+        }
+
+        .contact-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1rem 0;
+        }
+
+        .contact-icon {
+          height: 1.25rem;
+          width: 1.25rem;
+          flex-shrink: 0;
+          color: #3b82f6;
+        }
+
+        .contact-text {
+          color: #404040;
+        }
+
+        .dark .contact-text {
+          color: #d4d4d8;
+        }
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
         }
       `}</style>
 
       <div className="services-page">
-        <div className="max-w-[85rem] mx-auto px-4 py-10 pt-28 sm:px-6 lg:px-8 lg:py-14 lg:pt-32 2xl:max-w-full">
-          {/* Page Header */}
-          <div className="mb-12 text-center">
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 mb-4 font-georgia">
-              Nuestros Servicios
-            </h1>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto font-poppins">
-              Descubre la gama completa de servicios profesionales que ofrecemos para transformar tu hogar
-            </p>
-          </div>
-          
-          {/* Services Grid */}
-          <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:gap-8 services-grid mb-16">
-            {services.map((service, index) => {
-              // Alternate card sizes like in the original Astro file
-              const position = index % 4;
-              const isWide = position === 1 || position === 2;
-              
-              return (
-                <ServiceCard 
-                  key={service.id} 
-                  service={service} 
-                  isWide={isWide}
-                />
-              );
-            })}
-          </section>
+        {/* Page Header */}
+        <div className="services-header">
+          <h1 className="services-title">
+            Servicios
+          </h1>
         </div>
-        
-        {/* Contact Form */}
-        <ContactForm />
+
+        {/* Services Grid */}
+        <section className="services-grid">
+          {services.map((service, index) => {
+            const cardClass = `service-card ${service.cardType === 'wide' ? 'wide' : ''}`;
+            
+            return (
+              <a
+                key={service.id}
+                href={`/services/${service.id}`}
+                className={cardClass}
+              >
+                <img
+                  src={service.image}
+                  alt={service.alt}
+                  className="service-image"
+                  draggable="false"
+                  loading="lazy"
+                />
+                <div className="service-overlay"></div>
+                <span className="service-title">
+                  {service.title}
+                  <svg 
+                    className="service-arrow" 
+                    height="24" 
+                    viewBox="0 0 24 24" 
+                    width="24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="3" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <title></title>
+                    <path d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"></path>
+                  </svg>
+                </span>
+              </a>
+            );
+          })}
+        </section>
+
+        {/* Contact Section */}
+        <section className="contact-section">
+          <div className="contact-container">
+            <div className="contact-header">
+              <h1 className="contact-title">
+                Contáctanos
+              </h1>
+              <p className="contact-subtitle">
+                ¿Tiene alguna pregunta o quiere hablar de un proyecto? Póngase en contacto con nosotros y déjenos elaborar la solución perfecta utilizando nuestras herramientas y servicios.
+              </p>
+            </div>
+
+            <div className="contact-grid">
+              <div className="form-container">
+                <h2 className="form-title">
+                  Rellene el siguiente formulario
+                </h2>
+
+                <div onSubmit={handleSubmit}>
+                  <div className="form-grid">
+                    <div className="form-row">
+                      <div>
+                        <label htmlFor="apellido" className="sr-only">Apellidos</label>
+                        <input
+                          type="text"
+                          name="apellido"
+                          id="apellido"
+                          value={formData.apellido}
+                          onChange={handleInputChange}
+                          className="form-input"
+                          placeholder="Apellidos"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="nombre" className="sr-only">Nombres</label>
+                        <input
+                          type="text"
+                          name="nombre"
+                          id="nombre"
+                          value={formData.nombre}
+                          onChange={handleInputChange}
+                          className="form-input"
+                          placeholder="Nombres"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="sr-only">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        autoComplete="email"
+                        className="form-input"
+                        placeholder="Email"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="telefono" className="sr-only">Número de teléfono</label>
+                      <input
+                        type="tel"
+                        name="telefono"
+                        id="telefono"
+                        value={formData.telefono}
+                        onChange={handleInputChange}
+                        className="form-input"
+                        placeholder="Número de teléfono"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="sr-only">Detalles</label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        className="form-textarea"
+                        placeholder="Detalles"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: '1rem', display: 'grid' }}>
+                    <button type="button" onClick={handleSubmit} className="submit-button">
+                      Envíenos un mensaje
+                    </button>
+                  </div>
+
+                  <div className="form-note">
+                    <p className="form-note-text">
+                      Nos pondremos en contacto con usted en un plazo de 1 a 2 días laborables.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-info">
+                <div className="contact-item">
+                  <svg 
+                    className="contact-icon" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z"></path>
+                  </svg>
+                  <p className="contact-text">
+                    Póngase en contacto con nosotros...
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );
