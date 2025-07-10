@@ -11,6 +11,15 @@ import CalculadoraContent from './pages/Calculadora';
 import Services from './pages/Services';
 import MontajeDeMuebles from './pages/MontajeDeMuebles';
 import DisenoDeMuebles from './pages/DisenoDeMuebles';
+import InstalacionCocinasElectrodomesticos from './pages/InstalacionCocinasElectrodomesticos';
+import ReformasDeVivienda from './pages/ReformasDeVivienda';
+import Nosotros from './pages/Nosotros';
+import Blog from './pages/Blog';
+import TendenciasSuelosLaminados from './pages/blog/TendenciasSuelosLaminados';
+import EstilosCocinaDisenos from './pages/blog/EstilosCocinaDisenos';
+import InstalacionPuertasTarimaRodapies from './pages/InstalacionDePuertasTarimaFlotanteRodapies';
+import ServiciosDeAcabados from './pages/ServiciosDeAcabados';
+
 
 function App() {
   const { isDarkMode } = useTheme();
@@ -46,10 +55,23 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/montaje-de-muebles" element={<MontajeDeMuebles />} />
             <Route path="/services/diseno-de-muebles" element={<DisenoDeMuebles />} />
-            
-            {/* Other routes */}
-            <Route path="/nosotros" element={<div className="pt-32 min-h-screen flex items-center justify-center">About Page</div>} />
-            <Route path="/blog" element={<div className="pt-32 min-h-screen flex items-center justify-center">Blog Page</div>} />
+            <Route path="/services/intalacion-cocinas-electrodomesticos" element={<InstalacionCocinasElectrodomesticos />} />
+            <Route path="/services/reformas-de-vivienda" element={<ReformasDeVivienda />} />
+            <Route path="/services/reformas-de-vivienda" element={<ReformasDeVivienda />} />
+            <Route path="/services/instalacion-puertas-tarimaflotante-rodapies" element={<InstalacionPuertasTarimaRodapies />} />
+            <Route path="/services/servicios-de-acabados" element={<ServiciosDeAcabados />} />
+
+            {/* Esto es el About us page */}
+            <Route path="/nosotros" element={<Nosotros />} />
+
+            {/* Esto es el blog page */}
+            <Route path="/blog" element={<Blog />} />
+
+            {/* LOS BLOGS */}
+            <Route path="/blog/tendencia-suelos-laminados-tarimas-flotantes" element={<TendenciasSuelosLaminados />} />
+            <Route path="/blog/tendencias-suelos-laminados-tarimas-flotantes" element={<TendenciasSuelosLaminados />} />
+            <Route path="/blog/estilos-cocina-disenos-inspiran" element={<EstilosCocinaDisenos />} />
+
             
             {/* Calculadora route */}
             <Route path="/calculadora" element={<CalculadoraContent />} />
