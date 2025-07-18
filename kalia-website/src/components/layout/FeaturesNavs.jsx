@@ -15,7 +15,7 @@ const FeaturesNavs = ({ title, tabs }) => {
     {
       heading: "Diseños de muebles a medida", 
       svg: "design",
-      src: "/src/assets/images/muebles-diseno.jpg",
+      src: "/src/assets/images/muebles-disenio.jpg",
       alt: "Diseños de muebles a medida"
     },
     {

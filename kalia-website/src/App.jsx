@@ -19,6 +19,8 @@ import TendenciasSuelosLaminados from './pages/blog/TendenciasSuelosLaminados';
 import EstilosCocinaDisenos from './pages/blog/EstilosCocinaDisenos';
 import InstalacionPuertasTarimaRodapies from './pages/InstalacionDePuertasTarimaFlotanteRodapies';
 import ServiciosDeAcabados from './pages/ServiciosDeAcabados';
+import Contact from './pages/Contact';
+
 
 
 function App() {
@@ -60,6 +62,7 @@ function App() {
             <Route path="/services/reformas-de-vivienda" element={<ReformasDeVivienda />} />
             <Route path="/services/instalacion-puertas-tarimaflotante-rodapies" element={<InstalacionPuertasTarimaRodapies />} />
             <Route path="/services/servicios-de-acabados" element={<ServiciosDeAcabados />} />
+            
 
             {/* Esto es el About us page */}
             <Route path="/nosotros" element={<Nosotros />} />
@@ -71,6 +74,10 @@ function App() {
             <Route path="/blog/tendencia-suelos-laminados-tarimas-flotantes" element={<TendenciasSuelosLaminados />} />
             <Route path="/blog/tendencias-suelos-laminados-tarimas-flotantes" element={<TendenciasSuelosLaminados />} />
             <Route path="/blog/estilos-cocina-disenos-inspiran" element={<EstilosCocinaDisenos />} />
+
+            <Route path="/contact" element={<Contact />} />
+
+          
 
             
             {/* Calculadora route */}

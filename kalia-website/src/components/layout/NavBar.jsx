@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 
 const Navbar = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -17,6 +18,12 @@ const Navbar = () => {
   const toggleServicesMenu = () => {
     setServicesMenuOpen(!servicesMenuOpen);
   };
+
+  // Close menus when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setServicesMenuOpen(false);
+  }, [location]);
 
   const styles = {
     header: {
@@ -107,7 +114,9 @@ const Navbar = () => {
     dropdownItem: {
       display: 'block',
       padding: '0.5rem 1rem',
-      fontSize: '0.875rem',
+      fontSize: '0.875rem', // Made consistent with navLink fontSize
+      fontWeight: 500, // Added to match navLink fontWeight
+      fontFamily: 'Poppins, sans-serif', // Added to match navLink fontFamily
       color: isDarkMode ? '#D1D5DB' : '#374151',
       textDecoration: 'none',
       transition: 'background-color 0.2s ease'
@@ -180,6 +189,7 @@ const Navbar = () => {
       borderRadius: '0.5rem',
       fontFamily: 'Poppins, sans-serif',
       fontWeight: 500,
+      fontSize: '0.95rem', // Added to match mobileNavLink fontSize
       cursor: 'pointer',
       transition: 'background-color 0.3s ease'
     },
@@ -197,6 +207,8 @@ const Navbar = () => {
       padding: '0.5rem 1rem',
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
+      fontWeight: 500, // Added to match desktop consistency
+      fontFamily: 'Poppins, sans-serif', // Added for consistency
       color: isDarkMode ? '#D1D5DB' : '#374151',
       marginLeft: '1rem',
       textDecoration: 'none',
@@ -210,10 +222,17 @@ const Navbar = () => {
       const navbar = document.getElementById('navbar');
       const isMenuButton = event.target.closest('#mobile-menu-button');
       const isMenuContent = event.target.closest('#mobile-menu');
+      const isServicesDropdown = event.target.closest('.services-group');
       
       if (mobileMenuOpen && !isMenuButton && !isMenuContent && navbar && !navbar.contains(event.target)) {
         setMobileMenuOpen(false);
         setServicesMenuOpen(false);
+      }
+      
+      // Close desktop dropdown when clicking outside
+      if (!isServicesDropdown) {
+        // We don't set any desktop dropdown state here since we use CSS :hover
+        // But we can handle mobile menu closing
       }
     };
 
@@ -249,6 +268,7 @@ const Navbar = () => {
       }
       .dropdown-item:hover {
         background-color: ${isDarkMode ? '#4B5563' : '#F3F4F6'} !important;
+        color: #FFD000 !important;
       }
       .theme-button:hover {
         background-color: ${isDarkMode ? '#374151' : '#E5E7EB'} !important;
@@ -266,6 +286,7 @@ const Navbar = () => {
       }
       .mobile-submenu-item:hover {
         background-color: ${isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#F9FAFB'} !important;
+        color: #FFD000 !important;
       }
       @media (min-width: 768px) {
         .desktop-nav {
@@ -273,6 +294,11 @@ const Navbar = () => {
         }
         .mobile-menu-button {
           display: none !important;
+        }
+      }
+      @media (max-width: 767px) {
+        .logo-container-mobile {
+          margin-left: -2.5rem !important;
         }
       }
     `;
@@ -293,7 +319,7 @@ const Navbar = () => {
       <div style={styles.navbarContainer}>
         <div style={styles.navbarBg}>
           {/* Logo */}
-          <div style={styles.logoContainer}>
+          <div style={styles.logoContainer} className="logo-container-mobile">
             <Link to="/" style={styles.logoLink} aria-label="Kalia Reformas y Decoración">
               <div style={{ flexShrink: 0, padding: '1rem 0' }}>
                 <img 
@@ -313,12 +339,12 @@ const Navbar = () => {
               
               {/* Services dropdown menu */}
               <div style={styles.servicesDropdown} className="services-group">
-                <Link to="/services" style={{...styles.navLink, display: 'flex', alignItems: 'center'}} className="nav-link">
+                <span style={{...styles.navLink, display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="nav-link">
                   Servicios
                   <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1rem', width: '1rem', marginLeft: '0.25rem', transition: 'transform 0.3s ease' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
-                </Link>
+                </span>
                 <div style={styles.dropdownMenu} className="dropdown-menu">
                   <div style={{ padding: '0.25rem', borderRadius: '0.375rem', backgroundColor: isDarkMode ? '#374151' : '#ffffff' }}>
                     <Link to="/services/montaje-de-muebles" style={styles.dropdownItem} className="dropdown-item">

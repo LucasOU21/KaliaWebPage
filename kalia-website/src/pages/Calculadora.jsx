@@ -1,6 +1,22 @@
-// src/pages/Calculadora.jsx - Styled to match the design
 import React, { useState, useEffect } from 'react';
-import SecualOptions from '/src/components/ui/forms/SecualOption';
+
+// SecualOptions component
+const SecualOptions = ({ options }) => {
+  return (
+    <>
+      {options && options.map((o, index) => (
+        <option 
+          key={index}
+          value={o.precio} 
+          data-nombre={o.id} 
+          data-unidad={o.tipoUnidad}
+        >
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{o.nombre}
+        </option>
+      ))}
+    </>
+  );
+};
 
 const CalculadoraContent = () => {
   // State management
@@ -17,7 +33,7 @@ const CalculadoraContent = () => {
     email: ''
   });
 
-  // Data structure - exact copy from Astro
+  // Data structure
   const tipoInstalacion = [
     {
       id: "estandar",
@@ -144,11 +160,16 @@ const CalculadoraContent = () => {
     };
 
     setProductList(prev => [...prev, newProduct]);
-    setProductQuantities(prev => ({ ...prev, [nombre]: 0 }));
+    setProductQuantities(prev => ({ ...prev, [nombre]: '' }));
   };
 
   // Handle quantity change
   const handleQuantityChange = (productId, newQuantity) => {
+    // Allow empty string so users can clear the input
+    if (newQuantity === '') {
+      setProductQuantities(prev => ({ ...prev, [productId]: '' }));
+      return;
+    }
     const quantity = Math.max(0, parseFloat(newQuantity) || 0);
     setProductQuantities(prev => ({ ...prev, [productId]: quantity }));
   };
@@ -156,7 +177,8 @@ const CalculadoraContent = () => {
   // Calculate total
   const updateTotal = () => {
     const total = productList.reduce((sum, product) => {
-      const quantity = productQuantities[product.id] || 0;
+      // Handle empty string as 0 for calculation
+      const quantity = productQuantities[product.id] === '' ? 0 : (productQuantities[product.id] || 0);
       return sum + (product.precio * quantity);
     }, 0);
     setTotalPrice(total);
@@ -243,10 +265,8 @@ const CalculadoraContent = () => {
   return (
     <>
       <style jsx>{`
-        /* Import Google fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
-        /* Hide spin buttons on number inputs */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -257,7 +277,6 @@ const CalculadoraContent = () => {
           -moz-appearance: textfield;
         }
 
-        /* Main container styling */
         .calc-container {
           min-height: 100vh;
           background: linear-gradient(135deg, #F8F1E7 0%, #F0E8D8 100%);
@@ -265,7 +284,6 @@ const CalculadoraContent = () => {
           padding: 8rem 1rem 2rem 1rem;
         }
 
-        /* Title styling */
         .calc-title {
           font-size: 2.5rem;
           font-weight: 600;
@@ -275,14 +293,16 @@ const CalculadoraContent = () => {
           font-family: 'Poppins', sans-serif;
         }
 
-        /* Progress bar container */
         .progress-container {
+          width: 100%;
           max-width: 600px;
-          margin: 0 auto 4rem auto;
+          margin: 0 auto 3rem auto;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: space-between;
           position: relative;
+          padding: 0 1rem;
+          overflow: visible;
         }
 
         .progress-step {
@@ -291,19 +311,22 @@ const CalculadoraContent = () => {
           align-items: center;
           z-index: 2;
           background: #F8F1E7;
-          padding: 0.5rem;
-          border-radius: 1rem;
+          padding: 0.5rem 0.25rem;
+          border-radius: 0.75rem;
+          flex: 1;
+          max-width: 33.333%;
+          min-width: 0;
         }
 
         .step-circle {
-          width: 3rem;
-          height: 3rem;
+          width: 2.5rem;
+          height: 2.5rem;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 600;
-          font-size: 1.1rem;
+          font-size: 1rem;
           margin-bottom: 0.5rem;
           transition: all 0.3s ease;
         }
@@ -321,22 +344,29 @@ const CalculadoraContent = () => {
 
         .step-label {
           font-weight: 500;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           color: #2C3E50;
           text-align: center;
+          word-wrap: break-word;
+          line-height: 1.2;
+          width: 100%;
+          overflow-wrap: break-word;
+          hyphens: auto;
         }
 
         .step-status {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           color: #7F8C8D;
           margin-top: 0.25rem;
+          text-align: center;
+          width: 100%;
         }
 
         .progress-line {
           position: absolute;
-          top: 1.5rem;
-          left: 3rem;
-          right: 3rem;
+          top: 1.75rem;
+          left: 16.666%;
+          right: 16.666%;
           height: 3px;
           background: #BDC3C7;
           z-index: 1;
@@ -349,7 +379,6 @@ const CalculadoraContent = () => {
           border-radius: 2px;
         }
 
-        /* Category cards */
         .category-container {
           max-width: 900px;
           margin: 0 auto;
@@ -415,7 +444,6 @@ const CalculadoraContent = () => {
           flex-shrink: 0;
         }
 
-        /* Product selection */
         .product-selection {
           max-width: 600px;
           margin: 0 auto 2rem auto;
@@ -451,7 +479,6 @@ const CalculadoraContent = () => {
           box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
         }
 
-        /* Product list */
         .product-list-container {
           max-width: 600px;
           margin: 0 auto;
@@ -483,29 +510,48 @@ const CalculadoraContent = () => {
           padding: 1.5rem 0;
           border-bottom: 1px solid #F1F2F6;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 1rem;
+          position: relative;
         }
 
         .product-info {
           flex: 1;
+          min-width: 0;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         .product-name {
           font-weight: 500;
           color: #2C3E50;
           margin-bottom: 0.25rem;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          hyphens: auto;
+          line-height: 1.3;
         }
 
         .product-price {
           font-size: 0.9rem;
           color: #7F8C8D;
+          word-wrap: break-word;
+        }
+
+        .product-controls {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 0.5rem;
+          flex-shrink: 0;
+          min-width: fit-content;
         }
 
         .quantity-control {
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          flex-shrink: 0;
         }
 
         .quantity-btn {
@@ -519,6 +565,7 @@ const CalculadoraContent = () => {
           justify-content: center;
           cursor: pointer;
           transition: all 0.3s ease;
+          flex-shrink: 0;
         }
 
         .quantity-btn:hover {
@@ -534,6 +581,7 @@ const CalculadoraContent = () => {
           border: 1px solid #E8E8E8;
           border-radius: 0.5rem;
           background: white;
+          flex-shrink: 0;
         }
 
         .delete-btn {
@@ -542,6 +590,14 @@ const CalculadoraContent = () => {
           border-radius: 0.5rem;
           transition: all 0.3s ease;
           cursor: pointer;
+          background: none;
+          border: none;
+          flex-shrink: 0;
+          width: 2.5rem;
+          height: 2.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .delete-btn:hover {
@@ -568,7 +624,6 @@ const CalculadoraContent = () => {
           font-size: 1.5rem;
         }
 
-        /* Form styling */
         .contact-form {
           max-width: 500px;
           margin: 0 auto;
@@ -619,7 +674,6 @@ const CalculadoraContent = () => {
           gap: 1rem;
         }
 
-        /* Buttons */
         .btn {
           padding: 0.875rem 2rem;
           border-radius: 0.75rem;
@@ -658,7 +712,6 @@ const CalculadoraContent = () => {
           margin-top: 2rem;
         }
 
-        /* Success message */
         .success-message {
           max-width: 500px;
           margin: 0 auto;
@@ -682,25 +735,112 @@ const CalculadoraContent = () => {
           color: #2C3E50;
         }
 
-        /* Responsive design */
         @media (max-width: 768px) {
           .calc-title {
             font-size: 2rem;
           }
           
           .category-container {
-            flex-direction: column;
-            gap: 1rem;
+            flex-direction: row;
+            gap: 0.75rem;
+            padding: 0 0.5rem;
+            justify-content: center;
           }
           
           .category-card {
-            min-width: auto;
-            max-width: none;
+            min-width: 140px;
+            max-width: 180px;
+            flex: 1;
+            padding: 1rem;
+            border-radius: 1rem;
+          }
+
+          .category-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0 auto 1rem auto;
+          }
+
+          .category-title {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+          }
+
+          .benefit-item {
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
           }
           
           .progress-container {
             max-width: 100%;
-            padding: 0 1rem;
+            padding: 0 0.5rem;
+            margin-bottom: 2.5rem;
+          }
+
+          .progress-step {
+            flex: 1;
+            min-width: 0;
+            max-width: 100px;
+            padding: 0.25rem;
+          }
+
+          .step-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.375rem;
+          }
+
+          .step-label {
+            font-size: 0.75rem;
+            line-height: 1.1;
+            word-break: break-word;
+            hyphens: auto;
+          }
+
+          .step-status {
+            font-size: 0.65rem;
+            margin-top: 0.125rem;
+          }
+
+          .progress-line {
+            left: 20%;
+            right: 20%;
+            top: 1.25rem;
+          }
+          
+          .product-item {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 0;
+          }
+
+          .product-info {
+            flex: 1;
+            min-width: 0;
+          }
+
+          .product-name {
+            font-size: 0.9rem;
+            line-height: 1.3;
+          }
+
+          .product-controls {
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            min-width: fit-content;
+          }
+
+          .quantity-control {
+            flex-shrink: 0;
+          }
+
+          .delete-btn {
+            flex-shrink: 0;
           }
           
           .form-grid {
@@ -714,13 +854,108 @@ const CalculadoraContent = () => {
           .btn {
             width: 100%;
           }
+
+          .product-selection {
+            padding: 1.5rem;
+          }
+
+          .product-list-container {
+            padding: 1.5rem;
+          }
+
+          .contact-form {
+            padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .category-container {
+            gap: 0.5rem;
+            padding: 0 0.25rem;
+          }
+
+          .category-card {
+            min-width: 130px;
+            max-width: 160px;
+            padding: 0.875rem;
+          }
+
+          .category-icon {
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .category-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .benefit-item {
+            font-size: 0.7rem;
+            line-height: 1.3;
+          }
+
+          .calc-title {
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+          }
+
+          .quantity-btn {
+            width: 2rem;
+            height: 2rem;
+          }
+
+          .quantity-input {
+            width: 3rem;
+            height: 2rem;
+          }
+
+          .delete-btn {
+            width: 2rem;
+            height: 2rem;
+          }
+
+          .progress-container {
+            margin-bottom: 2rem;
+            padding: 0 0.25rem;
+          }
+
+          .progress-step {
+            max-width: 80px;
+            padding: 0.125rem;
+          }
+
+          .step-circle {
+            width: 2rem;
+            height: 2rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+          }
+
+          .step-label {
+            font-size: 0.65rem;
+            line-height: 1;
+          }
+
+          .step-status {
+            font-size: 0.6rem;
+            margin-top: 0.125rem;
+          }
+
+          .progress-line {
+            left: 18%;
+            right: 18%;
+            top: 1rem;
+            height: 2px;
+          }
         }
       `}</style>
 
       <div className="calc-container">
         <h1 className="calc-title">Calculadora para tus Presupuestos</h1>
         
-        {/* Progress Bar */}
+        {/* Progress Bar - ALL THREE STEPS */}
         <div className="progress-container">
           <div className="progress-line">
             <div 
@@ -766,7 +1001,6 @@ const CalculadoraContent = () => {
                 <div className="category-icon">
                   {categoria.svg === "estandar" && (
                     <svg
-                      className="mx-auto text-[#daa520] dark:text-[#daa520]"
                       xmlns="http://www.w3.org/2000/svg"
                       width="48"
                       height="48"
@@ -784,7 +1018,6 @@ const CalculadoraContent = () => {
                   )}
                   {categoria.svg === "premium" && (
                     <svg
-                      className="mx-auto text-[#daa520] dark:text-[#daa520]"
                       xmlns="http://www.w3.org/2000/svg"
                       width="48"
                       height="48"
@@ -881,58 +1114,60 @@ const CalculadoraContent = () => {
                       </div>
                     </div>
                     
-                    <div className="quantity-control">
-                      {product.tipoUnidad === "unidad" ? (
-                        <>
-                          <button
-                            type="button"
-                            onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) - 1)}
-                            className="quantity-btn"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                          </button>
+                    <div className="product-controls">
+                      <div className="quantity-control">
+                        {product.tipoUnidad === "unidad" ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) - 1)}
+                              className="quantity-btn"
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <input
+                              type="number"
+                              value={productQuantities[product.id] || 0}
+                              readOnly
+                              className="quantity-input"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) + 1)}
+                              className="quantity-btn"
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </>
+                        ) : (
                           <input
                             type="number"
-                            value={productQuantities[product.id] || 0}
-                            readOnly
+                            value={productQuantities[product.id] === '' ? '' : (productQuantities[product.id] || '')}
+                            min="0"
+                            step="any"
+                            onChange={(e) => handleQuantityChange(product.id, e.target.value)}
                             className="quantity-input"
+                            placeholder="0.0"
                           />
-                          <button
-                            type="button"
-                            onClick={() => handleQuantityChange(product.id, (productQuantities[product.id] || 0) + 1)}
-                            className="quantity-btn"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <line x1="12" y1="5" x2="12" y2="19"></line>
-                              <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                          </button>
-                        </>
-                      ) : (
-                        <input
-                          type="number"
-                          value={productQuantities[product.id] || 0}
-                          min="0"
-                          step="any"
-                          onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                          className="quantity-input"
-                          placeholder="0.0"
-                        />
-                      )}
+                        )}
+                      </div>
+                      
+                      <button 
+                        type="button" 
+                        onClick={() => removeProduct(product.id)}
+                        className="delete-btn"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                      </button>
                     </div>
-                    
-                    <button 
-                      type="button" 
-                      onClick={() => removeProduct(product.id)}
-                      className="delete-btn"
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
                   </div>
                 ))}
 

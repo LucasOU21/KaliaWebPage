@@ -1,4 +1,4 @@
-// src/components/layout/FeaturesGeneral.jsx - Updated to use actual features data
+// src/components/layout/FeaturesGeneral.jsx - Your working code with dark mode added
 import React from 'react';
 
 // Icon components with proper sizing
@@ -75,6 +75,42 @@ const FeaturesGeneral = ({
   src, 
   alt 
 }) => {
+  //Check if we're in dark mode by looking for the dark class on a parent element
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkDarkMode = () => {
+      const htmlElement = document.documentElement;
+      const bodyElement = document.body;
+      const appElement = document.querySelector('.app-container');
+      
+      const hasDarkClass = htmlElement.classList.contains('dark') || 
+                          bodyElement.classList.contains('dark') ||
+                          appElement?.classList.contains('dark') ||
+                          document.querySelector('.dark') !== null;
+      
+      setIsDarkMode(hasDarkClass);
+    };
+
+    // Check initially
+    checkDarkMode();
+
+    // Create observer to watch for class changes
+    const observer = new MutationObserver(checkDarkMode);
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   // Your actual features data from features.json
   const actualFeatures = [
     {
@@ -121,12 +157,13 @@ const FeaturesGeneral = ({
   const firstRowFeatures = filteredFeatures.slice(0, 3);
   const secondRowFeatures = filteredFeatures.slice(3, 6);
 
-  // Inline styles for better control
+  // Inline styles for better control - with dark mode support
   const styles = {
     container: {
       position: 'relative',
-      backgroundColor: 'white',
-      width: '100%'
+      backgroundColor: isDarkMode ? '#374151' : 'white',
+      width: '100%',
+      transition: 'background-color 0.3s ease'
     },
     section: {
       maxWidth: '85rem',
@@ -140,18 +177,20 @@ const FeaturesGeneral = ({
     title: {
       fontSize: '2rem',
       fontWeight: 'bold',
-      color: '#000000',
+      color: isDarkMode ? '#F8F1E7' : '#000000',
       fontFamily: 'Georgia, serif',
       marginBottom: '1rem',
-      lineHeight: '1.2'
+      lineHeight: '1.2',
+      transition: 'color 0.3s ease'
     },
     subtitle: {
       fontSize: '1.125rem',
-      color: '#000000',
+      color: isDarkMode ? '#D1D5DB' : '#000000',
       fontFamily: 'Poppins, sans-serif',
       maxWidth: '42rem',
       margin: '0 auto',
-      lineHeight: '1.6'
+      lineHeight: '1.6',
+      transition: 'color 0.3s ease'
     },
     grid: {
       display: 'grid',
@@ -162,13 +201,13 @@ const FeaturesGeneral = ({
       margin: '0 auto 2rem auto'
     },
     card: {
-      backgroundColor: '#F8F1E7',
-      border: '1px solid #e5e7eb',
+      backgroundColor: isDarkMode ? '#4B5563' : '#F8F1E7',
+      border: `1px solid ${isDarkMode ? '#6B7280' : '#e5e7eb'}`,
       borderRadius: '0.75rem',
       padding: '1.5rem',
       transition: 'all 0.3s ease',
       cursor: 'pointer',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+      boxShadow: isDarkMode ? '0 1px 3px rgba(0, 0, 0, 0.3)' : '0 1px 3px rgba(0, 0, 0, 0.1)'
     },
     iconContainer: {
       display: 'inline-flex',
@@ -176,23 +215,26 @@ const FeaturesGeneral = ({
       justifyContent: 'center',
       width: '3rem',
       height: '3rem',
-      backgroundColor: 'rgba(255, 208, 0, 0.2)',
+      backgroundColor: isDarkMode ? 'rgba(255, 208, 0, 0.3)' : 'rgba(255, 208, 0, 0.2)',
       color: '#FFD000',
       borderRadius: '0.5rem',
-      marginBottom: '1rem'
+      marginBottom: '1rem',
+      transition: 'background-color 0.3s ease'
     },
     cardTitle: {
       fontSize: '1.125rem',
       fontWeight: '600',
-      color: '#000000',
+      color: isDarkMode ? '#F8F1E7' : '#000000',
       fontFamily: 'Georgia, serif',
-      marginBottom: '0.5rem'
+      marginBottom: '0.5rem',
+      transition: 'color 0.3s ease'
     },
     cardContent: {
       fontSize: '0.875rem',
-      color: '#000000',
+      color: isDarkMode ? '#D1D5DB' : '#000000',
       fontFamily: 'Poppins, sans-serif',
-      lineHeight: '1.5'
+      lineHeight: '1.5',
+      transition: 'color 0.3s ease'
     },
     image: {
       width: '100%',
@@ -212,39 +254,39 @@ const FeaturesGeneral = ({
         @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
         
         .feature-card:hover {
-          border-color: #FFD000;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border-color: #FFD000 !important;
+          box-shadow: ${isDarkMode ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.15)'} !important;
           transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
           .grid-responsive {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
           }
           
           .section-responsive {
-            padding: 1rem 0.5rem;
+            padding: 1rem 0.5rem !important;
           }
           
           .title-responsive {
-            font-size: 1.5rem;
+            font-size: 1.5rem !important;
           }
           
           .subtitle-responsive {
-            font-size: 1rem;
+            font-size: 1rem !important;
           }
         }
         
         @media (min-width: 769px) and (max-width: 1024px) {
           .grid-responsive {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
         
         @media (min-width: 1025px) {
           .grid-responsive {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr) !important;
           }
         }
       `}</style>
