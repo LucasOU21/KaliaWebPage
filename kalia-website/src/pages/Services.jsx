@@ -15,49 +15,49 @@ const Services = () => {
     {
       id: 'montaje-de-muebles',
       title: 'Montaje de Muebles',
-      image: '/src/assets/images/montaje-muebles-main.jpg',
+      image: '/images/montaje-muebles-main.jpg',
       alt: 'Servicio Profesional de Montaje de Muebles | Precisión y Garantía',
       cardType: 'small'
     },
     {
       id: 'diseno-de-muebles',
       title: 'Diseño de Muebles',
-      image: '/src/assets/images/realEstanteria1.jpg',
+      image: '/images/realEstanteria1.jpg',
       alt: 'Servicio Profesional de Diseños de Muebles a Medida',
       cardType: 'wide'
     },
     {
       id: 'intalacion-cocinas-electrodomesticos',
       title: 'Instalación de Cocinas y Electrodomésticos',
-      image: '/src/assets/images/realKitchen1.jpg',
+      image: '/images/realKitchen1.jpg',
       alt: 'Instalación de Cocinas y Electrodomésticos',
       cardType: 'wide'
     },
     {
       id: 'reformas-de-vivienda',
       title: 'Reformas de Vivienda',
-      image: '/src/assets/images/reformas-vivienda2.jpg',
+      image: '/images/reformas-vivienda2.jpg',
       alt: 'Reformas de Vivienda',
       cardType: 'small'
     },
     {
       id: 'instalacion-puertas-tarimaflotante-rodapies',
       title: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
-      image: '/src/assets/images/puertas-tarima-rodapies-main.jpg',
+      image: '/images/puertas-tarima-rodapies-main.jpg',
       alt: 'Instalación de Puertas, Tarima Flotante y Rodapiés',
       cardType: 'small'
     },
     {
       id: 'servicios-de-acabados',
       title: 'Servicios de Acabados',
-      image: '/src/assets/images/acabados-main.jpg',
+      image: '/images/acabados-main.jpg',
       alt: 'Servicios de Acabados',
       cardType: 'wide'
     },
     {
       id: 'manitas',
       title: 'Manitas',
-      image: '/src/assets/images/manitas-main.jpg',
+      image: '/images/manitas-main.jpg',
       alt: 'Servicio Profesional de Manitas',
       cardType: 'wide'
     }

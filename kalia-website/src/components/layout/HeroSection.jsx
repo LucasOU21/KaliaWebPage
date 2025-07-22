@@ -396,7 +396,7 @@ const HeroSection = () => {
       </div>
       
       <div className="hero-image-side">
-        <img src="/src/assets/images/HeroImg1.jpg" alt="Kalia Reformas interior design" className="hero-image-full" />
+        <img src="/images/HeroImg1.jpg" alt="Kalia Reformas interior design" className="hero-image-full" />
       </div>
     </section>
   );

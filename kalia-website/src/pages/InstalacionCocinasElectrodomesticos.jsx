@@ -16,37 +16,37 @@ const InstalacionCocinasElectrodomesticos = () => {
   // Images data for the gallery
   const galleryImages = [
     {
-      src: '/src/assets/images/muebles-altos.jpg',
+      src: '/images/muebles-altos.jpg',
       alt: 'Muebles altos',
       title: 'Muebles altos'
     },
     {
-      src: '/src/assets/images/muebles-bajo-cocina.jpg',
+      src: '/images/muebles-bajo-cocina.jpg',
       alt: 'Muebles bajos',
       title: 'Muebles bajos'
     },
     {
-      src: '/src/assets/images/columna-electro.jpg',
+      src: '/images/columna-electro.jpg',
       alt: 'Columnas',
       title: 'Columnas'
     },
     {
-      src: '/src/assets/images/disenio-cocina.jpg',
+      src: '/images/disenio-cocina.jpg',
       alt: 'Diseño de cocina',
       title: 'Diseño de cocina'
     },
     {
-      src: '/src/assets/images/electro-panelados.jpg',
+      src: '/images/electro-panelados.jpg',
       alt: 'Electrodomésticos panelados',
       title: 'Electrodomésticos panelados'
     },
     {
-      src: '/src/assets/images/campana-extractora.jpg',
+      src: '/images/campana-extractora.jpg',
       alt: 'Campana extractora',
       title: 'Campana extractora'
     },
     {
-      src: '/src/assets/images/encimeras.jpg',
+      src: '/images/encimeras.jpg',
       alt: 'Encimera',
       title: 'Encimera'
     }
@@ -723,7 +723,7 @@ const InstalacionCocinasElectrodomesticos = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/realKitchen1.jpg"
+                src="/images/realKitchen1.jpg"
                 alt="Instalación de Cocinas y Electrodomésticos"
                 className="hero-image"
                 loading="eager"

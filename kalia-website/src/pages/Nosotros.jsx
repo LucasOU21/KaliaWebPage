@@ -705,14 +705,14 @@ const Nosotros = () => {
               </div>
               <div className="image-grid">
                 <img 
-                  src="/src/assets/images/porque-elegirnos-1.jpg" 
+                  src="/images/porque-elegirnos-1.jpg" 
                   alt="Cocina blanca con muebles de estilo moderno" 
                   className="grid-image"
                   draggable="false"
                   loading="lazy"
                 />
                 <img 
-                  src="/src/assets/images/porque-elegirnos-2.jpg" 
+                  src="/images/porque-elegirnos-2.jpg" 
                   alt="Baño con muebles de estilo moderno" 
                   className="grid-image offset"
                   draggable="false"
@@ -726,7 +726,7 @@ const Nosotros = () => {
           <section className="section">
             <div className="content-container">
               <img 
-                src="/src/assets/images/experiencia-profesionalismo.jpg" 
+                src="/images/experiencia-profesionalismo.jpg" 
                 alt="experiencia y profesionalismo" 
                 className="single-image"
                 draggable="false"
@@ -756,14 +756,14 @@ const Nosotros = () => {
               </div>
               <div className="image-grid">
                 <img 
-                  src="/src/assets/images/soluciones-personalizadas-1.png" 
+                  src="/images/soluciones-personalizadas-1.png" 
                   alt="Soluciones personalizadas y un servicio integral - imagen 1" 
                   className="grid-image"
                   draggable="false"
                   loading="lazy"
                 />
                 <img 
-                  src="/src/assets/images/soluciones-personalizadas-3.png" 
+                  src="/images/soluciones-personalizadas-3.png" 
                   alt="Soluciones personalizadas y un servicio integral - imagen 2" 
                   className="grid-image offset"
                   draggable="false"

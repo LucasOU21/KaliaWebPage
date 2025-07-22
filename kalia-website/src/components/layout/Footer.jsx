@@ -355,13 +355,13 @@ const Footer = () => {
                 className="mobile-spacing"
               >
                 <img 
-                  src="/src/assets/images/logos/KaliaLogo-300x300.png" 
+                  src="/images/logos/KaliaLogo-300x300.png" 
                   alt="Kalia Logo" 
                   className="dark-hidden responsive-logo"
                   style={isMobile ? styles.logo : styles.logoMd}
                 />
                 <img 
-                  src="/src/assets/images/logos/KaliaLogo300x300Dark.png" 
+                  src="/images/logos/KaliaLogo300x300Dark.png" 
                   alt="Kalia Logo" 
                   className="dark-block responsive-logo-hidden"
                   style={isMobile ? styles.logoHidden : styles.logoHiddenMd}

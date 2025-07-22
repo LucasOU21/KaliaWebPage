@@ -42,7 +42,7 @@ function App() {
                 <FeaturesGeneral
                   title="Diseño y Calidad para su Hogar"
                   subTitle="En Kalia Reformas y Decoración transformamos espacios en hogares que reflejan su estilo personal. Nuestro compromiso con la excelencia y atención al detalle nos distingue como líderes en reformas de cocina, montaje de muebles y servicios integrales de decoración."
-                  src="/src/assets/images/features-image.png"
+                  src="/images/features-image.png"
                   alt="Kalia reformas y decoración, tu mejor elección"
                 />
 

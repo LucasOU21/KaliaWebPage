@@ -404,7 +404,7 @@ const EstilosCocinaDisenos = () => {
               <div className="author-info">
                 {/* Avatar with Klinger image */}
                 <div className="author-avatar">
-                  <img src="/src/assets/images/blog/Klinger.jpg" alt="Klinger Mallqui" />
+                  <img src="/images/blog/Klinger.jpg" alt="Klinger Mallqui" />
                 </div>
                 <div className="author-details">
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
@@ -428,7 +428,7 @@ const EstilosCocinaDisenos = () => {
             {/* Featured image */}
             <div className="featured-image">
               <img 
-                src="/src/assets/images/blog/post-2.jpg" 
+                src="/images/blog/post-2.jpg" 
                 alt="Principales Estilos de Cocina: Diseños que Inspiran"
                 draggable="false"
               />
@@ -561,7 +561,7 @@ const EstilosCocinaDisenos = () => {
             <Link to="/blog/tendencias-suelos-laminados-tarimas-flotantes" className="related-card">
               <div className="related-image">
                 <img 
-                  src="/src/assets/images/blog/post-3.jpg" 
+                  src="/images/blog/post-3.jpg" 
                   alt="Tendencias en Suelos Laminados y Tarimas Flotantes: Elegancia y Funcionalidad para Tu Hogar"
                   draggable="false"
                 />

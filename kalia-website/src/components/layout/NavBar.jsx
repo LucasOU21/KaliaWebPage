@@ -323,7 +323,7 @@ const Navbar = () => {
             <Link to="/" style={styles.logoLink} aria-label="Kalia Reformas y Decoración">
               <div style={{ flexShrink: 0, padding: '1rem 0' }}>
                 <img 
-                  src={isDarkMode ? "/src/assets/images/logos/KaliaLogo300x300Dark.png" : "/src/assets/images/logos/KaliaLogo-300x300.png"}
+                  src={isDarkMode ? "/images/logos/KaliaLogo300x300Dark.png" : "/images/logos/KaliaLogo-300x300.png"}
                   alt="Kalia Logo" 
                   style={styles.logoImage}
                 />

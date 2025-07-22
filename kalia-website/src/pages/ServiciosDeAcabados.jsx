@@ -16,27 +16,27 @@ const ServiciosDeAcabados = () => {
   // Images data for the gallery - matching the Astro implementation exactly
   const galleryImages = [
     {
-      src: '/src/assets/images/acabados-galery1.jpg',
+      src: '/images/acabados-galery1.jpg',
       alt: 'Acabados Gallery 1',
       title: ''
     },
     {
-      src: '/src/assets/images/acabados-galery2.jpg',
+      src: '/images/acabados-galery2.jpg',
       alt: 'Acabados Gallery 2',
       title: ''
     },
     {
-      src: '/src/assets/images/acabados-galery3.jpg',
+      src: '/images/acabados-galery3.jpg',
       alt: 'Acabados Gallery 3',
       title: ''
     },
     {
-      src: '/src/assets/images/acabados-galery4.jpg',
+      src: '/images/acabados-galery4.jpg',
       alt: 'Acabados Gallery 4',
       title: ''
     },
     {
-      src: '/src/assets/images/acabados-galery5.jpg',
+      src: '/images/acabados-galery5.jpg',
       alt: 'Acabados Gallery 5',
       title: ''
     }
@@ -726,7 +726,7 @@ const ServiciosDeAcabados = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/acabados-main.jpg"
+                src="/images/acabados-main.jpg"
                 alt="Servicios de Acabados"
                 className="hero-image"
                 loading="eager"

@@ -16,82 +16,82 @@ const MontajeDeMuebles = () => {
   // Images data for the gallery
   const galleryImages = [
     {
-      src: '/src/assets/images/armario.jpg',
+      src: '/images/armario.jpg',
       alt: 'Armario',
       title: 'Armario'
     },
     {
-      src: '/src/assets/images/armario-puertas-corredizas.jpg',
+      src: '/images/armario-puertas-corredizas.jpg',
       alt: 'Armario con puertas corredizas',
       title: 'Armario con puertas corredizas'
     },
     {
-      src: '/src/assets/images/cama-cajoneras.jpg',
+      src: '/images/cama-cajoneras.jpg',
       alt: 'Cama cajonera',
       title: 'Cama cajonera'
     },
     {
-      src: '/src/assets/images/cama-nido.jpg',
+      src: '/images/cama-nido.jpg',
       alt: 'Cama nido',
       title: 'Cama nido'
     },
     {
-      src: '/src/assets/images/cama-somier.jpg',
+      src: '/images/cama-somier.jpg',
       alt: 'Cama somier',
       title: 'Cama somier'
     },
     {
-      src: '/src/assets/images/canape.jpg',
+      src: '/images/canape.jpg',
       alt: 'Canapé',
       title: 'Canapé'
     },
     {
-      src: '/src/assets/images/comoda.jpg',
+      src: '/images/comoda.jpg',
       alt: 'Cómoda',
       title: 'Cómoda'
     },
     {
-      src: '/src/assets/images/litera-armario.jpg',
+      src: '/images/litera-armario.jpg',
       alt: 'Litera armario',
       title: 'Litera armario'
     },
     {
-      src: '/src/assets/images/litera-cajonera-armario.jpg',
+      src: '/images/litera-cajonera-armario.jpg',
       alt: 'Litera cajonera armario',
       title: 'Litera cajonera armario'
     },
     {
-      src: '/src/assets/images/litera-simple.jpg',
+      src: '/images/litera-simple.jpg',
       alt: 'Litera simple',
       title: 'Litera simple'
     },
     {
-      src: '/src/assets/images/mesita-de-noche.jpg',
+      src: '/images/mesita-de-noche.jpg',
       alt: 'Mesita de noche',
       title: 'Mesita de noche'
     },
     {
-      src: '/src/assets/images/mueble-de-banio.jpg',
+      src: '/images/mueble-de-banio.jpg',
       alt: 'Mueble de baño',
       title: 'Mueble de baño'
     },
     {
-      src: '/src/assets/images/repisa.jpg',
+      src: '/images/repisa.jpg',
       alt: 'Repisa',
       title: 'Repisa'
     },
     {
-      src: '/src/assets/images/sofa-baul.jpg',
+      src: '/images/sofa-baul.jpg',
       alt: 'Sofá baúl',
       title: 'Sofá baúl'
     },
     {
-      src: '/src/assets/images/sofa-cama.jpg',
+      src: '/images/sofa-cama.jpg',
       alt: 'Sofá cama',
       title: 'Sofá cama'
     },
     {
-      src: '/src/assets/images/sofa-simple.jpg',
+      src: '/images/sofa-simple.jpg',
       alt: 'Sofá simple',
       title: 'Sofá simple'
     }
@@ -768,7 +768,7 @@ const MontajeDeMuebles = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/montaje-muebles-main2.jpg"
+                src="/images/montaje-muebles-main2.jpg"
                 alt="Servicio Profesional de Montaje de Muebles | Precisión y Garantía"
                 className="hero-image"
                 loading="eager"

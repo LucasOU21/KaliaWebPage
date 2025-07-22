@@ -16,22 +16,22 @@ const ReformasDeVivienda = () => {
   // Images data for the gallery - 4 images with empty titles as in the HTML
   const galleryImages = [
     {
-      src: '/src/assets/images/reformas-vivienda-galery1.jpg',
+      src: '/images/reformas-vivienda-galery1.jpg',
       alt: ' ',
       title: ' '
     },
     {
-      src: '/src/assets/images/reformas-vivienda-galery2.jpg',
+      src: '/images/reformas-vivienda-galery2.jpg',
       alt: ' ',
       title: ' '
     },
     {
-      src: '/src/assets/images/reformas-vivienda-galery3.jpg',
+      src: '/images/reformas-vivienda-galery3.jpg',
       alt: ' ',
       title: ' '
     },
     {
-      src: '/src/assets/images/reformas-vivienda-galery4.jpg',
+      src: '/images/reformas-vivienda-galery4.jpg',
       alt: ' ',
       title: ' '
     }
@@ -708,7 +708,7 @@ const ReformasDeVivienda = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/reformas-vivienda2.jpg"
+                src="/images/reformas-vivienda2.jpg"
                 alt="Reformas de Vivienda"
                 className="hero-image"
                 loading="eager"

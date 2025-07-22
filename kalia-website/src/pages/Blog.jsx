@@ -10,9 +10,9 @@ const Blog = () => {
       description: "El diseño de las cocinas ha evolucionado a lo largo de los años para adaptarse a los gustos y necesidades de cada persona.",
       author: "Klinger Mallqui",
       pubDate: "Feb 11, 2025",
-      cardImage: "/src/assets/images/blog/post-2.jpg",
+      cardImage: "/images/blog/post-2.jpg",
       cardImageAlt: "Estilos de cocina: diseños que inspiran",
-      authorImage: "/src/assets/images/blog/Klinger.jpg"
+      authorImage: "/images/blog/Klinger.jpg"
     },
     {
       id: "tendencia-suelos-laminados-tarimas-flotantes",
@@ -20,9 +20,9 @@ const Blog = () => {
       description: "Los suelos laminados y las tarimas flotantes se han convertido en una de las opciones más populares en los proyectos de reformas y decoración.",
       author: "Klinger Mallqui",
       pubDate: "Feb 11, 2025",
-      cardImage: "/src/assets/images/blog/post-3.jpg",
+      cardImage: "/images/blog/post-3.jpg",
       cardImageAlt: "Tendencias en Suelos Laminados y Tarimas Flotantes: Elegancia y Funcionalidad para Tu Hogar",
-      authorImage: "/src/assets/images/blog/Klinger.jpg"
+      authorImage: "/images/blog/Klinger.jpg"
     }
   ];
 

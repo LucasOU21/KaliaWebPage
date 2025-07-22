@@ -8,44 +8,44 @@ const FeaturesNavs = ({ title, tabs }) => {
     {
       heading: "Montaje de muebles",
       svg: "tools",
-      src: "/src/assets/images/montaje-muebles.jpg",
+      src: "/images/montaje-muebles.jpg",
       alt: "Montaje de muebles",
       first: true
     },
     {
       heading: "Diseños de muebles a medida", 
       svg: "design",
-      src: "/src/assets/images/muebles-disenio.jpg",
+      src: "/images/muebles-disenio.jpg",
       alt: "Diseños de muebles a medida"
     },
     {
       heading: "Instalación de cocinas y electrodomésticos",
       svg: "kitchen",
-      src: "/src/assets/images/cocinas-electro.jpg", 
+      src: "/images/cocinas-electro.jpg", 
       alt: "Instalación de cocinas y electrodomésticos"
     },
     {
       heading: "Reformas de vivienda",
       svg: "home",
-      src: "/src/assets/images/reformas-vivienda.jpg",
+      src: "/images/reformas-vivienda.jpg",
       alt: "Reformas de vivienda"
     },
     {
       heading: "Acabados (papel pintado) y pintura",
       svg: "paint", 
-      src: "/src/assets/images/acabados-papel-pintado.jpg",
+      src: "/images/acabados-papel-pintado.jpg",
       alt: "Acabados papel pintado y pintura"
     },
     {
       heading: "Manitas",
       svg: "handyman",
-      src: "/src/assets/images/handyman.jpg",
+      src: "/images/handyman.jpg",
       alt: "Servicios de manitas"
     },
     {
       heading: "Instalación de puertas, tarima flotante y rodapiés",
       svg: "flooring",
-      src: "/src/assets/images/puerta-tarima-rodapies.jpg",
+      src: "/images/puerta-tarima-rodapies.jpg",
       alt: "Instalación de puertas, tarima flotante y rodapiés"
     }
   ];

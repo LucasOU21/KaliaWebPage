@@ -16,32 +16,32 @@ const InstalacionPuertasTarimaRodapies = () => {
   // Images data for the gallery - matching the Astro implementation exactly
   const galleryImages = [
     {
-      src: '/src/assets/images/puertas.jpg',
+      src: '/images/puertas.jpg',
       alt: 'Puertas',
       title: ''
     },
     {
-      src: '/src/assets/images/puertas2.jpg',
+      src: '/images/puertas2.jpg',
       alt: 'Puertas 2',
       title: ''
     },
     {
-      src: '/src/assets/images/tarima-flotante.jpg',
+      src: '/images/tarima-flotante.jpg',
       alt: 'Tarima Flotante',
       title: ''
     },
     {
-      src: '/src/assets/images/tarima-flotante2.jpg',
+      src: '/images/tarima-flotante2.jpg',
       alt: 'Tarima Flotante 2',
       title: ''
     },
     {
-      src: '/src/assets/images/rodapies.jpg',
+      src: '/images/rodapies.jpg',
       alt: 'Rodapiés',
       title: ''
     },
     {
-      src: '/src/assets/images/rodapies2.jpg',
+      src: '/images/rodapies2.jpg',
       alt: 'Rodapiés 2',
       title: ''
     }
@@ -731,7 +731,7 @@ const InstalacionPuertasTarimaRodapies = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/puertas-tarima-rodapies-main.jpg"
+                src="/images/puertas-tarima-rodapies-main.jpg"
                 alt="Instalación de Puertas, Tarima Flotante y Rodapiés"
                 className="hero-image"
                 loading="eager"

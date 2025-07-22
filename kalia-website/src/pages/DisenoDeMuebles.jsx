@@ -16,27 +16,27 @@ const DisenoDeMuebles = () => {
   // Images data for the gallery - matches the original with fewer images
   const galleryImages = [
     {
-      src: '/src/assets/images/armario-disenio.jpg',
+      src: '/images/armario-disenio.jpg',
       alt: 'Armarios',
       title: 'Armarios'
     },
     {
-      src: '/src/assets/images/cocina-disenio.jpg',
+      src: '/images/cocina-disenio.jpg',
       alt: 'Cocina',
       title: 'Cocina'
     },
     {
-      src: '/src/assets/images/mueble-recibidor.jpg',
+      src: '/images/mueble-recibidor.jpg',
       alt: 'Recibidor',
       title: 'Recibidor'
     },
     {
-      src: '/src/assets/images/mueble-de-banio2.jpg',
+      src: '/images/mueble-de-banio2.jpg',
       alt: 'Mueble de baño',
       title: 'Mueble de baño'
     },
     {
-      src: '/src/assets/images/mueble-columna-repisas.jpg',
+      src: '/images/mueble-columna-repisas.jpg',
       alt: 'Muebles columna de repisas',
       title: 'Muebles columna de repisas'
     }
@@ -713,7 +713,7 @@ const DisenoDeMuebles = () => {
             </div>
             <div>
               <img
-                src="/src/assets/images/realEstanteria1.jpg"
+                src="/images/realEstanteria1.jpg"
                 alt="Servicio Profesional de Diseños de Muebles a Medida"
                 className="hero-image"
                 loading="eager"
