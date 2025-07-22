@@ -1,10 +1,17 @@
-// vite.config.js
+// vite.config.js - Fixed ES module approach
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [react()],
   css: {
-    postcss: './postcss.config.cjs',
+    postcss: {
+      plugins: [
+        tailwindcss,
+        autoprefixer,
+      ],
+    },
   },
 })
