@@ -18,47 +18,47 @@ const Manitas = () => {
   // Gallery images data
   const galleryImages = [
     {
-      src: '/src/assets/images/manitas-galery1.jpg',
+      src: '/images/manitas-galery1.jpg',
       alt: 'Servicio de manitas - Reparaciones profesionales',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery2.jpg',
+      src: '/images/manitas-galery2.jpg',
       alt: 'Instalación de lámparas y accesorios',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery3.jpg',
+      src: '/images/manitas-galery3.jpg',
       alt: 'Montaje de cortinas y espejos',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery4.jpg',
+      src: '/images/manitas-galery4.jpg',
       alt: 'Reparaciones de fontanería básica',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery5.jpg',
+      src: '/images/manitas-galery5.jpg',
       alt: 'Instalación de TV en pared',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery6.jpg',
+      src: '/images/manitas-galery6.jpg',
       alt: 'Cambio de bombillas y accesorios',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery7.jpg',
+      src: '/images/manitas-galery7.jpg',
       alt: 'Reparaciones domésticas variadas',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery8.jpg',
+      src: '/images/manitas-galery8.jpg',
       alt: 'Servicios de manitas profesional',
       title: ''
     },
     {
-      src: '/src/assets/images/manitas-galery9.jpg',
+      src: '/images/manitas-galery9.jpg',
       alt: 'Pequeñas reparaciones del hogar',
       title: ''
     }
@@ -567,7 +567,7 @@ const Manitas = () => {
           {/* Image container - always order 2 (right side) */}
           <div style={responsiveStyles.heroImageContainer}>
             <img
-              src="/src/assets/images/manitas-main.jpg"
+              src="/images/manitas-main.jpg"
               alt="Servicio Profesional de Manitas"
               style={styles.heroImage}
               loading="eager"

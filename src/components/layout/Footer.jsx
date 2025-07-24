@@ -514,7 +514,7 @@ const Footer = () => {
                   Síguenos
                 </h3>
                 <a 
-                  href="https://whatsapp.com" 
+                  href="https://wa.me/603370840?text=Hola%2C%20me%20interesa%20obtener%20información%20sobre%20sus%20servicios%20de%20reformas%20y%20decoración" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover-gold dark-text"

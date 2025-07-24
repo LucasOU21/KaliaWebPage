@@ -1,4 +1,3 @@
-// src/pages/Nosotros.jsx - Fixed layout with proper centering
 import React, { useState } from 'react';
 
 const Nosotros = () => {
@@ -10,30 +9,107 @@ const Nosotros = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Check if at least apellido OR nombre is filled
+    if (!formData.apellido.trim() && !formData.nombre.trim()) {
+      newErrors.name = 'Debe ingresar al menos su apellido o nombre';
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'El email es requerido';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Ingrese un email válido';
+    }
+
+    // Phone validation
+    if (!formData.telefono.trim()) {
+      newErrors.telefono = 'El teléfono es requerido';
+    } else if (!/^\+?[\d\s\-\(\)]{9,}$/.test(formData.telefono.trim())) {
+      newErrors.telefono = 'Ingrese un número de teléfono válido';
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = 'El mensaje es requerido';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'El mensaje debe tener al menos 10 caracteres';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Simulate emailjs functionality
-    console.log('Form submitted:', formData);
-    
-    alert("Se ha enviado el mensaje satisfactoriamente, ¡Gracias por su preferencia!");
-    
-    // Reset form
-    setFormData({
-      apellido: '',
-      nombre: '',
-      email: '',
-      telefono: '',
-      message: ''
-    });
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate form submission (replace with actual emailjs integration)
+      console.log('Form submitted:', formData);
+      
+      // Here you would integrate with emailjs like in the original
+      // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
+      //   .then(function (response) {
+      //     setShowSuccess(true);
+      //     console.log("Correo enviado", response);
+      //   })
+      //   .catch(function (error) {
+      //     console.error("Error", error);
+      //   });
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setShowSuccess(true);
+      
+      // Reset form
+      setFormData({
+        apellido: '',
+        nombre: '',
+        email: '',
+        telefono: '',
+        message: ''
+      });
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -498,6 +574,10 @@ const Nosotros = () => {
           }
         }
 
+        .form-group {
+          position: relative;
+        }
+
         .form-input, .form-textarea {
           display: block;
           width: 100%;
@@ -511,14 +591,26 @@ const Nosotros = () => {
           font-family: 'Poppins', sans-serif;
         }
 
+        .form-input.error,
+        .form-textarea.error {
+          border-color: #ef4444;
+          background-color: #fef2f2;
+        }
+
+        .dark .form-input.error,
+        .dark .form-textarea.error {
+          border-color: #f87171;
+          background-color: rgba(239, 68, 68, 0.1);
+        }
+
         .form-input::placeholder, .form-textarea::placeholder {
           color: #6b7280;
         }
 
         .form-input:focus, .form-textarea:focus {
           outline: none;
-          border-color: #e5e7eb;
-          box-shadow: 0 0 0 3px rgba(163, 163, 163, 0.1);
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .dark .form-input, .dark .form-textarea {
@@ -532,7 +624,24 @@ const Nosotros = () => {
         }
 
         .dark .form-input:focus, .dark .form-textarea:focus {
-          box-shadow: 0 0 0 1px #fafafa;
+          border-color: #60a5fa;
+          box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 6rem;
+        }
+
+        .error-message {
+          color: #ef4444;
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+          font-weight: 500;
+        }
+
+        .dark .error-message {
+          color: #f87171;
         }
 
         .submit-button {
@@ -554,8 +663,15 @@ const Nosotros = () => {
           font-family: 'Poppins', sans-serif;
         }
 
-        .submit-button:hover {
+        .submit-button:hover:not(:disabled) {
           background-color: #1e3a8a;
+          transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+          background-color: #9ca3af;
+          cursor: not-allowed;
+          transform: none;
         }
 
         .dark .submit-button {
@@ -563,8 +679,13 @@ const Nosotros = () => {
           background-color: #FFD000;
         }
 
-        .dark .submit-button:hover {
+        .dark .submit-button:hover:not(:disabled) {
           background-color: #fbbf24;
+        }
+
+        .dark .submit-button:disabled {
+          background-color: #6b7280;
+          color: #9ca3af;
         }
 
         @media (min-width: 1536px) {
@@ -573,17 +694,46 @@ const Nosotros = () => {
           }
         }
 
-        .submit-button:disabled {
-          pointer-events: none;
-          opacity: 0.5;
-        }
-
         .submit-button:focus-visible {
           box-shadow: 0 0 0 2px #6b7280;
         }
 
         .dark .submit-button:focus-visible {
           box-shadow: 0 0 0 2px #e5e7eb;
+        }
+
+        /* Loading spinner */
+        .spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid transparent;
+          border-top: 2px solid currentColor;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Success message */
+        .success-message {
+          background-color: #dcfce7;
+          border: 1px solid #16a34a;
+          color: #166534;
+          padding: 0.75rem 1rem;
+          border-radius: 0.5rem;
+          margin-bottom: 1rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+
+        .dark .success-message {
+          background-color: rgba(22, 163, 74, 0.1);
+          border-color: #22c55e;
+          color: #4ade80;
         }
 
         .form-note {
@@ -792,36 +942,38 @@ const Nosotros = () => {
                       Rellene el siguiente formulario
                     </h2>
 
-                    <div>
+                    {/* Success Message */}
+                    {showSuccess && (
+                      <div className="success-message">
+                        ¡Mensaje enviado exitosamente! Nos pondremos en contacto con usted en un plazo de 1 a 2 días laborables.
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
                       <div className="form-grid">
+                        {/* Name Fields Row */}
                         <div className="form-row">
-                          <div>
+                          <div className="form-group">
                             <label htmlFor="apellido" className="sr-only">Apellidos</label>
-                            <input
-                              type="text"
-                              name="apellido"
-                              id="apellido"
-                              value={formData.apellido}
-                              onChange={handleInputChange}
-                              className="form-input"
-                              placeholder="Apellidos"
-                            />
-                          </div>
-                          <div>
-                            <label htmlFor="nombre" className="sr-only">Nombres</label>
                             <input
                               type="text"
                               name="nombre"
                               id="nombre"
                               value={formData.nombre}
                               onChange={handleInputChange}
-                              className="form-input"
+                              className={`form-input ${errors.name ? 'error' : ''}`}
                               placeholder="Nombres"
                             />
                           </div>
                         </div>
+                        {errors.name && (
+                          <div className="error-message" style={{ gridColumn: '1 / -1' }}>
+                            {errors.name}
+                          </div>
+                        )}
 
-                        <div>
+                        {/* Email Field */}
+                        <div className="form-group">
                           <label htmlFor="email" className="sr-only">Email</label>
                           <input
                             type="email"
@@ -830,12 +982,14 @@ const Nosotros = () => {
                             value={formData.email}
                             onChange={handleInputChange}
                             autoComplete="email"
-                            className="form-input"
+                            className={`form-input ${errors.email ? 'error' : ''}`}
                             placeholder="Email"
                           />
+                          {errors.email && <div className="error-message">{errors.email}</div>}
                         </div>
 
-                        <div>
+                        {/* Phone Field */}
+                        <div className="form-group">
                           <label htmlFor="telefono" className="sr-only">Número de teléfono</label>
                           <input
                             type="tel"
@@ -843,12 +997,14 @@ const Nosotros = () => {
                             id="telefono"
                             value={formData.telefono}
                             onChange={handleInputChange}
-                            className="form-input"
+                            className={`form-input ${errors.telefono ? 'error' : ''}`}
                             placeholder="Número de teléfono"
                           />
+                          {errors.telefono && <div className="error-message">{errors.telefono}</div>}
                         </div>
 
-                        <div>
+                        {/* Message Field */}
+                        <div className="form-group">
                           <label htmlFor="message" className="sr-only">Detalles</label>
                           <textarea
                             id="message"
@@ -856,24 +1012,38 @@ const Nosotros = () => {
                             rows="4"
                             value={formData.message}
                             onChange={handleInputChange}
-                            className="form-textarea"
-                            placeholder="Detalles"
+                            className={`form-textarea ${errors.message ? 'error' : ''}`}
+                            placeholder="Detalles de su proyecto o consulta..."
                           ></textarea>
+                          {errors.message && <div className="error-message">{errors.message}</div>}
                         </div>
                       </div>
 
+                      {/* Submit Button */}
                       <div style={{ marginTop: '1rem' }}>
-                        <button type="button" onClick={handleSubmit} className="submit-button">
-                          Envíenos un mensaje
+                        <button 
+                          type="submit"
+                          className="submit-button"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <div className="spinner"></div>
+                              Enviando...
+                            </>
+                          ) : (
+                            'Envíenos un mensaje'
+                          )}
                         </button>
                       </div>
 
+                      {/* Form Note */}
                       <div className="form-note">
                         <p className="form-note-text">
                           Nos pondremos en contacto con usted en un plazo de 1 a 2 días laborables.
                         </p>
                       </div>
-                    </div>
+                    </form>
                   </div>
 
                   <div className="contact-info">
