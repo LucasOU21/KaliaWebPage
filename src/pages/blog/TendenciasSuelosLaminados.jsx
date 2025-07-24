@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const TendenciasSuelosLaminados = () => {
+  useEffect(() => {
+    // Multiple approaches to ensure scroll to top works reliably
+    
+    // Immediate scroll
+    window.scrollTo(0, 0);
+    
+    // Also scroll the document element and body (for different browsers)
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+    
+    // Fallback with setTimeout for any remaining edge cases
+    const timeoutId = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+    
+    // Set document title
+    document.title = "Tendencias en Suelos Laminados | Blog Kalia";
+    
+    // Cleanup timeout on unmount
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   return (
     <>
       <style jsx>{`

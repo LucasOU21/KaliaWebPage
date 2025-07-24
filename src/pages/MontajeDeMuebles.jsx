@@ -120,12 +120,34 @@ const MontajeDeMuebles = () => {
     );
   };
 
-  // Page load animation
+  // Page load animation and scroll to top
   useEffect(() => {
+    // Multiple approaches to ensure scroll to top works reliably
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+    
+    // Fallback with setTimeout for any remaining edge cases
+    const timeoutId = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+
+    // Set document title
+    document.title = "Montaje de Muebles | Kalia Reformas y Decoración";
+
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
-    return () => clearTimeout(timer);
+    
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Handle escape key for modal
@@ -338,7 +360,7 @@ const MontajeDeMuebles = () => {
       display: 'grid',
       width: '100%',
       gridTemplateColumns: '1fr',
-      gap: '4rem',
+      gap: '2rem',
       '@media (min-width: 768px)': {
         gridTemplateColumns: '1fr 1fr'
       }
@@ -354,7 +376,7 @@ const MontajeDeMuebles = () => {
       flexDirection: 'column'
     },
     galleryImage: {
-      height: '100%',
+      height: 'auto',
       width: '100%',
       cursor: 'pointer',
       borderRadius: '0.375rem',
@@ -727,6 +749,28 @@ const MontajeDeMuebles = () => {
                         style={styles.galleryImage}
                         loading="lazy"
                         onClick={() => openModal(index)}
+                        onMouseEnter={(e) => {
+                          e.target.style.transform = 'scale(1.02)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.transform = 'scale(1)';
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right Column */}
+                <div style={styles.galleryColumn}>
+                  {galleryImages.slice(Math.ceil(galleryImages.length / 2)).map((image, index) => (
+                    <div key={index + Math.ceil(galleryImages.length / 2)} style={styles.galleryItem}>
+                      <h3 style={styles.featureTitle}>{image.title}</h3>
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        style={styles.galleryImage}
+                        loading="lazy"
+                        onClick={() => openModal(index + Math.ceil(galleryImages.length / 2))}
                         onMouseEnter={(e) => {
                           e.target.style.transform = 'scale(1.02)';
                         }}
