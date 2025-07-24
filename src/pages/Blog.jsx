@@ -1,5 +1,6 @@
 // src/pages/Blog.jsx - Complete blog page matching the Astro design
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Blog = () => {
   // Blog posts data matching the HTML
@@ -405,10 +406,10 @@ const Blog = () => {
           {/* Blog posts grid */}
           <div className="blog-grid">
             {blogPosts.map((blogEntry, index) => (
-              <a
-                key={blogEntry.id}
-                className="blog-card"
-                href={`/blog/${blogEntry.id}/`}
+              <Link
+                    key={blogEntry.id}
+                    className="blog-card"
+                    to={`/blog/${blogEntry.id}`}
               >
                 {/* The container for the blog post's cover image */}
                 <div className="blog-image-container">
@@ -458,7 +459,7 @@ const Blog = () => {
                     </p>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </section>
