@@ -1,16 +1,17 @@
-// src/pages/ReformasDeVivienda.jsx - Home renovation service detail page
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const ReformasDeVivienda = () => {
+  const { isDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Tab data
   const tabs = [
-    { id: 'tabs-with-card-1', title: 'Descripción' },
-    { id: 'tabs-with-card-2', title: 'Imágenes' }
+    { id: 'descripcion', title: 'Descripción' },
+    { id: 'imagenes', title: 'Imágenes' }
   ];
 
   // Images data for the gallery - 4 images with empty titles as in the HTML
@@ -37,10 +38,6 @@ const ReformasDeVivienda = () => {
     }
   ];
 
-  // Split images into two columns (2 left, 2 right)
-  const leftColumnImages = galleryImages.slice(0, 2);
-  const rightColumnImages = galleryImages.slice(2);
-
   // Handle image modal
   const openModal = (index) => {
     setCurrentImageIndex(index);
@@ -63,12 +60,11 @@ const ReformasDeVivienda = () => {
     );
   };
 
-  // Handle page load animation
+  // Page load animation
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
+      setIsLoaded(true);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -86,746 +82,674 @@ const ReformasDeVivienda = () => {
     }
   }, [isModalOpen]);
 
+  const styles = {
+    container: {
+      backgroundColor: isDarkMode ? '#374151' : '#F8F1E7',
+      minHeight: '100vh',
+      fontFamily: 'Poppins, sans-serif',
+      color: isDarkMode ? '#F8F1E7' : '#111827'
+    },
+    heroSection: {
+      maxWidth: '85rem',
+      margin: '0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '2.5rem 1rem 0',
+      paddingTop: '7rem',
+      opacity: isLoaded ? 1 : 0,
+      transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+      transition: 'all 0.8s ease-out'
+    },
+    introText: {
+      marginBottom: '1rem',
+      maxWidth: '65ch',
+      fontWeight: '500',
+      color: isDarkMode ? '#F8F1E7' : '#111827',
+      fontSize: '1.25rem',
+      lineHeight: '1.6',
+      fontFamily: 'Poppins, sans-serif',
+      opacity: isLoaded ? 1 : 0,
+      transform: isLoaded ? 'translateY(0)' : 'translateY(10px)',
+      transition: 'all 0.6s ease-out 0.2s'
+    },
+    ctaButton: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      borderRadius: '0.5rem',
+      padding: '0.75rem 1rem',
+      fontWeight: 'bold',
+      color: '#000',
+      backgroundColor: '#FFD000',
+      textDecoration: 'none',
+      transition: 'all 0.3s ease',
+      fontSize: '0.875rem',
+      border: 'none',
+      cursor: 'pointer'
+    },
+    buttonContainer: {
+      display: 'flex',
+      gap: '1rem',
+      marginBottom: '1rem',
+      flexWrap: 'wrap'
+    },
+    heroContent: {
+      display: 'flex',
+      flexDirection: 'row', // Always row for desktop
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '2rem',
+      marginTop: '1rem'
+    },
+    heroText: {
+      flex: '1',
+      maxWidth: '50%',
+      opacity: isLoaded ? 1 : 0,
+      transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+      transition: 'all 0.8s ease-out 0.4s'
+    },
+    heroTitle: {
+      display: 'block',
+      fontSize: '3rem',
+      fontWeight: 'bold',
+      letterSpacing: '-0.025em',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      fontFamily: 'Georgia, serif'
+    },
+    heroSubtitle: {
+      marginTop: '0.75rem',
+      fontSize: '1.125rem',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      fontFamily: 'Poppins, sans-serif'
+    },
+    heroTitleButtonContainer: {
+      marginTop: '2.5rem',
+      marginBottom: '1rem'
+    },
+    heroImageContainer: {
+      flex: '1',
+      maxWidth: '50%',
+      display: 'flex',
+      justifyContent: 'flex-end'
+    },
+    heroImage: {
+      width: '100%',
+      maxWidth: '500px',
+      borderRadius: '0.375rem',
+      boxShadow: isDarkMode ? 
+        '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)' :
+        '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      opacity: isLoaded ? 1 : 0,
+      transform: isLoaded ? 'translateX(0)' : 'translateX(50px)',
+      transition: 'all 1s ease-out 0.6s'
+    },
+    tabContainer: {
+      maxWidth: '85rem',
+      margin: '0 auto',
+      padding: '2.5rem 1rem 0',
+      backgroundColor: isDarkMode ? '#374151' : '#F8F1E7'
+    },
+    tabNav: {
+      maxWidth: '6xl',
+      margin: '0 auto',
+      display: 'grid',
+      gap: '1px',
+      gridTemplateColumns: '1fr 1fr',
+      fontFamily: 'Poppins, sans-serif'
+    },
+    tabButton: {
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'center',
+      borderRadius: '0.75rem',
+      border: '1px solid transparent',
+      padding: '0.75rem',
+      outline: 'none',
+      transition: 'all 0.3s ease',
+      backgroundColor: 'transparent',
+      cursor: 'pointer'
+    },
+    tabButtonActive: {
+      backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#f3f4f6',
+      border: '1px solid transparent'
+    },
+    tabText: {
+      display: 'block',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937'
+    },
+    tabContent: {
+      marginTop: '3rem'
+    },
+    contentSection: {
+      maxWidth: '85rem',
+      margin: '0 auto',
+      padding: '0 1rem 2.5rem'
+    },
+    contentGrid: {
+      display: 'grid',
+      gap: '3rem',
+      gridTemplateColumns: '1fr',
+      '@media (min-width: 768px)': {
+        gridTemplateColumns: '1fr 1fr'
+      }
+    },
+    contentMain: {
+      width: '75%'
+    },
+    contentTitle: {
+      fontSize: '1.875rem',
+      fontWeight: 'bold',
+      letterSpacing: '-0.025em',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      lineHeight: '1.2',
+      fontFamily: 'Georgia, serif'
+    },
+    contentDescription: {
+      marginTop: '0.75rem',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      fontFamily: 'Poppins, sans-serif',
+      lineHeight: '1.6'
+    },
+    featuresSection: {
+      marginTop: '1rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem'
+    },
+    featureTitle: {
+      fontSize: '1rem',
+      fontWeight: 'bold',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      fontFamily: 'Georgia, serif'
+    },
+    featureText: {
+      marginTop: '0.25rem',
+      color: isDarkMode ? '#F8F1E7' : '#1f2937',
+      fontFamily: 'Poppins, sans-serif'
+    },
+    gallerySection: {
+      maxWidth: '85rem',
+      margin: '0 auto',
+      padding: '0 1rem 2.5rem'
+    },
+    galleryGrid: {
+      display: 'grid',
+      width: '100%',
+      gridTemplateColumns: '1fr',
+      gap: '4rem',
+      '@media (min-width: 768px)': {
+        gridTemplateColumns: '1fr 1fr'
+      }
+    },
+    galleryColumn: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1.5rem',
+      fontFamily: 'Poppins, sans-serif'
+    },
+    galleryItem: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    galleryImage: {
+      height: '100%',
+      width: '100%',
+      cursor: 'pointer',
+      borderRadius: '0.375rem',
+      objectFit: 'cover',
+      objectPosition: 'center',
+      boxShadow: isDarkMode ? 
+        '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)' :
+        '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      transition: 'transform 0.3s ease'
+    },
+    modal: {
+      position: 'fixed',
+      inset: 0,
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.9)'
+    },
+    modalImage: {
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      maxHeight: '100vh',
+      maxWidth: '100vw',
+      transform: 'translate(-50%, -50%)',
+      objectFit: 'contain'
+    },
+    modalButton: {
+      position: 'absolute',
+      cursor: 'pointer',
+      fontSize: '1.125rem',
+      fontWeight: '800',
+      color: 'white',
+      fontFamily: 'Poppins, sans-serif',
+      background: 'none',
+      border: 'none'
+    },
+    closeButton: {
+      right: '1rem',
+      top: '1rem',
+      fontSize: '1.875rem'
+    },
+    nextButton: {
+      right: '1.5rem',
+      top: '50%',
+      transform: 'translateY(-50%)'
+    },
+    prevButton: {
+      left: '1.5rem',
+      top: '50%',
+      transform: 'translateY(-50%)'
+    }
+  };
+
+  // Media query handling for responsive design
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Responsive styles
+  const responsiveStyles = {
+    heroContent: {
+      ...styles.heroContent,
+      flexDirection: isMobile ? 'column' : 'row',
+      gap: isMobile ? '1rem' : '2rem'
+    },
+    heroText: {
+      ...styles.heroText,
+      maxWidth: isMobile ? '100%' : '50%',
+      order: isMobile ? 2 : 1
+    },
+    heroTitle: {
+      ...styles.heroTitle,
+      fontSize: isMobile ? '1.5rem' : '3rem'
+    },
+    heroImageContainer: {
+      ...styles.heroImageContainer,
+      maxWidth: isMobile ? '100%' : '50%',
+      order: isMobile ? 1 : 2,
+      justifyContent: isMobile ? 'center' : 'flex-end'
+    },
+    contentGrid: {
+      ...styles.contentGrid,
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr'
+    },
+    galleryGrid: {
+      ...styles.galleryGrid,
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr'
+    },
+    tabNav: {
+      ...styles.tabNav,
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+      gap: isMobile ? '0.25rem' : '1rem'
+    },
+    buttonContainer: {
+      ...styles.buttonContainer,
+      flexDirection: isMobile ? 'column' : 'row'
+    }
+  };
+
   return (
-    <>
-      <style jsx>{`
-        /* Import Google fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-
-        /* Root variables */
-        :root {
-          --color-beige-bg: #F8F1E7;
-          --color-gold: #FFD000;
-          --font-heading: Georgia, serif;
-          --font-body: 'Poppins', sans-serif;
-        }
-
-        .page-container {
-          font-family: var(--font-body);
-          background-color: var(--color-beige-bg);
-          min-height: 100vh;
-          position: relative;
-        }
-
-        .dark .page-container {
-          background-color: #374151;
-        }
-
-        /* Loading overlay */
-        .overlay {
-          position: fixed;
-          inset: 0;
-          background-color: #e5e5e5;
-          z-index: 9999;
-          transition: opacity 1s ease;
-        }
-
-        .overlay.hidden {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .dark .overlay {
-          background-color: #374151;
-        }
-
-        /* Hero section */
-        .hero-section {
-          max-width: 85rem;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          padding: 2.5rem 1rem 2.5rem 1rem;
-          padding-top: 7rem;
-          background-color: var(--color-beige-bg);
-        }
-
-        .dark .hero-section {
-          background-color: #374151;
-        }
-
-        @media (min-width: 640px) {
-          .hero-section {
-            padding: 1.5rem 1.5rem 3.5rem 1.5rem;
-            padding-top: 8rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .hero-section {
-            padding: 2rem 2rem 3.5rem 2rem;
-            padding-top: 8rem;
-          }
-        }
-
-        .intro-text {
-          margin-bottom: 1rem;
-          max-width: 65ch;
-          font-weight: 500;
-          color: #171717;
-          font-family: var(--font-body);
-          opacity: 0;
-          transform: translateY(50px);
-          animation: fadeInUp 1.5s ease forwards;
-          animation-delay: 1s;
-        }
-
-        .dark .intro-text {
-          color: #fafafa;
-        }
-
-        @media (min-width: 640px) {
-          .intro-text {
-            font-size: 1.25rem;
-          }
-        }
-
-        .cta-button {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          border-radius: 0.5rem;
-          padding: 0.75rem 1rem;
-          font-weight: 700;
-          color: #000000;
-          outline: none;
-          border: 1px solid transparent;
-          background-color: var(--color-gold);
-          transition: all 0.3s ease;
-          text-decoration: none;
-          font-size: 0.875rem;
-          margin-bottom: 2rem;
-        }
-
-        .cta-button:hover {
-          background-color: #e0b800;
-          transform: translateY(-2px);
-        }
-
-        @media (min-width: 1536px) {
-          .cta-button {
-            font-size: 1rem;
-          }
-        }
-
-        .hero-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-          gap: 0.5rem;
-          margin-top: 1rem;
-        }
-
-        @media (min-width: 640px) {
-          .hero-content {
-            flex-direction: row;
-            margin-top: 0;
-            gap: 1rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .hero-content {
-            gap: 1rem;
-          }
-        }
-
-        .hero-text {
-          opacity: 0;
-          transform: translateY(50px);
-          animation: fadeInUp 1.5s ease forwards;
-          animation-delay: 1.2s;
-        }
-
-        .hero-title {
-          display: block;
-          font-size: 1.5rem;
-          font-weight: 700;
-          letter-spacing: -0.025em;
-          color: #262626;
-          font-family: var(--font-heading);
-        }
-
-        .dark .hero-title {
-          color: #e5e5e5;
-        }
-
-        @media (min-width: 640px) {
-          .hero-title {
-            font-size: 3rem;
-          }
-        }
-
-        @media (min-width: 768px) {
-          .hero-title {
-            font-size: 2.25rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .hero-title {
-            font-size: 3.75rem;
-          }
-        }
-
-        .hero-subtitle {
-          margin-top: 0.75rem;
-          font-size: 1.125rem;
-          color: #262626;
-          font-family: var(--font-body);
-        }
-
-        .dark .hero-subtitle {
-          color: #e5e5e5;
-        }
-
-        .hero-image {
-          width: 1000px;
-          max-width: 100%;
-          height: auto;
-          border-radius: 0.375rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          opacity: 0;
-          transform: translateX(300px);
-          animation: fadeInMoveRight 1.5s ease forwards;
-          animation-delay: 1.4s;
-        }
-
-        .dark .hero-image {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Tab navigation */
-        .tab-container {
-          max-width: 85rem;
-          margin: 0 auto;
-          padding: 2.5rem 1rem 0 1rem;
-          background-color: var(--color-beige-bg);
-        }
-
-        .dark .tab-container {
-          background-color: #374151;
-        }
-
-        @media (min-width: 640px) {
-          .tab-container {
-            padding: 2.5rem 1.5rem 0 1.5rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .tab-container {
-            padding: 3.5rem 2rem 0 2rem;
-          }
-        }
-
-        .tab-nav {
-          margin: 0 auto;
-          display: grid;
-          max-width: 48rem;
-          gap: 1px;
-          font-family: var(--font-body);
-        }
-
-        @media (min-width: 640px) {
-          .tab-nav {
-            display: flex;
-            gap: 1rem;
-          }
-        }
-
-        .tab-button {
-          display: flex;
-          width: 100%;
-          justify-content: center;
-          border-radius: 0.75rem;
-          border: 1px solid transparent;
-          padding: 0.75rem;
-          outline: none;
-          transition: all 0.3s ease;
-          background: transparent;
-          cursor: pointer;
-        }
-
-        @media (min-width: 768px) {
-          .tab-button {
-            padding: 1.25rem;
-          }
-        }
-
-        .tab-button:hover {
-          background-color: rgba(163, 163, 163, 0.1);
-        }
-
-        .dark .tab-button:hover {
-          background-color: rgba(64, 64, 64, 0.7);
-        }
-
-        .tab-button.active {
-          background-color: rgba(163, 163, 163, 0.1);
-          border-color: transparent;
-        }
-
-        .dark .tab-button.active {
-          background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-text {
-          display: block;
-          text-align: center;
-          font-weight: 700;
-          color: #262626;
-        }
-
-        .dark .tab-text {
-          color: #e5e5e5;
-        }
-
-        /* Tab content */
-        .tab-content {
-          margin-top: 3rem;
-        }
-
-        @media (min-width: 768px) {
-          .tab-content {
-            margin-top: 4rem;
-          }
-        }
-
-        .content-section {
-          max-width: 85rem;
-          margin: 0 auto;
-          padding: 0 1rem 2.5rem 1rem;
-        }
-
-        @media (min-width: 640px) {
-          .content-section {
-            padding: 0 1.5rem 2.5rem 1.5rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .content-section {
-            padding: 0 2rem 3.5rem 2rem;
-          }
-        }
-
-        .content-grid {
-          display: grid;
-          gap: 3rem;
-        }
-
-        @media (min-width: 768px) {
-          .content-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        .content-main {
-          width: 100%;
-        }
-
-        @media (min-width: 1024px) {
-          .content-main {
-            width: 75%;
-          }
-        }
-
-        .content-title {
-          font-size: 1.875rem;
-          font-weight: 700;
-          letter-spacing: -0.025em;
-          color: #262626;
-          font-family: var(--font-heading);
-          margin-bottom: 0.75rem;
-          line-height: 1.2;
-        }
-
-        .dark .content-title {
-          color: #e5e5e5;
-        }
-
-        @media (min-width: 768px) {
-          .content-title {
-            line-height: 1.25;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .content-title {
-            font-size: 2.25rem;
-          }
-        }
-
-        .content-description {
-          margin-top: 0.75rem;
-          color: #262626;
-          font-family: var(--font-body);
-          line-height: 1.6;
-        }
-
-        .dark .content-description {
-          color: #e5e5e5;
-        }
-
-        .features-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          font-family: var(--font-body);
-        }
-
-        @media (min-width: 1024px) {
-          .features-list {
-            gap: 1.5rem;
-          }
-        }
-
-        .feature-item {
-          display: flex;
-        }
-
-        .feature-title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #262626;
-          font-family: var(--font-heading);
-          margin-bottom: 0.25rem;
-        }
-
-        .dark .feature-title {
-          color: #e5e5e5;
-        }
-
-        @media (min-width: 640px) {
-          .feature-title {
-            font-size: 1.125rem;
-          }
-        }
-
-        .feature-text {
-          margin-top: 0.25rem;
-          color: #262626;
-          font-family: var(--font-body);
-          line-height: 1.5;
-        }
-
-        .dark .feature-text {
-          color: #e5e5e5;
-        }
-
-        /* Image gallery */
-        .gallery-grid {
-          display: grid;
-          width: 100%;
-          grid-template-columns: 1fr;
-          gap: 4rem;
-        }
-
-        @media (min-width: 768px) {
-          .gallery-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        .gallery-column {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          font-family: var(--font-body);
-        }
-
-        @media (min-width: 1024px) {
-          .gallery-column.right {
-            margin-left: auto;
-            margin-top: 1.5rem;
-          }
-        }
-
-        .gallery-item {
-          /* No additional styles needed */
-        }
-
-        .gallery-item-title {
-          display: block;
-          font-weight: 700;
-          color: #262626;
-          font-family: var(--font-heading);
-          margin-bottom: 0.5rem;
-          font-size: 0.875rem;
-        }
-
-        .dark .gallery-item-title {
-          color: #e5e5e5;
-        }
-
-        .gallery-image {
-          height: 100%;
-          width: 100%;
-          cursor: pointer;
-          border-radius: 0.375rem;
-          object-fit: cover;
-          object-position: center;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease;
-        }
-
-        .gallery-image:hover {
-          transform: scale(1.02);
-        }
-
-        .dark .gallery-image {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Modal */
-        .modal {
-          position: fixed;
-          inset: 0;
-          z-index: 50;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: rgba(0, 0, 0, 0.9);
-          opacity: 0;
-          visibility: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .modal.open {
-          opacity: 1;
-          visibility: visible;
-        }
-
-        .modal-image {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          max-width: 100vw;
-          max-height: 100vh;
-          transform: translate(-50%, -50%);
-          object-fit: contain;
-        }
-
-        .modal-button {
-          position: absolute;
-          cursor: pointer;
-          font-weight: 800;
-          color: white;
-          font-family: var(--font-body);
-          padding: 0.5rem;
-          border-radius: 0.25rem;
-          background: rgba(0, 0, 0, 0.5);
-          border: none;
-          transition: background-color 0.3s ease;
-        }
-
-        .modal-button:hover {
-          background: rgba(0, 0, 0, 0.7);
-        }
-
-        .modal-close {
-          right: 1rem;
-          top: 1rem;
-          font-size: 1.875rem;
-        }
-
-        .modal-next {
-          right: 1.5rem;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 1.25rem;
-        }
-
-        .modal-prev {
-          left: 1.5rem;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 1.25rem;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-          0% {
-            opacity: 0;
-            transform: translateY(50px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeInMoveRight {
-          0% {
-            opacity: 0;
-            transform: translateX(300px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        /* Hidden class */
-        .hidden {
-          display: none !important;
-        }
-      `}</style>
-
-      <div className="page-container">
-        {/* Loading Overlay */}
-        <div className={`overlay ${!isLoading ? 'hidden' : ''}`}></div>
-
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div>
-            <p className="intro-text">
+    <div style={styles.container}>
+      {/* Overlay div */}
+      <div id="overlay" style={{
+        position: 'fixed',
+        inset: 0,
+        backgroundColor: '#F8F1E7',
+        zIndex: -1
+      }}></div>
+
+      {/* Hero Section */}
+      <section style={styles.heroSection}>
+        <div>
+          <p style={styles.introText}>
+            Renovamos tu hogar con reformas integrales y parciales. Aumenta el valor y la comodidad de tu hogar con reformas profesionales.
+          </p>
+
+          {/* Side by side CTA Buttons */}
+          <div style={responsiveStyles.buttonContainer}>
+            <a 
+              href="/contact" 
+              style={styles.ctaButton}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#e0b800';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#FFD000';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Contáctanos
+              <svg 
+                style={{ height: '1rem', width: '1rem', flexShrink: 0, transition: 'transform 0.3s ease' }} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </a>
+
+            <a 
+              href="/calculadora" 
+              style={styles.ctaButton}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#e0b800';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#FFD000';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              <svg 
+                style={{ height: '1rem', width: '1rem', flexShrink: 0 }} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Calcular Presupuesto
+              <svg 
+                style={{ height: '1rem', width: '1rem', flexShrink: 0 }} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div style={responsiveStyles.heroContent}>
+          {/* Text content - always order 1 (left side) */}
+          <div style={responsiveStyles.heroText}>
+            <h1 style={responsiveStyles.heroTitle}>
+              Servicio Profesional para Reformas de Vivienda
+            </h1>
+            <p style={styles.heroSubtitle}>
               Renovamos tu hogar con reformas integrales y parciales. Aumenta el valor y la comodidad de tu hogar con reformas profesionales.
             </p>
 
-            {/* CTA Button */}
-            <div>
-              <a href="/contact" className="cta-button">
-                Contáctanos
-                <svg className="h-4 w-4 flex-shrink-0 transition duration-300 group-hover:translate-x-1" height="24" viewBox="0 0 24 24" width="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* Additional Calcular Presupuesto button under title */}
+            <div style={styles.heroTitleButtonContainer}>
+              <a 
+                href="/calculadora" 
+                style={styles.ctaButton}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e0b800';
+                  e.target.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#FFD000';
+                  e.target.style.transform = 'translateY(0)';
+                }}
+              >
+                <svg 
+                  style={{ height: '1rem', width: '1rem', flexShrink: 0 }} 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Calcular Presupuesto
+                <svg 
+                  style={{ height: '1rem', width: '1rem', flexShrink: 0 }} 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
             </div>
           </div>
-
-          <div className="hero-content">
-            <div className="hero-text">
-              <h1 className="hero-title">
-                Servicio Profesional para Reformas de Vivienda
-              </h1>
-              <p className="hero-subtitle">
-                Renovamos tu hogar con reformas integrales y parciales. Aumenta el valor y la comodidad de tu hogar con reformas profesionales.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/reformas-vivienda2.jpg"
-                alt="Reformas de Vivienda"
-                className="hero-image"
-                loading="eager"
-              />
-            </div>
+          
+          {/* Image container - always order 2 (right side) */}
+          <div style={responsiveStyles.heroImageContainer}>
+            <img
+              src="/images/reformas-vivienda2.jpg"
+              alt="Reformas de Vivienda"
+              style={styles.heroImage}
+              loading="eager"
+            />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Tab Navigation */}
-        <div className="tab-container">
-          <nav className="tab-nav" aria-label="Tabs" role="tablist">
-            {tabs.map((tab, index) => (
-              <button
-                key={tab.id}
-                type="button"
-                className={`tab-button ${activeTab === index ? 'active' : ''}`}
-                onClick={() => setActiveTab(index)}
-                role="tab"
-              >
-                <span className="tab-text">{tab.title}</span>
-              </button>
-            ))}
-          </nav>
+      {/* Tab Navigation */}
+      <div style={styles.tabContainer}>
+        <nav style={responsiveStyles.tabNav} aria-label="Tabs" role="tablist">
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              type="button"
+              style={{
+                ...styles.tabButton,
+                ...(activeTab === index ? styles.tabButtonActive : {})
+              }}
+              onClick={() => setActiveTab(index)}
+              role="tab"
+              onMouseEnter={(e) => {
+                if (activeTab !== index) {
+                  e.target.style.backgroundColor = isDarkMode ? 'rgba(255, 255, 255, 0.02)' : '#f9fafb';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== index) {
+                  e.target.style.backgroundColor = 'transparent';
+                }
+              }}
+            >
+              <span style={styles.tabText}>{tab.title}</span>
+            </button>
+          ))}
+        </nav>
 
-          {/* Tab Content */}
-          <div className="tab-content">
-            {/* Description Tab */}
-            <div className={`${activeTab === 0 ? '' : 'hidden'}`} role="tabpanel">
-              <div className="content-section">
-                <div className="content-grid">
-                  <div className="content-main">
-                    <h2 className="content-title">
-                      Reformas de Vivienda
-                    </h2>
-                    <p className="content-description">
-                      Renovamos tu hogar con reformas integrales y parciales. Aumenta el valor y la comodidad de tu hogar con reformas profesionales.&quot;
+        {/* Tab Content */}
+        <div style={styles.tabContent}>
+          {/* Description Tab */}
+          <div style={{ display: activeTab === 0 ? 'block' : 'none' }} role="tabpanel">
+            <div style={styles.contentSection}>
+              <div style={responsiveStyles.contentGrid}>
+                <div style={styles.contentMain}>
+                  <h2 style={styles.contentTitle}>
+                    Reformas de Vivienda
+                  </h2>
+                  <p style={styles.contentDescription}>
+                    Renovamos tu hogar con reformas integrales y parciales. Aumenta el valor y la comodidad de tu hogar con reformas profesionales.
+                  </p>
+                </div>
+
+                <div style={styles.featuresSection}>
+                  <div>
+                    <h3 style={styles.featureTitle}>Detalle</h3>
+                    <p style={styles.featureText}>
+                      Reformas de interiores y reformas de vivienda con materiales de alta calidad.
                     </p>
-                  </div>
-
-                  <div className="features-list">
-                    <div className="feature-item">
-                      <div>
-                        <h3 className="feature-title">Detalle</h3>
-                        <p className="feature-text">
-                          Reformas de interiores y reformas de vivienda con materiales de alta calidad.
-                        </p>
-                        <p className="feature-text">
-                          Renovaciones en baños, cocinas y espacios abiertos con un diseño moderno y funcional.
-                        </p>
-                      </div>
-                    </div>
+                    <p style={styles.featureText}>
+                      Renovaciones en baños, cocinas y espacios abiertos con un diseño moderno y funcional.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Images Tab */}
-            <div className={`${activeTab === 1 ? '' : 'hidden'}`} role="tabpanel">
-              <div className="content-section">
-                <div className="gallery-grid">
-                  {/* Left Column */}
-                  <div className="gallery-column">
-                    {leftColumnImages.map((image, index) => (
-                      <div key={index} className="gallery-item">
-                        <h3 className="gallery-item-title">{image.title}</h3>
-                        <img
-                          src={image.src}
-                          alt={image.alt}
-                          className="gallery-image"
-                          loading="lazy"
-                          onClick={() => openModal(index)}
-                        />
-                      </div>
-                    ))}
-                  </div>
+          {/* Images Tab */}
+          <div style={{ display: activeTab === 1 ? 'block' : 'none' }} role="tabpanel">
+            <div style={styles.gallerySection}>
+              <div style={responsiveStyles.galleryGrid}>
+                {/* Left Column */}
+                <div style={styles.galleryColumn}>
+                  {galleryImages.slice(0, Math.ceil(galleryImages.length / 2)).map((image, index) => (
+                    <div key={index} style={styles.galleryItem}>
+                      <h3 style={styles.featureTitle}>{image.title}</h3>
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        style={styles.galleryImage}
+                        loading="lazy"
+                        onClick={() => openModal(index)}
+                        onMouseEnter={(e) => {
+                          e.target.style.transform = 'scale(1.02)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.transform = 'scale(1)';
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
 
-                  {/* Right Column */}
-                  <div className="gallery-column right">
-                    {rightColumnImages.map((image, index) => (
-                      <div key={index + leftColumnImages.length} className="gallery-item">
-                        <h3 className="gallery-item-title">{image.title}</h3>
-                        <img
-                          src={image.src}
-                          alt={image.alt}
-                          className="gallery-image"
-                          loading="lazy"
-                          onClick={() => openModal(index + leftColumnImages.length)}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                {/* Right Column */}
+                <div style={{...styles.galleryColumn, marginTop: isMobile ? 0 : '1.5rem'}}>
+                  {galleryImages.slice(Math.ceil(galleryImages.length / 2)).map((image, index) => (
+                    <div key={index + Math.ceil(galleryImages.length / 2)} style={styles.galleryItem}>
+                      <h3 style={styles.featureTitle}>{image.title}</h3>
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        style={styles.galleryImage}
+                        loading="lazy"
+                        onClick={() => openModal(index + Math.ceil(galleryImages.length / 2))}
+                        onMouseEnter={(e) => {
+                          e.target.style.transform = 'scale(1.02)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.transform = 'scale(1)';
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Fullscreen Modal */}
-        <div className={`modal ${isModalOpen ? 'open' : ''}`} onClick={closeModal}>
+      {/* Fullscreen Modal */}
+      {isModalOpen && (
+        <div style={styles.modal} onClick={closeModal}>
           <img
             src={galleryImages[currentImageIndex]?.src}
             alt={galleryImages[currentImageIndex]?.alt}
-            className="modal-image"
+            style={styles.modalImage}
             onClick={(e) => e.stopPropagation()}
           />
-          <button className="modal-button modal-close" onClick={closeModal}>
-            Close
+          <button
+            style={{...styles.modalButton, ...styles.closeButton}}
+            onClick={closeModal}
+          >
+            ×
           </button>
-          <button className="modal-button modal-next" onClick={nextImage}>
+          <button
+            style={{...styles.modalButton, ...styles.nextButton}}
+            onClick={nextImage}
+          >
             Next
           </button>
-          <button className="modal-button modal-prev" onClick={prevImage}>
+          <button
+            style={{...styles.modalButton, ...styles.prevButton}}
+            onClick={prevImage}
+          >
             Prev
           </button>
         </div>
-      </div>
-    </>
+      )}
+
+      {/* WhatsApp Floating Button */}
+      <a
+        href="https://wa.me/34603370840?text=Hola!%20Quisiera%20m%C3%A1s%20informaci%C3%B3n"
+        target="_blank"
+        rel="noreferrer noopener"
+        style={{
+          position: 'fixed',
+          top: '85%',
+          right: 0,
+          zIndex: 50,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '3rem',
+          height: '3rem',
+          borderTopLeftRadius: '1rem',
+          borderBottomLeftRadius: '1rem',
+          backgroundColor: '#25d366',
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = '#30bd63';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = '#25d366';
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          zIndex: 10,
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: '50%',
+          backgroundColor: '#25d366',
+          animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite'
+        }}></div>
+        <div style={{ position: 'relative', zIndex: 20 }}>
+          <svg
+            fill="#fff"
+            height="24px"
+            width="24px"
+            viewBox="0 0 308.00 308.00"
+          >
+            <path d="M227.904,176.981c-0.6-0.288-23.054-11.345-27.044-12.781c-1.629-0.585-3.374-1.156-5.23-1.156 c-3.032,0-5.579,1.511-7.563,4.479c-2.243,3.334-9.033,11.271-11.131,13.642c-0.274,0.313-0.648,0.687-0.872,0.687 c-0.201,0-3.676-1.431-4.728-1.888c-24.087-10.463-42.37-35.624-44.877-39.867c-0.358-0.61-0.373-0.887-0.376-0.887 c0.088-0.323,0.898-1.135,1.316-1.554c1.223-1.21,2.548-2.805,3.83-4.348c0.607-0.731,1.215-1.463,1.812-2.153 c1.86-2.164,2.688-3.844,3.648-5.79l0.503-1.011c2.344-4.657,0.342-8.587-0.305-9.856c-0.531-1.062-10.012-23.944-11.02-26.348 c-2.424-5.801-5.627-8.502-10.078-8.502c-0.413,0,0,0-1.732,0.073c-2.109,0.089-13.594,1.601-18.672,4.802 c-5.385,3.395-14.495,14.217-14.495,33.249c0,17.129,10.87,33.302,15.537,39.453c0.116,0.155,0.329,0.47,0.638,0.922 c17.873,26.102,40.154,45.446,62.741,54.469c21.745,8.686,32.042,9.69,37.896,9.69c0.001,0,0.001,0,0.001,0 c2.46,0,4.429-0.193,6.166-0.364l1.102-0.105c7.512-0.666,24.02-9.22,27.775-19.655c2.958-8.219,3.738-17.199,1.77-20.458 C233.168,179.508,230.845,178.393,227.904,176.981z"></path>
+            <path d="M156.734,0C73.318,0,5.454,67.354,5.454,150.143c0,26.777,7.166,52.988,20.741,75.928L0.212,302.716 c-0.484,1.429-0.124,3.009,0.933,4.085C1.908,307.58,2.943,308,4,308c0.405,0,0.813-0.061,1.211-0.188l79.92-25.396 c21.87,11.685,46.588,17.853,71.604,17.853C240.143,300.27,308,232.923,308,150.143C308,67.354,240.143,0,156.734,0z M156.734,268.994c-23.539,0-46.338-6.797-65.936-19.657c-0.659-0.433-1.424-0.655-2.194-0.655c-0.407,0-0.815,0.062-1.212,0.188 l-40.035,12.726l12.924-38.129c0.418-1.234,0.209-2.595-0.561-3.647c-14.924-20.392-22.813-44.485-22.813-69.677 c0-65.543,53.754-118.867,119.826-118.867c66.064,0,119.812,53.324,119.812,118.867 C276.546,215.678,222.799,268.994,156.734,268.994z"></path>
+          </svg>
+        </div>
+      </a>
+    </div>
   );
 };
 

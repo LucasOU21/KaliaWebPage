@@ -19,6 +19,7 @@ import TendenciasSuelosLaminados from './pages/blog/TendenciasSuelosLaminados';
 import EstilosCocinaDisenos from './pages/blog/EstilosCocinaDisenos';
 import InstalacionPuertasTarimaRodapies from './pages/InstalacionDePuertasTarimaFlotanteRodapies';
 import ServiciosDeAcabados from './pages/ServiciosDeAcabados';
+import Manitas from './pages/Manitas';
 import Contact from './pages/Contact';
 
 
@@ -62,6 +63,7 @@ function App() {
             <Route path="/services/reformas-de-vivienda" element={<ReformasDeVivienda />} />
             <Route path="/services/instalacion-puertas-tarimaflotante-rodapies" element={<InstalacionPuertasTarimaRodapies />} />
             <Route path="/services/servicios-de-acabados" element={<ServiciosDeAcabados />} />
+            <Route path="/services/manitas" element={<Manitas />} />
             
 
             {/* Esto es el About us page */}

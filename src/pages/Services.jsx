@@ -10,6 +10,10 @@ const Services = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
+
   // Services data matching the HTML structure
   const services = [
     {
@@ -21,14 +25,14 @@ const Services = () => {
     },
     {
       id: 'diseno-de-muebles',
-      title: 'Diseño de Muebles',
+      title: 'Armarios y Vestidores',
       image: '/images/realEstanteria1.jpg',
       alt: 'Servicio Profesional de Diseños de Muebles a Medida',
       cardType: 'wide'
     },
     {
       id: 'intalacion-cocinas-electrodomesticos',
-      title: 'Instalación de Cocinas y Electrodomésticos',
+      title: 'Diseño y Montaje de Cocinas',
       image: '/images/realKitchen1.jpg',
       alt: 'Instalación de Cocinas y Electrodomésticos',
       cardType: 'wide'
@@ -69,34 +73,97 @@ const Services = () => {
       ...prev,
       [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Check if at least apellido OR nombre is filled
+    if (!formData.apellido.trim() && !formData.nombre.trim()) {
+      newErrors.name = 'Debe ingresar al menos su apellido o nombre';
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'El email es requerido';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Ingrese un email válido';
+    }
+
+    // Phone validation
+    if (!formData.telefono.trim()) {
+      newErrors.telefono = 'El teléfono es requerido';
+    } else if (!/^\+?[\d\s\-\(\)]{9,}$/.test(formData.telefono.trim())) {
+      newErrors.telefono = 'Ingrese un número de teléfono válido';
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = 'El mensaje es requerido';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'El mensaje debe tener al menos 10 caracteres';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Simulate emailjs functionality
-    console.log('Form submitted:', formData);
-    
-    // Here you would integrate with emailjs
-    // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
-    //   .then(function (response) {
-    //     alert("Se ha enviado el mensaje satisfactoriamente, ¡Gracias por su preferencia!");
-    //     console.log("Correo enviado", response);
-    //   })
-    //   .catch(function (error) {
-    //     console.error("Error", error);
-    //   });
-    
-    alert("Se ha enviado el mensaje satisfactoriamente, ¡Gracias por su preferencia!");
-    
-    // Reset form
-    setFormData({
-      apellido: '',
-      nombre: '',
-      email: '',
-      telefono: '',
-      message: ''
-    });
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate form submission (replace with actual emailjs integration)
+      console.log('Form submitted:', formData);
+      
+      // Here you would integrate with emailjs like in the original
+      // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
+      //   .then(function (response) {
+      //     setShowSuccess(true);
+      //     console.log("Correo enviado", response);
+      //   })
+      //   .catch(function (error) {
+      //     console.error("Error", error);
+      //   });
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setShowSuccess(true);
+      
+      // Reset form
+      setFormData({
+        apellido: '',
+        nombre: '',
+        email: '',
+        telefono: '',
+        message: ''
+      });
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -379,6 +446,10 @@ const Services = () => {
           }
         }
 
+        .form-group {
+          position: relative;
+        }
+
         .form-input, .form-textarea {
           display: block;
           width: 100%;
@@ -391,14 +462,26 @@ const Services = () => {
           transition: all 0.3s ease;
         }
 
+        .form-input.error,
+        .form-textarea.error {
+          border-color: #ef4444;
+          background-color: #fef2f2;
+        }
+
+        .dark .form-input.error,
+        .dark .form-textarea.error {
+          border-color: #f87171;
+          background-color: rgba(239, 68, 68, 0.1);
+        }
+
         .form-input::placeholder, .form-textarea::placeholder {
           color: #71717a;
         }
 
         .form-input:focus, .form-textarea:focus {
           outline: none;
-          border-color: #d4d4d8;
-          box-shadow: 0 0 0 3px rgba(163, 163, 163, 0.1);
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .dark .form-input, .dark .form-textarea {
@@ -412,7 +495,24 @@ const Services = () => {
         }
 
         .dark .form-input:focus, .dark .form-textarea:focus {
-          box-shadow: 0 0 0 1px #fafafa;
+          border-color: #60a5fa;
+          box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 6rem;
+        }
+
+        .error-message {
+          color: #ef4444;
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+          font-weight: 500;
+        }
+
+        .dark .error-message {
+          color: #f87171;
         }
 
         .submit-button {
@@ -433,8 +533,9 @@ const Services = () => {
           cursor: pointer;
         }
 
-        .submit-button:hover {
+        .submit-button:hover:not(:disabled) {
           background-color: #1e3a8a;
+          transform: translateY(-1px);
         }
 
         .dark .submit-button {
@@ -442,7 +543,7 @@ const Services = () => {
           background-color: #eab308;
         }
 
-        .dark .submit-button:hover {
+        .dark .submit-button:hover:not(:disabled) {
           background-color: #fbbf24;
         }
 
@@ -521,6 +622,103 @@ const Services = () => {
           white-space: nowrap;
           border: 0;
         }
+
+        /* Loading spinner */
+        .spinner {
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid transparent;
+          border-top: 2px solid currentColor;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Success Message Styles */
+        .success-notification {
+          position: fixed;
+          top: 2rem;
+          right: 2rem;
+          background: #10b981;
+          color: white;
+          border-radius: 0.5rem;
+          padding: 1rem 1.5rem;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          max-width: 24rem;
+          animation: slideInRight 0.3s ease-out;
+        }
+
+        .dark .success-notification {
+          background: #059669;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .success-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        .success-content {
+          flex: 1;
+        }
+
+        .success-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+
+        .success-message {
+          font-size: 0.75rem;
+          opacity: 0.9;
+          line-height: 1.4;
+        }
+
+        .success-close {
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+          opacity: 0.7;
+          transition: opacity 0.2s ease;
+        }
+
+        .success-close:hover {
+          opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+          .success-notification {
+            top: 1rem;
+            right: 1rem;
+            left: 1rem;
+            max-width: none;
+          }
+        }
       `}</style>
 
       <div className="services-page">
@@ -590,10 +788,10 @@ const Services = () => {
                   Rellene el siguiente formulario
                 </h2>
 
-                <div onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                   <div className="form-grid">
                     <div className="form-row">
-                      <div>
+                      <div className="form-group">
                         <label htmlFor="apellido" className="sr-only">Apellidos</label>
                         <input
                           type="text"
@@ -601,11 +799,11 @@ const Services = () => {
                           id="apellido"
                           value={formData.apellido}
                           onChange={handleInputChange}
-                          className="form-input"
+                          className={`form-input ${errors.name ? 'error' : ''}`}
                           placeholder="Apellidos"
                         />
                       </div>
-                      <div>
+                      <div className="form-group">
                         <label htmlFor="nombre" className="sr-only">Nombres</label>
                         <input
                           type="text"
@@ -613,13 +811,18 @@ const Services = () => {
                           id="nombre"
                           value={formData.nombre}
                           onChange={handleInputChange}
-                          className="form-input"
+                          className={`form-input ${errors.name ? 'error' : ''}`}
                           placeholder="Nombres"
                         />
                       </div>
                     </div>
+                    {errors.name && (
+                      <div className="error-message" style={{ gridColumn: '1 / -1' }}>
+                        {errors.name}
+                      </div>
+                    )}
 
-                    <div>
+                    <div className="form-group">
                       <label htmlFor="email" className="sr-only">Email</label>
                       <input
                         type="email"
@@ -628,12 +831,13 @@ const Services = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         autoComplete="email"
-                        className="form-input"
+                        className={`form-input ${errors.email ? 'error' : ''}`}
                         placeholder="Email"
                       />
+                      {errors.email && <div className="error-message">{errors.email}</div>}
                     </div>
 
-                    <div>
+                    <div className="form-group">
                       <label htmlFor="telefono" className="sr-only">Número de teléfono</label>
                       <input
                         type="tel"
@@ -641,12 +845,13 @@ const Services = () => {
                         id="telefono"
                         value={formData.telefono}
                         onChange={handleInputChange}
-                        className="form-input"
+                        className={`form-input ${errors.telefono ? 'error' : ''}`}
                         placeholder="Número de teléfono"
                       />
+                      {errors.telefono && <div className="error-message">{errors.telefono}</div>}
                     </div>
 
-                    <div>
+                    <div className="form-group">
                       <label htmlFor="message" className="sr-only">Detalles</label>
                       <textarea
                         id="message"
@@ -654,15 +859,27 @@ const Services = () => {
                         rows="4"
                         value={formData.message}
                         onChange={handleInputChange}
-                        className="form-textarea"
-                        placeholder="Detalles"
+                        className={`form-textarea ${errors.message ? 'error' : ''}`}
+                        placeholder="Detalles de su proyecto o consulta..."
                       ></textarea>
+                      {errors.message && <div className="error-message">{errors.message}</div>}
                     </div>
                   </div>
 
                   <div style={{ marginTop: '1rem', display: 'grid' }}>
-                    <button type="button" onClick={handleSubmit} className="submit-button">
-                      Envíenos un mensaje
+                    <button 
+                      type="submit" 
+                      className="submit-button"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="spinner"></div>
+                          Enviando...
+                        </>
+                      ) : (
+                        'Envíenos un mensaje'
+                      )}
                     </button>
                   </div>
 
@@ -671,7 +888,7 @@ const Services = () => {
                       Nos pondremos en contacto con usted en un plazo de 1 a 2 días laborables.
                     </p>
                   </div>
-                </div>
+                </form>
               </div>
 
               <div className="contact-info">
@@ -695,6 +912,50 @@ const Services = () => {
             </div>
           </div>
         </section>
+
+        {/* Success Notification */}
+        {showSuccess && (
+          <div className="success-notification">
+            <svg
+              className="success-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20,6 9,17 4,12"></polyline>
+            </svg>
+            
+            <div className="success-content">
+              <div className="success-title">¡Mensaje enviado!</div>
+              <div className="success-message">
+                Nos pondremos en contacto contigo pronto.
+              </div>
+            </div>
+            
+            <button 
+              className="success-close"
+              onClick={() => setShowSuccess(false)}
+              aria-label="Cerrar notificación"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

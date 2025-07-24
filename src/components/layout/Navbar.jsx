@@ -339,38 +339,42 @@ const Navbar = () => {
               
               {/* Services dropdown menu */}
               <div style={styles.servicesDropdown} className="services-group">
-                <span style={{...styles.navLink, display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="nav-link">
-                  Servicios
-                  <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1rem', width: '1rem', marginLeft: '0.25rem', transition: 'transform 0.3s ease' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </span>
-                <div style={styles.dropdownMenu} className="dropdown-menu">
-                  <div style={{ padding: '0.25rem', borderRadius: '0.375rem', backgroundColor: isDarkMode ? '#374151' : '#ffffff' }}>
-                    <Link to="/services/montaje-de-muebles" style={styles.dropdownItem} className="dropdown-item">
-                      Montaje de Muebles
-                    </Link>
-                    <Link to="/services/diseno-de-muebles" style={styles.dropdownItem} className="dropdown-item">
-                      Diseño de Muebles
-                    </Link>
-                    <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.dropdownItem} className="dropdown-item">
-                      Cocinas y Electrodomésticos
-                    </Link>
-                    <Link to="/services/reformas-de-vivienda" style={styles.dropdownItem} className="dropdown-item">
-                      Reformas de Vivienda
-                    </Link>
-                    <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.dropdownItem} className="dropdown-item">
-                      Puertas, Tarima y Rodapiés
-                    </Link>
-                    <Link to="/services/servicios-de-acabados" style={styles.dropdownItem} className="dropdown-item">
-                      Servicios de Acabados
-                    </Link>
-                    <Link to="/services/manitas" style={styles.dropdownItem} className="dropdown-item">
-                      Manitas
-                    </Link>
-                  </div>
-                </div>
-              </div>
+  <Link 
+    to="/services" 
+    style={{...styles.navLink, display: 'flex', alignItems: 'center', cursor: 'pointer'}} 
+    className="nav-link"
+  >
+    Servicios
+    <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1rem', width: '1rem', marginLeft: '0.25rem', transition: 'transform 0.3s ease' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </Link>
+  <div style={styles.dropdownMenu} className="dropdown-menu">
+    <div style={{ padding: '0.25rem', borderRadius: '0.375rem', backgroundColor: isDarkMode ? '#374151' : '#ffffff' }}>
+      <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.dropdownItem} className="dropdown-item">
+        Diseño y Montaje de Cocinas
+      </Link>
+      <Link to="/services/diseno-de-muebles" style={styles.dropdownItem} className="dropdown-item">
+        Armarios y Vestidores
+      </Link>
+      <Link to="/services/montaje-de-muebles" style={styles.dropdownItem} className="dropdown-item">
+        Montaje de Muebles
+      </Link>
+      <Link to="/services/reformas-de-vivienda" style={styles.dropdownItem} className="dropdown-item">
+        Reformas de Vivienda
+      </Link>
+      <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.dropdownItem} className="dropdown-item">
+        Puertas, Tarima y Rodapiés
+      </Link>
+      <Link to="/services/servicios-de-acabados" style={styles.dropdownItem} className="dropdown-item">
+        Servicios de Acabados
+      </Link>
+      <Link to="/services/manitas" style={styles.dropdownItem} className="dropdown-item">
+        Manitas
+      </Link>
+    </div>
+  </div>
+</div>
               
               <Link to="/nosotros" style={styles.navLink} className="nav-link">Nosotros</Link>
               <Link to="/blog" style={styles.navLink} className="nav-link">Blog</Link>
@@ -484,14 +488,14 @@ const Navbar = () => {
               
               {/* Mobile Submenu */}
               <div style={styles.mobileSubmenu}>
-                <Link to="/services/montaje-de-muebles" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
-                  Montaje de Muebles
+                <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                  Diseño y Montaje de Cocinas
                 </Link>
                 <Link to="/services/diseno-de-muebles" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
-                  Diseño de Muebles
+                  Armarios y Vestidores
                 </Link>
-                <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
-                  Cocinas y Electrodomésticos
+                <Link to="/services/montaje-de-muebles" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                  Montaje de Muebles
                 </Link>
                 <Link to="/services/reformas-de-vivienda" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
                   Reformas de Vivienda

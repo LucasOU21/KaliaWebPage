@@ -136,57 +136,16 @@ const HeroSection = () => {
         margin: 0 0.25rem;
       }
       
-      .cta-container {
+      .contact-buttons {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        margin-top: 1rem;
-        width: 100%;
-        max-width: 400px;
-      }
-      
-      /* STATIC BUTTON - NO ANIMATIONS */
-      .primary-button {
-        background-color: #FFD000;
-        color: #000000;
-        border: none;
-        border-radius: 8px;
-        padding: 0.875rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        font-family: 'Poppins', sans-serif;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
         justify-content: center;
-        width: 100%;
-        max-width: 300px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        text-decoration: none;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 1rem;
       }
       
-      .primary-button .button-text {
-        position: relative;
-      }
-      
-      .primary-button .arrow {
-        margin-left: 0.5rem;
-        opacity: 1;
-      }
-      
-      .button-hint {
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.9rem;
-        color: #FFFFFF;
-        margin-top: -0.5rem;
-        margin-bottom: 1rem;
-        font-style: italic;
-      }
-      
-      .call-button {
+      .call-button,
+      .whatsapp-button {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -194,17 +153,24 @@ const HeroSection = () => {
         font-family: 'Poppins', sans-serif;
         font-size: 1.1rem;
         font-weight: 300;
-        margin-top: 0.5rem;
         text-decoration: none;
       }
       
-      .call-button svg {
+      .call-button svg,
+      .whatsapp-button svg {
         width: 3rem;
         height: 3rem;
-        background: #FFD000;
         padding: 0.75rem;
         border-radius: 50%;
         margin-bottom: 0.5rem;
+      }
+      
+      .call-button svg {
+        background: #FFD000;
+      }
+      
+      .whatsapp-button svg {
+        background: #25D366;
       }
       
       @media (max-width: 1200px) {
@@ -316,24 +282,17 @@ const HeroSection = () => {
           max-width: 100%;
         }
         
-        .cta-container {
-          gap: 1rem;
+        .contact-buttons {
+          gap: 1.5rem;
         }
         
-        .primary-button {
-          padding: 0.75rem 1.5rem;
+        .call-button,
+        .whatsapp-button {
           font-size: 0.9rem;
         }
         
-        .button-hint {
-          font-size: 0.8rem;
-        }
-        
-        .call-button {
-          font-size: 0.9rem;
-        }
-        
-        .call-button svg {
+        .call-button svg,
+        .whatsapp-button svg {
           width: 2.5rem;
           height: 2.5rem;
         }
@@ -375,21 +334,20 @@ const HeroSection = () => {
             <span>Precio inmejorable</span>
           </p>
           
-          <div className="cta-container">
-            <Link to="/calculadora" className="primary-button">
-              <span className="button-text">CALCULAR PRESUPUESTO</span>
-              <svg className="arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </Link>
-            <p className="button-hint">¡Haz clic aquí para obtener tu presupuesto personalizado!</p>
-            
+          <div className="contact-buttons">
             <a href="tel:603370840" className="call-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
               603 37 08 40
+            </a>
+            
+            <a href="https://wa.me/603370840?text=Hola%2C%20me%20interesa%20obtener%20información%20sobre%20sus%20servicios%20de%20reformas%20y%20decoración" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFFFFF">
+                <path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zM12.04 20.15c-1.4 0-2.79-.38-3.99-1.08l-.29-.17-2.99.78.8-2.91-.18-.3c-.78-1.23-1.19-2.66-1.19-4.12 0-4.28 3.48-7.76 7.76-7.76 2.07 0 4.01.81 5.47 2.27 1.46 1.46 2.27 3.4 2.27 5.47 0 4.28-3.48 7.76-7.76 7.76z"/>
+                <path d="M9.34 7.28c-.18-.4-.37-.41-.54-.41-.14 0-.3 0-.46 0-.16 0-.43.06-.65.3-.22.24-.84.82-.84 2.01s.86 2.33.98 2.49c.12.16 1.75 2.67 4.24 3.74.59.27 1.05.43 1.41.55.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.46-.28-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78z"/>
+              </svg>
+              WhatsApp
             </a>
           </div>
         </div>

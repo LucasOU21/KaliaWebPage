@@ -1,9 +1,14 @@
-// src/components/layout/Footer.jsx - Mobile optimized with better dark mode
+// src/components/layout/Footer.jsx - Mobile optimized with better dark mode and fixed links
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  
+  // Function to scroll to top when clicking links
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   
   const styles = {
     footer: {
@@ -403,29 +408,32 @@ const Footer = () => {
               <ul style={isMobile ? styles.servicesList : styles.servicesListMd}>
                 <li>
                   <Link 
-                    to="/servicios/montaje-muebles" 
-                    className="hover-gold dark-text" 
-                    style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
-                  >
-                    Montaje de muebles
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    to="/servicios/diseno-muebles" 
-                    className="hover-gold dark-text" 
-                    style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
-                  >
-                    Diseño de muebles a medida
-                  </Link>
-                </li>
-                <li>
-                  <Link 
                     to="/services/intalacion-cocinas-electrodomesticos" 
                     className="hover-gold dark-text" 
                     style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
                   >
-                    Instalación de cocinas
+                    Diseño y Montaje de Cocinas
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/services/diseno-de-muebles" 
+                    className="hover-gold dark-text" 
+                    style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
+                  >
+                    Armarios y Vestidores
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/services/montaje-de-muebles" 
+                    className="hover-gold dark-text" 
+                    style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
+                  >
+                    Montaje de muebles
                   </Link>
                 </li>
                 <li>
@@ -433,6 +441,7 @@ const Footer = () => {
                     to="/services/reformas-de-vivienda" 
                     className="hover-gold dark-text" 
                     style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
                   >
                     Reformas integrales
                   </Link>
@@ -442,6 +451,7 @@ const Footer = () => {
                     to="/services/instalacion-puertas-tarimaflotante-rodapies" 
                     className="hover-gold dark-text" 
                     style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
                   >
                     Puertas, Tarima y Rodapiés
                   </Link>
@@ -451,15 +461,17 @@ const Footer = () => {
                     to="/services/servicios-de-acabados" 
                     className="hover-gold dark-text" 
                     style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
                   >
                     Servicios de Acabados
                   </Link>
                 </li>
                 <li>
                   <Link 
-                    to="/servicios/manitas" 
+                    to="/services/manitas" 
                     className="hover-gold dark-text" 
                     style={isMobile ? styles.serviceLink : styles.serviceLinkMd}
+                    onClick={scrollToTop}
                   >
                     Servicio de manitas
                   </Link>

@@ -1,10 +1,11 @@
+// src/pages/Manitas.jsx - Servicio Profesional de Manitas page
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
-const InstalacionCocinasElectrodomesticos = () => {
+const Manitas = () => {
   const { isDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -14,65 +15,68 @@ const InstalacionCocinasElectrodomesticos = () => {
     { id: 'imagenes', title: 'Imágenes' }
   ];
 
-  // Images data for the gallery
+  // Gallery images data
   const galleryImages = [
     {
-      src: '/images/muebles-altos.jpg',
-      alt: 'Muebles altos',
-      title: 'Muebles altos'
+      src: '/src/assets/images/manitas-galery1.jpg',
+      alt: 'Servicio de manitas - Reparaciones profesionales',
+      title: ''
     },
     {
-      src: '/images/muebles-bajo-cocina.jpg',
-      alt: 'Muebles bajos',
-      title: 'Muebles bajos'
+      src: '/src/assets/images/manitas-galery2.jpg',
+      alt: 'Instalación de lámparas y accesorios',
+      title: ''
     },
     {
-      src: '/images/columna-electro.jpg',
-      alt: 'Columnas',
-      title: 'Columnas'
+      src: '/src/assets/images/manitas-galery3.jpg',
+      alt: 'Montaje de cortinas y espejos',
+      title: ''
     },
     {
-      src: '/images/disenio-cocina.jpg',
-      alt: 'Diseño de cocina',
-      title: 'Diseño de cocina'
+      src: '/src/assets/images/manitas-galery4.jpg',
+      alt: 'Reparaciones de fontanería básica',
+      title: ''
     },
     {
-      src: '/images/electro-panelados.jpg',
-      alt: 'Electrodomésticos panelados',
-      title: 'Electrodomésticos panelados'
+      src: '/src/assets/images/manitas-galery5.jpg',
+      alt: 'Instalación de TV en pared',
+      title: ''
     },
     {
-      src: '/images/campana-extractora.jpg',
-      alt: 'Campana extractora',
-      title: 'Campana extractora'
+      src: '/src/assets/images/manitas-galery6.jpg',
+      alt: 'Cambio de bombillas y accesorios',
+      title: ''
     },
     {
-      src: '/images/encimeras.jpg',
-      alt: 'Encimera',
-      title: 'Encimera'
+      src: '/src/assets/images/manitas-galery7.jpg',
+      alt: 'Reparaciones domésticas variadas',
+      title: ''
+    },
+    {
+      src: '/src/assets/images/manitas-galery8.jpg',
+      alt: 'Servicios de manitas profesional',
+      title: ''
+    },
+    {
+      src: '/src/assets/images/manitas-galery9.jpg',
+      alt: 'Pequeñas reparaciones del hogar',
+      title: ''
     }
   ];
 
-  // Handle image modal
-  const openModal = (index) => {
+  // Handle image click for modal
+  const handleImageClick = (index) => {
     setCurrentImageIndex(index);
-    setIsModalOpen(true);
+    setShowModal(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+  // Modal navigation
   const nextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev + 1 >= galleryImages.length ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev - 1 < 0 ? galleryImages.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
   // Page load animation
@@ -83,19 +87,19 @@ const InstalacionCocinasElectrodomesticos = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle escape key for modal
+  // Close modal on escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
-        closeModal();
+        setShowModal(false);
       }
     };
 
-    if (isModalOpen) {
+    if (showModal) {
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }
-  }, [isModalOpen]);
+  }, [showModal]);
 
   const styles = {
     container: {
@@ -378,7 +382,7 @@ const InstalacionCocinasElectrodomesticos = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Responsive styles
+  // Responsive styles - only change for mobile
   const responsiveStyles = {
     heroContent: {
       ...styles.heroContent,
@@ -421,7 +425,7 @@ const InstalacionCocinasElectrodomesticos = () => {
 
   return (
     <div style={styles.container}>
-      {/* Overlay div */}
+      {/* Overlay div (from original HTML) */}
       <div id="overlay" style={{
         position: 'fixed',
         inset: 0,
@@ -433,7 +437,7 @@ const InstalacionCocinasElectrodomesticos = () => {
       <section style={styles.heroSection}>
         <div>
           <p style={styles.introText}>
-            Nos encargamos del montaje e instalación de muebles de cocina Ikea, Leroy Merlin y otros fabricantes.
+            Pequeñas reparaciones que hacen la diferencia. Rápido, económico y sin complicaciones.
           </p>
 
           {/* Side by side CTA Buttons */}
@@ -510,12 +514,12 @@ const InstalacionCocinasElectrodomesticos = () => {
           {/* Text content - always order 1 (left side) */}
           <div style={responsiveStyles.heroText}>
             <h1 style={responsiveStyles.heroTitle}>
-              Diseño y Montaje de Cocinas
+              Servicio Profesional de Manitas
             </h1>
             <p style={styles.heroSubtitle}>
-              Instalamos muebles de cocina y electrodomésticos con precisión y calidad profesional
+              Pequeñas reparaciones que hacen la diferencia. Rápido, económico y sin complicaciones.
             </p>
-            
+
             {/* Additional Calcular Presupuesto button under title */}
             <div style={styles.heroTitleButtonContainer}>
               <a 
@@ -563,8 +567,8 @@ const InstalacionCocinasElectrodomesticos = () => {
           {/* Image container - always order 2 (right side) */}
           <div style={responsiveStyles.heroImageContainer}>
             <img
-              src="/images/realKitchen1.jpg"
-              alt="Diseño y Montaje de Cocinas"
+              src="/src/assets/images/manitas-main.jpg"
+              alt="Servicio Profesional de Manitas"
               style={styles.heroImage}
               loading="eager"
             />
@@ -609,10 +613,10 @@ const InstalacionCocinasElectrodomesticos = () => {
               <div style={responsiveStyles.contentGrid}>
                 <div style={styles.contentMain}>
                   <h2 style={styles.contentTitle}>
-                    Diseño y Montaje de Cocinas
+                    Servicio Profesional de Manitas
                   </h2>
                   <p style={styles.contentDescription}>
-                    Nos especializamos en el montaje e instalación profesional de muebles de cocina y electrodomésticos de las mejores marcas.
+                    Pequeñas reparaciones que hacen la diferencia. Rápido, económico y sin complicaciones.
                   </p>
                 </div>
 
@@ -620,13 +624,19 @@ const InstalacionCocinasElectrodomesticos = () => {
                   <div>
                     <h3 style={styles.featureTitle}>Subservicios</h3>
                     <p style={styles.featureText}>
-                      Instalamos muebles altos de cocina y muebles bajos de cocina, asegurando un ajuste perfecto.
+                      Reemplazo de cisterna inodoro e inodoro completo.
                     </p>
                     <p style={styles.featureText}>
-                      Montamos electrodomésticos panelados, campanas extractoras y encimeras.
+                      Montaje de cortinas, espejos y estores.
                     </p>
                     <p style={styles.featureText}>
-                      Diseño e instalación de cocinas Ikea y Leroy Merlin.
+                      Instalación de lámparas colgantes y plafones LED.
+                    </p>
+                    <p style={styles.featureText}>
+                      Montaje de TV en pared.
+                    </p>
+                    <p style={styles.featureText}>
+                      Cambio de bombillas y otros accesorios.
                     </p>
                   </div>
                 </div>
@@ -648,7 +658,7 @@ const InstalacionCocinasElectrodomesticos = () => {
                         alt={image.alt}
                         style={styles.galleryImage}
                         loading="lazy"
-                        onClick={() => openModal(index)}
+                        onClick={() => handleImageClick(index)}
                         onMouseEnter={(e) => {
                           e.target.style.transform = 'scale(1.02)';
                         }}
@@ -670,7 +680,7 @@ const InstalacionCocinasElectrodomesticos = () => {
                         alt={image.alt}
                         style={styles.galleryImage}
                         loading="lazy"
-                        onClick={() => openModal(index + Math.ceil(galleryImages.length / 2))}
+                        onClick={() => handleImageClick(index + Math.ceil(galleryImages.length / 2))}
                         onMouseEnter={(e) => {
                           e.target.style.transform = 'scale(1.02)';
                         }}
@@ -688,17 +698,17 @@ const InstalacionCocinasElectrodomesticos = () => {
       </div>
 
       {/* Fullscreen Modal */}
-      {isModalOpen && (
-        <div style={styles.modal} onClick={closeModal}>
+      {showModal && (
+        <div style={styles.modal} onClick={() => setShowModal(false)}>
           <img
-            src={galleryImages[currentImageIndex]?.src}
-            alt={galleryImages[currentImageIndex]?.alt}
+            src={galleryImages[currentImageIndex].src}
+            alt="Imagen en pantalla completa"
             style={styles.modalImage}
             onClick={(e) => e.stopPropagation()}
           />
           <button
             style={{...styles.modalButton, ...styles.closeButton}}
-            onClick={closeModal}
+            onClick={() => setShowModal(false)}
           >
             ×
           </button>
@@ -771,4 +781,4 @@ const InstalacionCocinasElectrodomesticos = () => {
   );
 };
 
-export default InstalacionCocinasElectrodomesticos;
+export default Manitas;
