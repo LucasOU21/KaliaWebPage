@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 const FeaturesNavs = ({ title, tabs }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const { isDarkMode } = useTheme();
 
   // Default tabs data matching the website
   const defaultTabs = [
@@ -110,19 +112,110 @@ const FeaturesNavs = ({ title, tabs }) => {
     return icons[name] || icons.tools;
   };
 
+  // Dynamic styles based on theme
+  const sectionStyle = {
+    width: '100%',
+    backgroundColor: isDarkMode ? '#1f2937' : '#F8F1E7',
+    padding: '5rem 0',
+    minHeight: '120vh',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'background-color 0.3s ease'
+  };
+
+  const contentContainerStyle = {
+    flex: 1,
+    background: isDarkMode 
+      ? 'linear-gradient(to bottom right, #374151, #1f2937)'
+      : 'linear-gradient(to bottom right, #fffbeb, #fef3c7)',
+    borderRadius: '16px',
+    padding: '3.5rem 2.5rem 3.5rem 4rem',
+    marginLeft: 0,
+    position: 'relative',
+    zIndex: 1,
+    border: isDarkMode 
+      ? '1px solid rgba(75, 85, 99, 0.3)'
+      : '1px solid rgba(255, 255, 255, 0.2)',
+    minHeight: '500px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    transition: 'all 0.3s ease',
+    backdropFilter: isDarkMode ? 'blur(10px)' : 'none'
+  };
+
+  const sectionTitleStyle = {
+    fontFamily: 'Georgia, serif',
+    fontSize: '1.75rem',
+    fontWeight: 700,
+    color: isDarkMode ? '#f9fafb' : '#000000',
+    marginBottom: '3rem',
+    lineHeight: 1.3,
+    transition: 'color 0.3s ease'
+  };
+
+  const getTabButtonStyle = (isActive) => ({
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'left',
+    padding: '1.25rem 1rem',
+    borderRadius: '8px',
+    border: isDarkMode 
+      ? '1px solid rgba(75, 85, 99, 0.4)'
+      : '1px solid rgba(255, 255, 255, 0.2)',
+    backgroundColor: isActive
+      ? (isDarkMode ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.9)')
+      : (isDarkMode ? 'rgba(55, 65, 81, 0.3)' : 'rgba(255, 255, 255, 0.1)'),
+    color: isDarkMode ? '#f3f4f6' : '#000000',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    outline: 'none',
+    fontSize: '0.875rem',
+    backdropFilter: 'blur(5px)',
+    minHeight: '70px',
+    borderColor: isActive
+      ? (isDarkMode ? 'rgba(59, 130, 246, 0.4)' : 'rgba(255, 208, 0, 0.3)')
+      : undefined,
+    boxShadow: isActive
+      ? (isDarkMode ? '0 4px 12px rgba(59, 130, 246, 0.2)' : '0 4px 12px rgba(0, 0, 0, 0.15)')
+      : undefined
+  });
+
+  const getTabIconStyle = (isActive) => ({
+    marginRight: '0.75rem',
+    color: isActive
+      ? (isDarkMode ? '#60a5fa' : '#ea580c')
+      : (isDarkMode ? '#9ca3af' : '#6b7280'),
+    flexShrink: 0,
+    transition: 'color 0.2s ease'
+  });
+
+  const getTabHeadingStyle = (isActive) => ({
+    fontFamily: 'Poppins, sans-serif',
+    fontWeight: isActive ? 600 : 500,
+    color: isActive
+      ? (isDarkMode ? '#93c5fd' : '#1e40af')
+      : (isDarkMode ? '#f3f4f6' : '#000000'),
+    lineHeight: 1.4,
+    transition: 'color 0.2s ease'
+  });
+
+  const tabImageStyle = {
+    width: '100%',
+    height: '500px',
+    objectFit: 'cover',
+    borderRadius: '12px',
+    boxShadow: isDarkMode 
+      ? '0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+      : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    transition: 'all 0.3s ease',
+    filter: isDarkMode ? 'brightness(0.9) contrast(1.1)' : 'none'
+  };
+
   return (
     <>
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-
-        .features-section {
-          width: 100%;
-          background-color: #F8F1E7;
-          padding: 5rem 0; /* Increased from 3rem to 5rem */
-          min-height: 120vh; /* Added minimum height for more vertical space */
-          display: flex;
-          align-items: center;
-        }
 
         .features-wrapper {
           max-width: 1200px;
@@ -130,121 +223,38 @@ const FeaturesNavs = ({ title, tabs }) => {
           padding: 0 2rem;
           display: flex;
           align-items: center;
-          gap: 3rem; /* Increased from 2rem to 3rem */
+          gap: 3rem;
           position: relative;
-          min-height: 80vh; /* Added minimum height */
+          min-height: 80vh;
         }
 
         /* Left container - Image */
         .image-container {
           flex: 0 0 45%;
           position: relative;
-          z-index: 3; /* Increased z-index to overlap content container */
-          height: 100%; /* Use full available height */
+          z-index: 3;
+          height: 100%;
           display: flex;
           align-items: center;
-          margin-right: -6rem; /* Increased overlap for image to sit on top of container */
-        }
-
-        .tab-image {
-          width: 100%;
-          height: 500px; /* Increased from 400px to 500px */
-          object-fit: cover;
-          border-radius: 12px;
-          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Right container - Content */
-        .content-container {
-          flex: 1;
-          background: linear-gradient(to bottom right, #fffbeb, #fef3c7); /* from-amber-50 to-yellow-100 */
-          border-radius: 16px;
-          padding: 3.5rem 2.5rem 3.5rem 4rem; /* Added extra left padding to accommodate image overlap */
-          margin-left: 0; /* Removed margin since image is now overlapping from the right */
-          position: relative;
-          z-index: 1;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          min-height: 500px; /* Added minimum height for content container */
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        /* Dark mode gradient for content container */
-        .dark .content-container {
-          background: linear-gradient(to bottom right, #262626, #171717); /* from-neutral-800 to-neutral-900 */
-          background-opacity: 0.7;
-        }
-
-        .section-title {
-          font-family: 'Georgia', serif;
-          font-size: 1.75rem;
-          font-weight: 700;
-          color: #000000;
-          margin-bottom: 3rem; /* Increased from 2rem to 3rem */
-          line-height: 1.3;
+          margin-right: -6rem;
         }
 
         .nav-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem; /* Increased from 0.75rem to 1.25rem */
+          gap: 1.25rem;
           flex-grow: 1;
         }
 
-        .tab-button {
-          display: flex;
-          align-items: center;
-          text-align: left;
-          padding: 1.25rem 1rem; /* Increased vertical padding from 0.875rem to 1.25rem */
-          border-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          background-color: rgba(255, 255, 255, 0.1);
-          color: #000000;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          outline: none;
-          font-size: 0.875rem;
-          backdrop-filter: blur(5px);
-          min-height: 70px; /* Added minimum height for buttons */
-        }
-
-        .tab-button:hover {
-          background-color: rgba(255, 255, 255, 0.25);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab-button.active {
-          background-color: rgba(255, 255, 255, 0.9);
-          border-color: rgba(255, 208, 0, 0.3);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .tab-icon {
-          margin-right: 0.75rem;
-          color: #6b7280;
-          flex-shrink: 0;
-        }
-
-        .tab-button.active .tab-icon {
-          color: #ea580c;
-        }
-
-        .tab-heading {
-          font-family: 'Poppins', sans-serif;
-          font-weight: 500;
-          color: #000000;
-          line-height: 1.4; /* Slightly increased line height */
-        }
-
-        .tab-button.active .tab-heading {
-          font-weight: 600;
-          color: #1e40af;
-        }
-
+        /* Utility classes */
         .hidden {
           display: none;
+        }
+
+        /* Kalia highlighting */
+        .text-kalia-gold {
+          color: #D4AF37;
+          font-weight: 600;
         }
 
         /* Hide on mobile, show on desktop */
@@ -254,20 +264,20 @@ const FeaturesNavs = ({ title, tabs }) => {
 
         @media (min-width: 768px) {
           .features-section {
-            display: flex; /* Changed from block to flex for better centering */
+            display: flex;
           }
         }
 
         /* Mobile responsive */
         @media (max-width: 1024px) {
           .features-section {
-            padding: 3rem 0;
-            min-height: auto;
+            padding: 3rem 0 !important;
+            min-height: auto !important;
           }
 
           .features-wrapper {
             flex-direction: column;
-            gap: 2rem; /* Increased gap */
+            gap: 2rem;
             min-height: auto;
           }
 
@@ -275,18 +285,14 @@ const FeaturesNavs = ({ title, tabs }) => {
             flex: none;
             width: 100%;
             height: auto;
-            margin-right: 0; /* Remove overlap on mobile */
-          }
-
-          .tab-image {
-            height: 400px;
+            margin-right: 0;
           }
 
           .content-container {
-            margin-left: 0;
+            margin-left: 0 !important;
             width: 100%;
-            min-height: auto;
-            padding: 2.5rem;
+            min-height: auto !important;
+            padding: 2.5rem !important;
           }
 
           .nav-grid {
@@ -301,28 +307,30 @@ const FeaturesNavs = ({ title, tabs }) => {
           }
 
           .content-container {
-            padding: 2rem 1.5rem;
+            padding: 2rem 1.5rem !important;
           }
 
-          .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-          }
-
-          .tab-button {
-            padding: 1rem;
-            min-height: 60px;
+          .nav-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
           }
         }
 
-        /* Kalia highlighting */
-        .text-kalia-gold {
-          color: #D4AF37;
-          font-weight: 600;
+        /* Hover effects */
+        .tab-button:hover {
+          background-color: ${isDarkMode ? 'rgba(55, 65, 81, 0.5)' : 'rgba(255, 255, 255, 0.25)'} !important;
+          transform: translateY(-1px);
+          box-shadow: ${isDarkMode ? '0 4px 8px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.1)'};
+        }
+
+        /* Focus states for accessibility */
+        .tab-button:focus {
+          outline: 2px solid ${isDarkMode ? '#fbbf24' : '#60a5fa'};
+          outline-offset: 2px;
         }
       `}</style>
 
-      <section className="features-section">
+      <section className="features-section" style={sectionStyle}>
         <div className="features-wrapper">
           {/* Left container - Image */}
           <div className="image-container">
@@ -334,7 +342,7 @@ const FeaturesNavs = ({ title, tabs }) => {
                 <img
                   src={tab.src}
                   alt={tab.alt}
-                  className="tab-image"
+                  style={tabImageStyle}
                   draggable="false"
                   loading="eager"
                 />
@@ -343,8 +351,8 @@ const FeaturesNavs = ({ title, tabs }) => {
           </div>
 
           {/* Right container - Content */}
-          <div className="content-container">
-            <h2 className="section-title">
+          <div style={contentContainerStyle}>
+            <h2 style={sectionTitleStyle}>
               Elige <span className="text-kalia-gold">Kalia</span> para un servicio profesional, de calidad y a precio competitivo.
             </h2>
             
@@ -354,16 +362,32 @@ const FeaturesNavs = ({ title, tabs }) => {
                 <button
                   key={index}
                   type="button"
-                  className={`tab-button ${activeTab === index ? 'active' : ''}`}
+                  className="tab-button"
+                  style={getTabButtonStyle(activeTab === index)}
                   onClick={() => setActiveTab(index)}
+                  onMouseEnter={(e) => {
+                    if (activeTab !== index) {
+                      e.target.style.backgroundColor = isDarkMode ? 'rgba(55, 65, 81, 0.5)' : 'rgba(255, 255, 255, 0.25)';
+                      e.target.style.transform = 'translateY(-1px)';
+                      e.target.style.boxShadow = isDarkMode ? '0 4px 8px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeTab !== index) {
+                      const defaultStyle = getTabButtonStyle(false);
+                      e.target.style.backgroundColor = defaultStyle.backgroundColor;
+                      e.target.style.transform = 'none';
+                      e.target.style.boxShadow = defaultStyle.boxShadow || 'none';
+                    }
+                  }}
                 >
                   {/* Icon */}
-                  <span className="tab-icon">
+                  <span style={getTabIconStyle(activeTab === index)}>
                     <IconComponent name={tab.svg} />
                   </span>
                   
                   {/* Tab content */}
-                  <span className="tab-heading">
+                  <span style={getTabHeadingStyle(activeTab === index)}>
                     {tab.heading}
                   </span>
                 </button>
