@@ -68,103 +68,115 @@ const CalculadoraContent = () => {
 
   // Data structure
   const tipoInstalacion = [
-    {
-      id: "estandar",
-      nombre: "Estándar",
-      svg: "estandar",
-      beneficios: [
-        "Instalación rápida y eficiente",
-        "Ajustes esenciales para un buen acabado",
-        "Servicio confiable a un precio accesible",
-      ],
-      instalaciones: [
-        {
-          nombre: "Muebles",
-          subtipos: [
-            { id:"mueblesaltos", nombre: "Muebles Altos", precio: 90, tipoUnidad: "metro lineal" },
-            { id:"mueblesbajo", nombre: "Muebles Bajos", precio: 90, tipoUnidad: "metro lineal" },
-            { id:"torresdebaldas", nombre: "Torres de baldas", precio: 120, tipoUnidad: "metro lineal" },
-            { id:"rodapie", nombre: "Rodapiés", precio: 5, tipoUnidad: "metro lineal" },
-            { id:"encimerademadera", nombre: "Encimera de madera", precio: 45, tipoUnidad: "metro lineal" },
-            { id:"copete", nombre: "Copete", precio: 3, tipoUnidad: "metro lineal" },
-            { id:"panelesembellecedores", nombre: "Paneles Embellecedores", precio: 20, tipoUnidad: "unidad" },
-          ],
-        },
-        {
-          nombre: "Electrodomésticos Encastrables",
-          subtipos: [
-            { id:"vitroceramica",nombre: "Vitrocerámica", precio: 15, tipoUnidad: "unidad" },
-            { id:"horno",nombre: "Horno", precio: 15, tipoUnidad: "unidad" },
-            { id:"microondas",nombre: "Microondas", precio: 15, tipoUnidad: "unidad" },
-            { id:"lavadora",nombre: "Lavadora", precio: 15, tipoUnidad: "unidad" },
-            { id:"calientaplatos",nombre: "Calientaplatos", precio: 15, tipoUnidad: "unidad" },
-            { id:"vinoteca",nombre: "Vinoteca", precio: 15, tipoUnidad: "unidad" },
-            { id:"nevera",nombre: "Nevera", precio: 20, tipoUnidad: "unidad" },
-            { id:"lavavajillas",nombre: "Lavavajillas", precio: 15, tipoUnidad: "unidad" },
-            { id:"campanadecorativa",nombre: "Campana Decorativa", precio: 40, tipoUnidad: "unidad" },
-          ],
-        },
-        {
-          nombre: "Electrodomésticos Integrados",
-          subtipos: [
-            { id:"lavavajillasPanelado", nombre: "Lavavajillas Panelado", precio: 40, tipoUnidad: "unidad" },
-            { id:"lavadoraPanelado", nombre: "Lavadora Panelado", precio: 40, tipoUnidad: "unidad" },
-            { id:"frigorificoPanelado", nombre: "Frigorifico Panelado", precio: 80, tipoUnidad: "unidad" },
-            { id:"campanaextractoraIntegrada", nombre: "Campana Extractora Integrada", precio: 30, tipoUnidad: "unidad" },
-          ],
-        },
-        { id:"fregadero", nombre: "Fregadero", precio: 50, tipoUnidad: "unidad" },
-      ],
-    },
-    {
-      id: "premium",
-      nombre: "Premium",
-      svg: "premium",
-      beneficios: [
-        "Ajustes finos en cortes y alineaciones",
-        "Nivelación exacta para una estética impecable",
-        "Cuidado extra en cada unión y terminación",
-      ],
-      instalaciones: [
-        {
-          nombre: "Muebles",
-          subtipos: [
-            { id:"mueblesaltos", nombre: "Muebles Altos", precio: 90, tipoUnidad: "metro lineal" },
-            { id:"mueblesbajo", nombre: "Muebles Bajos", precio: 90, tipoUnidad: "metro lineal" },
-            { id:"torresdebaldas", nombre: "Torres de baldas", precio: 120, tipoUnidad: "metro lineal" },
-            { id:"rodapie", nombre: "Rodapiés", precio: 5, tipoUnidad: "metro lineal" },
-            { id:"encimerademadera", nombre: "Encimera de madera", precio: 45, tipoUnidad: "metro lineal" },
-            { id:"copete", nombre: "Copete", precio: 3, tipoUnidad: "metro lineal" },
-            { id:"panelesembellecedores", nombre: "Paneles Embellecedores", precio: 20, tipoUnidad: "unidad" },
-          ],
-        },
-        {
-          nombre: "Electrodomésticos Encastrables",
-          subtipos: [
-            { id:"vitroceramica",nombre: "Vitrocerámica", precio: 15, tipoUnidad: "unidad" },
-            { id:"horno",nombre: "Horno", precio: 15, tipoUnidad: "unidad" },
-            { id:"microondas",nombre: "Microondas", precio: 15, tipoUnidad: "unidad" },
-            { id:"lavadora",nombre: "Lavadora", precio: 15, tipoUnidad: "unidad" },
-            { id:"calientaplatos",nombre: "Calientaplatos", precio: 15, tipoUnidad: "unidad" },
-            { id:"vinoteca",nombre: "Vinoteca", precio: 15, tipoUnidad: "unidad" },
-            { id:"nevera",nombre: "Nevera", precio: 20, tipoUnidad: "unidad" },
-            { id:"lavavajillas",nombre: "Lavavajillas", precio: 15, tipoUnidad: "unidad" },
-            { id:"campanadecorativa",nombre: "Campana Decorativa", precio: 40, tipoUnidad: "unidad" },
-          ],
-        },
-        {
-          nombre: "Electrodomésticos Integrados",
-          subtipos: [
-            { id:"lavavajillasPanelado", nombre: "Lavavajillas Panelado", precio: 40, tipoUnidad: "unidad" },
-            { id:"lavadoraPanelado", nombre: "Lavadora Panelado", precio: 40, tipoUnidad: "unidad" },
-            { id:"frigorificoPanelado", nombre: "Frigorifico Panelado", precio: 80, tipoUnidad: "unidad" },
-            { id:"campanaextractoraIntegrada", nombre: "Campana Extractora Integrada", precio: 30, tipoUnidad: "unidad" },
-          ],
-        },
-        { id:"fregadero", nombre: "Fregadero", precio: 50, tipoUnidad: "unidad" },
-      ],
-    },
-  ];
+  {
+    id: "estandar",
+    nombre: "Estándar",
+    svg: "estandar",
+    beneficios: [
+      "Instalación rápida y eficiente",
+      "Ajustes esenciales para un buen acabado",
+      "Servicio confiable a un precio accesible",
+    ],
+    instalaciones: [
+      {
+        nombre: "Muebles",
+        subtipos: [
+          { id: "mueblesaltos", nombre: "Muebles Altos", precio: 60, tipoUnidad: "metro lineal" },
+          { id: "mueblesbajo", nombre: "Muebles Bajos", precio: 60, tipoUnidad: "metro lineal" },
+          { id: "muebles columnas", nombre: "Muebles Columnas", precio: 100, tipoUnidad: "metro lineal" },
+          { id: "encimerademadera", nombre: "Encimera de madera", precio: 35, tipoUnidad: "metro lineal" },
+          { id: "copete", nombre: "Copete", precio: 5, tipoUnidad: "metro lineal" },
+          { id: "panelesembellecedores", nombre: "Paneles Embellecedores", precio: 20, tipoUnidad: "unidad" },
+          { id: "cajoneras", nombre: "Cajoneras", precio: 90, tipoUnidad: "metro lineal" },
+          { id: "zocalo", nombre: "Zócalo", precio: 5, tipoUnidad: "metro lineal" },
+        ],
+      },
+      {
+        nombre: "Electrodomésticos Encastrables",
+        subtipos: [
+          { id: "vitroceramica", nombre: "Vitrocerámica", precio: 15, tipoUnidad: "unidad" },
+          { id: "horno", nombre: "Horno", precio: 15, tipoUnidad: "unidad" },
+          { id: "microondas", nombre: "Microondas", precio: 15, tipoUnidad: "unidad" },
+          { id: "lavadora", nombre: "Lavadora", precio: 15, tipoUnidad: "unidad" },
+          { id: "calientaplatos", nombre: "Calientaplatos", precio: 15, tipoUnidad: "unidad" },
+          { id: "vinoteca", nombre: "Vinoteca", precio: 15, tipoUnidad: "unidad" },
+          { id: "lavavajillas", nombre: "Lavavajillas", precio: 15, tipoUnidad: "unidad" },
+          { id: "campanaencastrable", nombre: "Campana Encastrable", precio: 40, tipoUnidad: "unidad" },
+          { id: "campanadecorativa", nombre: "Campana Decorativa", precio: 50, tipoUnidad: "unidad" },
+        ],
+      },
+      {
+        nombre: "Electrodomésticos Integrados",
+        subtipos: [
+          { id: "lavavajillasPanelado", nombre: "Lavavajillas Panelada", precio: 40, tipoUnidad: "unidad" },
+          { id: "lavadoraPanelado", nombre: "Lavadora Panelada", precio: 40, tipoUnidad: "unidad" },
+          { id: "frigorificoPanelado", nombre: "Frigorífico Panelado", precio: 80, tipoUnidad: "unidad" },
+          { id: "campanaextractoraIntegrada", nombre: "Campana Extractora Integrada", precio: 70, tipoUnidad: "unidad" },
+        ],
+      },
+      {
+        nombre: "Otros",
+        subtipos: [
+          { id: "fregadero", nombre: "Fregadero, grifo y plomería", precio: 60, tipoUnidad: "unidad" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "premium",
+    nombre: "Premium",
+    svg: "premium",
+    beneficios: [
+      "Ajustes finos en cortes y alineaciones",
+      "Nivelación exacta para una estética impecable",
+      "Cuidado extra en cada unión y terminación",
+    ],
+    instalaciones: [
+      {
+        nombre: "Muebles",
+        subtipos: [
+          { id: "mueblesaltos", nombre: "Muebles Altos", precio: 75, tipoUnidad: "metro lineal" },
+          { id: "mueblesbajo", nombre: "Muebles Bajos", precio: 75, tipoUnidad: "metro lineal" },
+          { id: "muebles columnas", nombre: "Muebles Columnas", precio: 125, tipoUnidad: "metro lineal" },
+          { id: "encimerademadera", nombre: "Encimera de madera", precio: 65, tipoUnidad: "metro lineal" },
+          { id: "copete", nombre: "Copete", precio: 8, tipoUnidad: "metro lineal" },
+          { id: "panelesembellecedores", nombre: "Paneles Embellecedores", precio: 25, tipoUnidad: "unidad" },
+          { id: "cajoneras", nombre: "Cajoneras", precio: 112, tipoUnidad: "metro lineal" },
+          { id: "zocalo", nombre: "Zócalo", precio: 13, tipoUnidad: "metro lineal" },
+        ],
+      },
+      {
+        nombre: "Electrodomésticos Encastrables",
+        subtipos: [
+          { id: "vitroceramica", nombre: "Vitrocerámica", precio: 20, tipoUnidad: "unidad" },
+          { id: "horno", nombre: "Horno", precio: 20, tipoUnidad: "unidad" },
+          { id: "microondas", nombre: "Microondas", precio: 20, tipoUnidad: "unidad" },
+          { id: "lavadora", nombre: "Lavadora", precio: 20, tipoUnidad: "unidad" },
+          { id: "calientaplatos", nombre: "Calientaplatos", precio: 20, tipoUnidad: "unidad" },
+          { id: "vinoteca", nombre: "Vinoteca", precio: 20, tipoUnidad: "unidad" },
+          { id: "lavavajillas", nombre: "Lavavajillas", precio: 20, tipoUnidad: "unidad" },
+          { id: "campanaencastrable", nombre: "Campana Encastrable", precio: 50, tipoUnidad: "unidad" },
+          { id: "campanadecorativa", nombre: "Campana Decorativa", precio: 70, tipoUnidad: "unidad" },
+        ],
+      },
+      {
+        nombre: "Electrodomésticos Integrados",
+        subtipos: [
+          { id: "lavavajillasPanelado", nombre: "Lavavajillas Panelada", precio: 60, tipoUnidad: "unidad" },
+          { id: "lavadoraPanelado", nombre: "Lavadora Panelada", precio: 60, tipoUnidad: "unidad" },
+          { id: "frigorificoPanelado", nombre: "Frigorífico Panelado", precio: 120, tipoUnidad: "unidad" },
+          { id: "campanaextractoraIntegrada", nombre: "Campana Extractora Integrada", precio: 85, tipoUnidad: "unidad" },
+        ],
+      },
+      {
+        nombre: "Otros",
+        subtipos: [
+          { id: "fregadero", nombre: "Fregadero, grifo y plomería", precio: 75, tipoUnidad: "unidad" },
+        ],
+      },
+    ],
+  },
+];
 
   // Product state management
   const [productQuantities, setProductQuantities] = useState({});
