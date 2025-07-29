@@ -4,7 +4,6 @@ class EmailService {
     // Vercel API endpoint (relative path works in production)
     this.apiEndpoint = '/api/send-calculator-email';
     this.companyEmail = 'info@kaliareformas.com';
-    this.testEmail = 'kimhunter1324@gmail.com';
   }
 
   // Generate professional email template for calculator submission
