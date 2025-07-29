@@ -10,11 +10,24 @@ const isValidEmail = (email) => {
 
 // Helper function to create email transporter
 const createTransporter = () => {
+  // Try both possible environment variable names
+  const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
+  
+  console.log('🔍 Debug email config:');
+  console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
+  console.log('EMAIL_APP_PASSWORD exists:', !!process.env.EMAIL_APP_PASSWORD);
+  console.log('EMAIL_PASS exists:', !!process.env.EMAIL_PASS);
+  console.log('Using password variable:', emailPassword ? 'Found' : 'Missing');
+  
+  if (!process.env.EMAIL_USER || !emailPassword) {
+    throw new Error('Missing email credentials in environment variables');
+  }
+  
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_APP_PASSWORD
+      pass: emailPassword
     },
     tls: {
       rejectUnauthorized: false
@@ -47,6 +60,7 @@ export default async function handler(req, res) {
 
   try {
     console.log('📧 Received calculator email request');
+    console.log('📧 Request body keys:', Object.keys(req.body));
     
     const { to, subject, html, text, customerData, priority } = req.body;
 
@@ -75,6 +89,15 @@ export default async function handler(req, res) {
 
     // Create email transporter
     const transporter = createTransporter();
+    
+    // Test the connection first
+    try {
+      await transporter.verify();
+      console.log('✅ Email server connection verified');
+    } catch (verifyError) {
+      console.error('❌ Email server verification failed:', verifyError);
+      throw verifyError;
+    }
 
     // Prepare email options
     const mailOptions = {
@@ -101,6 +124,8 @@ export default async function handler(req, res) {
       messageId: `calculator-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
     };
 
+    console.log('📧 Attempting to send email...');
+
     // Send the email
     const info = await transporter.sendMail(mailOptions);
 
@@ -123,17 +148,18 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('❌ Error sending email:', error);
+    console.error('❌ Error stack:', error.stack);
 
     // Determine error type and appropriate response
     let statusCode = 500;
     let errorCode = 'SEND_ERROR';
     let userMessage = 'Error interno del servidor al enviar el email';
 
-    if (error.code === 'EAUTH') {
+    if (error.code === 'EAUTH' || error.message.includes('authentication') || error.message.includes('credentials')) {
       statusCode = 401;
       errorCode = 'AUTH_ERROR';
       userMessage = 'Error de autenticación del email';
-    } else if (error.code === 'ECONNECTION') {
+    } else if (error.code === 'ECONNECTION' || error.code === 'ETIMEDOUT') {
       statusCode = 503;
       errorCode = 'CONNECTION_ERROR';
       userMessage = 'No se pudo conectar al servidor de email';
@@ -141,6 +167,10 @@ export default async function handler(req, res) {
       statusCode = 400;
       errorCode = 'MESSAGE_ERROR';
       userMessage = 'Error en el formato del mensaje';
+    } else if (error.message.includes('Missing email credentials')) {
+      statusCode = 500;
+      errorCode = 'CONFIG_ERROR';
+      userMessage = 'Error de configuración del servidor';
     }
 
     // Return error response
