@@ -7,26 +7,15 @@
   ],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-
   "functions": {
     "api/send-calculator-email.js": {
       "maxDuration": 30
     }
   },
-  "build": {
-    "env": {
-      "EMAIL_USER": "@EMAIL_USER",
-      "EMAIL_APP_PASSWORD": "@EMAIL_APP_PASSWORD"
-    }
-  },
   "env": {
-    "EMAIL_USER": "@EMAIL_USER",
-    "EMAIL_APP_PASSWORD": "@EMAIL_APP_PASSWORD"
-  },
-  "ignoreCommand": "exit 0"
+    "EMAIL_USER": "$EMAIL_USER",
+    "EMAIL_PASS": "$EMAIL_PASS",
+    "EMAIL_HOST": "$EMAIL_HOST",
+    "EMAIL_PORT": "$EMAIL_PORT"
+  }
 }
-
-
-
-
-  
