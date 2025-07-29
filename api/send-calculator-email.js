@@ -1,4 +1,5 @@
-// api/send-calculator-email.js - Vercel serverless function
+/* global process */
+
 import nodemailer from 'nodemailer';
 
 // Helper function to validate email format
