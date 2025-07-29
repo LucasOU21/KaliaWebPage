@@ -11,11 +11,5 @@
     "api/send-calculator-email.js": {
       "maxDuration": 30
     }
-  },
-  "env": {
-    "EMAIL_USER": "$EMAIL_USER",
-    "EMAIL_PASS": "$EMAIL_PASS",
-    "EMAIL_HOST": "$EMAIL_HOST",
-    "EMAIL_PORT": "$EMAIL_PORT"
   }
 }
