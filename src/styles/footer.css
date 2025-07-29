@@ -1,0 +1,80 @@
+/* footer.css - External CSS for Footer component */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Hover effects */
+.hover-gold:hover {
+  color: #FFD000 !important;
+}
+
+/* Dark mode styles */
+.dark .footer-container {
+  background-color: #1E1E1E !important;
+}
+
+.dark .dark-text {
+  color: #F8F1E7 !important;
+}
+
+.dark .dark-hidden {
+  display: none !important;
+}
+
+.dark .dark-block {
+  display: block !important;
+}
+
+.dark .dark-border {
+  border-color: #374151 !important;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+  .mobile-padding {
+    padding: 0 0.5rem !important;
+  }
+  
+  .mobile-spacing {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mobile-grid {
+    gap: 1.5rem !important;
+  }
+}
+
+/* Responsive logo sizing */
+@media (min-width: 768px) {
+  .responsive-logo {
+    height: 18rem !important;
+  }
+  
+  .responsive-logo-hidden {
+    height: 18rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .responsive-logo {
+    height: 12rem !important;
+  }
+  
+  .responsive-logo-hidden {
+    height: 12rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-padding {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 1.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container-2xl {
+    max-width: 100vw;
+  }
+}

@@ -1,5 +1,6 @@
-// src/components/layout/FeaturesGeneral.jsx - Your working code with dark mode added
+// src/components/layout/FeaturesGeneral.jsx - Updated with external CSS
 import React from 'react';
+import '../../styles/featuresGen.css'; // Import external CSS
 
 // Icon components with proper sizing
 const VerifiedIcon = () => (
@@ -248,81 +249,60 @@ const FeaturesGeneral = ({
   };
 
   return (
-    <>
-      {/* CSS for responsive behavior and hover effects */}
-      <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        .feature-card:hover {
-          border-color: #FFD000 !important;
-          box-shadow: ${isDarkMode ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.15)'} !important;
-          transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-          .grid-responsive {
-            grid-template-columns: 1fr !important;
-            gap: 1rem !important;
-          }
-          
-          .section-responsive {
-            padding: 1rem 0.5rem !important;
-          }
-          
-          .title-responsive {
-            font-size: 1.5rem !important;
-          }
-          
-          .subtitle-responsive {
-            font-size: 1rem !important;
-          }
-        }
-        
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .grid-responsive {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        
-        @media (min-width: 1025px) {
-          .grid-responsive {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
-        }
-      `}</style>
-
-      <div style={styles.container}>
-        <section style={styles.section} className="section-responsive">
-          {/* Section header */}
-          <div style={styles.header}>
-            <h2 style={styles.title} className="title-responsive">
-              {title}
-            </h2>
-            {subTitle && (
-              <p style={styles.subtitle} className="subtitle-responsive">
-                {subTitle}
-              </p>
-            )}
-          </div>
-
-          {/* Feature image display (if provided) */}
-          {src && alt && (
-            <img
-              src={src}
-              alt={alt}
-              style={styles.image}
-              draggable="false"
-              loading="eager"
-            />
+    <div style={styles.container}>
+      <section style={styles.section} className="section-responsive">
+        {/* Section header */}
+        <div style={styles.header}>
+          <h2 style={styles.title} className="title-responsive">
+            {title}
+          </h2>
+          {subTitle && (
+            <p style={styles.subtitle} className="subtitle-responsive">
+              {subTitle}
+            </p>
           )}
+        </div>
 
-          {/* First row of features - 3 cards */}
+        {/* Feature image display (if provided) */}
+        {src && alt && (
+          <img
+            src={src}
+            alt={alt}
+            style={styles.image}
+            draggable="false"
+            loading="eager"
+          />
+        )}
+
+        {/* First row of features - 3 cards */}
+        <div style={styles.grid} className="grid-responsive">
+          {firstRowFeatures.map((feature, index) => (
+            <div 
+              key={index}
+              style={styles.card}
+              className={`feature-card ${isDarkMode ? 'dark-mode' : ''}`}
+            >
+              <div style={styles.iconContainer}>
+                <IconComponent name={feature.svg} />
+              </div>
+              <h3 style={styles.cardTitle}>
+                {feature.heading}
+              </h3>
+              <p style={styles.cardContent}>
+                {feature.content}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Second row of features - remaining cards */}
+        {secondRowFeatures.length > 0 && (
           <div style={styles.grid} className="grid-responsive">
-            {firstRowFeatures.map((feature, index) => (
+            {secondRowFeatures.map((feature, index) => (
               <div 
-                key={index}
+                key={index + 3}
                 style={styles.card}
-                className="feature-card"
+                className={`feature-card ${isDarkMode ? 'dark-mode' : ''}`}
               >
                 <div style={styles.iconContainer}>
                   <IconComponent name={feature.svg} />
@@ -336,32 +316,9 @@ const FeaturesGeneral = ({
               </div>
             ))}
           </div>
-
-          {/* Second row of features - remaining cards */}
-          {secondRowFeatures.length > 0 && (
-            <div style={styles.grid} className="grid-responsive">
-              {secondRowFeatures.map((feature, index) => (
-                <div 
-                  key={index + 3}
-                  style={styles.card}
-                  className="feature-card"
-                >
-                  <div style={styles.iconContainer}>
-                    <IconComponent name={feature.svg} />
-                  </div>
-                  <h3 style={styles.cardTitle}>
-                    {feature.heading}
-                  </h3>
-                  <p style={styles.cardContent}>
-                    {feature.content}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
-    </>
+        )}
+      </section>
+    </div>
   );
 };
 

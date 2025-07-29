@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import '../../styles/featuresNav.css';
 
 const FeaturesNavs = ({ title, tabs }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -212,191 +213,84 @@ const FeaturesNavs = ({ title, tabs }) => {
     filter: isDarkMode ? 'brightness(0.9) contrast(1.1)' : 'none'
   };
 
+  // Hover state management
+  const handleTabHover = (e, index, isEntering) => {
+    if (activeTab !== index && isEntering) {
+      const hoverStyle = isDarkMode 
+        ? {
+            backgroundColor: 'rgba(55, 65, 81, 0.5)',
+            transform: 'translateY(-1px)',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
+          }
+        : {
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+            transform: 'translateY(-1px)',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+          };
+      
+      Object.assign(e.target.style, hoverStyle);
+    } else if (activeTab !== index && !isEntering) {
+      const defaultStyle = getTabButtonStyle(false);
+      e.target.style.backgroundColor = defaultStyle.backgroundColor;
+      e.target.style.transform = 'none';
+      e.target.style.boxShadow = defaultStyle.boxShadow || 'none';
+    }
+  };
+
   return (
-    <>
-      <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-
-        .features-wrapper {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-          display: flex;
-          align-items: center;
-          gap: 3rem;
-          position: relative;
-          min-height: 80vh;
-        }
-
-        /* Left container - Image */
-        .image-container {
-          flex: 0 0 45%;
-          position: relative;
-          z-index: 3;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          margin-right: -6rem;
-        }
-
-        .nav-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-          flex-grow: 1;
-        }
-
-        /* Utility classes */
-        .hidden {
-          display: none;
-        }
-
-        /* Kalia highlighting */
-        .text-kalia-gold {
-          color: #D4AF37;
-          font-weight: 600;
-        }
-
-        /* Hide on mobile, show on desktop */
-        .features-section {
-          display: none;
-        }
-
-        @media (min-width: 768px) {
-          .features-section {
-            display: flex;
-          }
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 1024px) {
-          .features-section {
-            padding: 3rem 0 !important;
-            min-height: auto !important;
-          }
-
-          .features-wrapper {
-            flex-direction: column;
-            gap: 2rem;
-            min-height: auto;
-          }
-
-          .image-container {
-            flex: none;
-            width: 100%;
-            height: auto;
-            margin-right: 0;
-          }
-
-          .content-container {
-            margin-left: 0 !important;
-            width: 100%;
-            min-height: auto !important;
-            padding: 2.5rem !important;
-          }
-
-          .nav-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .features-wrapper {
-            padding: 0 1rem;
-          }
-
-          .content-container {
-            padding: 2rem 1.5rem !important;
-          }
-
-          .nav-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-        }
-
-        /* Hover effects */
-        .tab-button:hover {
-          background-color: ${isDarkMode ? 'rgba(55, 65, 81, 0.5)' : 'rgba(255, 255, 255, 0.25)'} !important;
-          transform: translateY(-1px);
-          box-shadow: ${isDarkMode ? '0 4px 8px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.1)'};
-        }
-
-        /* Focus states for accessibility */
-        .tab-button:focus {
-          outline: 2px solid ${isDarkMode ? '#fbbf24' : '#60a5fa'};
-          outline-offset: 2px;
-        }
-      `}</style>
-
-      <section className="features-section" style={sectionStyle}>
-        <div className="features-wrapper">
-          {/* Left container - Image */}
-          <div className="image-container">
-            {tabsToUse.map((tab, index) => (
-              <div
-                key={index}
-                className={activeTab === index ? "" : "hidden"}
-              >
-                <img
-                  src={tab.src}
-                  alt={tab.alt}
-                  style={tabImageStyle}
-                  draggable="false"
-                  loading="eager"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Right container - Content */}
-          <div style={contentContainerStyle}>
-            <h2 style={sectionTitleStyle}>
-              Elige <span className="text-kalia-gold">Kalia</span> para un servicio profesional, de calidad y a precio competitivo.
-            </h2>
-            
-            {/* Tab navigation */}
-            <nav className="nav-grid" aria-label="Tabs" role="tablist">
-              {tabsToUse.map((tab, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className="tab-button"
-                  style={getTabButtonStyle(activeTab === index)}
-                  onClick={() => setActiveTab(index)}
-                  onMouseEnter={(e) => {
-                    if (activeTab !== index) {
-                      e.target.style.backgroundColor = isDarkMode ? 'rgba(55, 65, 81, 0.5)' : 'rgba(255, 255, 255, 0.25)';
-                      e.target.style.transform = 'translateY(-1px)';
-                      e.target.style.boxShadow = isDarkMode ? '0 4px 8px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.1)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (activeTab !== index) {
-                      const defaultStyle = getTabButtonStyle(false);
-                      e.target.style.backgroundColor = defaultStyle.backgroundColor;
-                      e.target.style.transform = 'none';
-                      e.target.style.boxShadow = defaultStyle.boxShadow || 'none';
-                    }
-                  }}
-                >
-                  {/* Icon */}
-                  <span style={getTabIconStyle(activeTab === index)}>
-                    <IconComponent name={tab.svg} />
-                  </span>
-                  
-                  {/* Tab content */}
-                  <span style={getTabHeadingStyle(activeTab === index)}>
-                    {tab.heading}
-                  </span>
-                </button>
-              ))}
-            </nav>
-          </div>
+    <section className="features-section" style={sectionStyle}>
+      <div className="features-wrapper">
+        {/* Left container - Image */}
+        <div className="image-container">
+          {tabsToUse.map((tab, index) => (
+            <div
+              key={index}
+              className={activeTab === index ? "" : "hidden"}
+            >
+              <img
+                src={tab.src}
+                alt={tab.alt}
+                style={tabImageStyle}
+                draggable="false"
+                loading="eager"
+              />
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+
+        {/* Right container - Content */}
+        <div style={contentContainerStyle} className="content-container">
+          <h2 style={sectionTitleStyle}>
+            Elige <span className="text-kalia-gold">Kalia</span> para un servicio profesional, de calidad y a precio competitivo.
+          </h2>
+          
+          {/* Tab navigation */}
+          <nav className="nav-grid" aria-label="Tabs" role="tablist">
+            {tabsToUse.map((tab, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`tab-button ${isDarkMode ? 'dark-mode' : ''}`}
+                style={getTabButtonStyle(activeTab === index)}
+                onClick={() => setActiveTab(index)}
+                onMouseEnter={(e) => handleTabHover(e, index, true)}
+                onMouseLeave={(e) => handleTabHover(e, index, false)}
+              >
+                {/* Icon */}
+                <span style={getTabIconStyle(activeTab === index)}>
+                  <IconComponent name={tab.svg} />
+                </span>
+                
+                {/* Tab content */}
+                <span style={getTabHeadingStyle(activeTab === index)}>
+                  {tab.heading}
+                </span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </section>
   );
 };
 

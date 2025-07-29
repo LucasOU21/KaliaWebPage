@@ -1,8 +1,9 @@
-// src/layouts/MainLayout.jsx - Main layout component matching Astro
-import React, { useEffect } from 'react';
+// src/layouts/MainLayout.jsx - Updated with external CSS
+import React, { useEffect, useState } from 'react';
 import Navbar from '/src/components/layout/Navbar';
 import Footer from '/src/components/layout/Footer';
 import WhatsApp from '/src/components/ui/WhatsApp';
+import '../../styles/mainLayout.css'; // Import the CSS file
 
 const MainLayout = ({ 
   children, 
@@ -11,21 +12,31 @@ const MainLayout = ({
   structuredData,
   lang = "es" 
 }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   // Set document title and meta information
   useEffect(() => {
     document.title = title;
     document.documentElement.lang = lang;
     
+    // Add CSS classes to html and body
+    document.documentElement.classList.add('scrollbar-hide', 'main-html');
+    document.body.classList.add('main-body', 'scrollbar-hide');
+    
     // Handle dark mode initialization
     const initializeTheme = () => {
-      if (
-        localStorage.getItem("hs_theme") === "dark" ||
+      const shouldBeDark = localStorage.getItem("hs_theme") === "dark" ||
         (!("hs_theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      
+      if (shouldBeDark) {
         document.documentElement.classList.add("dark");
+        document.body.classList.add("dark");
+        setIsDarkMode(true);
       } else {
         document.documentElement.classList.remove("dark");
+        document.body.classList.remove("dark");
+        setIsDarkMode(false);
       }
     };
     
@@ -36,9 +47,11 @@ const MainLayout = ({
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     
     // Apply the correct theme immediately
-    document.documentElement.classList.toggle('dark', 
-      userTheme === 'dark' || (!userTheme && systemTheme === 'dark')
-    );
+    const shouldUseDark = userTheme === 'dark' || (!userTheme && systemTheme === 'dark');
+    
+    document.documentElement.classList.toggle('dark', shouldUseDark);
+    document.body.classList.toggle('dark', shouldUseDark);
+    setIsDarkMode(shouldUseDark);
     
     // Store the theme if it's from system preference and not already stored
     if (!userTheme) {
@@ -58,73 +71,26 @@ const MainLayout = ({
         }
       };
     }
+
+    // Cleanup function
+    return () => {
+      document.documentElement.classList.remove('scrollbar-hide', 'main-html');
+      document.body.classList.remove('main-body', 'scrollbar-hide');
+    };
   }, [title, lang, structuredData]);
 
   return (
-    <>
-      <style jsx>{`
-        /* CSS rules for the page scrollbar */
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-
-        /* Main layout styles matching Astro */
-        .main-layout {
-          min-height: 100vh;
-          background-color: #F8F1E7;
-          selection-background-color: #FFD000;
-          selection-color: #374151;
-        }
-
-        .main-layout.dark {
-          background-color: #374151;
-        }
-
-        .layout-container {
-          margin: 0 auto;
-          display: flex;
-          max-width: 1536px; /* max-w-screen-2xl */
-          flex-direction: column;
-          padding: 0 1rem;
-        }
-
-        @media (min-width: 640px) {
-          .layout-container {
-            padding: 0 1.5rem;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .layout-container {
-            padding: 0 2rem;
-          }
-        }
-
-        .main-content {
-          min-height: calc(100vh - 295px);
-          flex: 1;
-        }
-      `}</style>
-
-      <html lang={lang} className="scrollbar-hide lenis lenis-smooth scroll-pt-16">
-        <body className="main-layout selection:bg-secondary min-h-screen selection:text-neutral-700 dark:bg-neutral-800">
-          {/* Main structure matching Astro MainLayout */}
-          <div className="layout-container">
-            <Navbar />
-            <main className="main-content">
-              {children}
-              <WhatsApp />
-            </main>
-          </div>
-          <Footer />
-        </body>
-      </html>
-    </>
+    <div className={`main-layout ${isDarkMode ? 'dark' : ''}`}>
+      {/* Main structure matching Astro MainLayout */}
+      <div className="layout-container">
+        <Navbar />
+        <main className="main-content">
+          {children}
+          <WhatsApp />
+        </main>
+      </div>
+      <Footer />
+    </div>
   );
 };
 

@@ -1,0 +1,71 @@
+/* mainLayout.css - Main Layout Styles */
+
+/* CSS rules for the page scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* HTML and Body base styles */
+html.main-html {
+  scroll-padding-top: 4rem; /* scroll-pt-16 */
+}
+
+body.main-body {
+  min-height: 100vh;
+  background-color: #F8F1E7;
+  transition: background-color 0.3s ease;
+}
+
+/* Selection styles */
+body.main-body ::selection {
+  background-color: #FFD000;
+  color: #374151;
+}
+
+/* Dark mode styles */
+body.main-body.dark {
+  background-color: #374151;
+}
+
+/* Main layout container */
+.main-layout {
+  min-height: 100vh;
+  background-color: #F8F1E7;
+  transition: background-color 0.3s ease;
+}
+
+.main-layout.dark {
+  background-color: #374151;
+}
+
+/* Layout container */
+.layout-container {
+  margin: 0 auto;
+  display: flex;
+  max-width: 1536px; /* max-w-screen-2xl */
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .layout-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Main content area */
+.main-content {
+  min-height: calc(100vh - 295px);
+  flex: 1;
+}

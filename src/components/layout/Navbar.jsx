@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import '../../styles/navbar.css'; // Import external CSS
 
 const Navbar = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -242,78 +243,6 @@ const Navbar = () => {
     };
   }, [mobileMenuOpen]);
 
-  // Inject hover styles
-  useEffect(() => {
-    const hoverStyles = `
-      .nav-link:hover {
-        color: #FFD000 !important;
-      }
-      .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 1.5px;
-        background-color: #FFD000;
-        transition: width 0.3s ease;
-      }
-      .nav-link:hover::after {
-        width: 100%;
-      }
-      .services-group:hover .dropdown-menu {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: scale(1) !important;
-      }
-      .dropdown-item:hover {
-        background-color: ${isDarkMode ? '#4B5563' : '#F3F4F6'} !important;
-        color: #FFD000 !important;
-      }
-      .theme-button:hover {
-        background-color: ${isDarkMode ? '#374151' : '#E5E7EB'} !important;
-        color: #F59E0B !important;
-      }
-      .mobile-menu-button:hover {
-        color: #FFD000 !important;
-      }
-      .mobile-nav-link:hover {
-        color: #FFD000 !important;
-        background-color: ${isDarkMode ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'} !important;
-      }
-      .mobile-dropdown-button:hover {
-        background-color: ${isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#F9FAFB'} !important;
-      }
-      .mobile-submenu-item:hover {
-        background-color: ${isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#F9FAFB'} !important;
-        color: #FFD000 !important;
-      }
-      @media (min-width: 768px) {
-        .desktop-nav {
-          display: flex !important;
-        }
-        .mobile-menu-button {
-          display: none !important;
-        }
-      }
-      @media (max-width: 767px) {
-        .logo-container-mobile {
-          margin-left: -2.5rem !important;
-        }
-      }
-    `;
-
-    const styleElement = document.createElement('style');
-    styleElement.textContent = hoverStyles;
-    document.head.appendChild(styleElement);
-
-    return () => {
-      if (document.head.contains(styleElement)) {
-        document.head.removeChild(styleElement);
-      }
-    };
-  }, [isDarkMode]);
-
   return (
     <header id="navbar" style={styles.header}>
       <div style={styles.navbarContainer}>
@@ -339,42 +268,42 @@ const Navbar = () => {
               
               {/* Services dropdown menu */}
               <div style={styles.servicesDropdown} className="services-group">
-  <Link 
-    to="/services" 
-    style={{...styles.navLink, display: 'flex', alignItems: 'center', cursor: 'pointer'}} 
-    className="nav-link"
-  >
-    Servicios
-    <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1rem', width: '1rem', marginLeft: '0.25rem', transition: 'transform 0.3s ease' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-    </svg>
-  </Link>
-  <div style={styles.dropdownMenu} className="dropdown-menu">
-    <div style={{ padding: '0.25rem', borderRadius: '0.375rem', backgroundColor: isDarkMode ? '#374151' : '#ffffff' }}>
-      <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.dropdownItem} className="dropdown-item">
-        Diseño y Montaje de Cocinas
-      </Link>
-      <Link to="/services/diseno-de-muebles" style={styles.dropdownItem} className="dropdown-item">
-        Armarios y Vestidores
-      </Link>
-      <Link to="/services/montaje-de-muebles" style={styles.dropdownItem} className="dropdown-item">
-        Montaje de Muebles
-      </Link>
-      <Link to="/services/reformas-de-vivienda" style={styles.dropdownItem} className="dropdown-item">
-        Reformas de Vivienda
-      </Link>
-      <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.dropdownItem} className="dropdown-item">
-        Puertas, Tarima y Rodapiés
-      </Link>
-      <Link to="/services/servicios-de-acabados" style={styles.dropdownItem} className="dropdown-item">
-        Servicios de Acabados
-      </Link>
-      <Link to="/services/manitas" style={styles.dropdownItem} className="dropdown-item">
-        Manitas
-      </Link>
-    </div>
-  </div>
-</div>
+                <Link 
+                  to="/services" 
+                  style={{...styles.navLink, display: 'flex', alignItems: 'center', cursor: 'pointer'}} 
+                  className="nav-link"
+                >
+                  Servicios
+                  <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1rem', width: '1rem', marginLeft: '0.25rem', transition: 'transform 0.3s ease' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+                <div style={styles.dropdownMenu} className="dropdown-menu">
+                  <div style={{ padding: '0.25rem', borderRadius: '0.375rem', backgroundColor: isDarkMode ? '#374151' : '#ffffff' }}>
+                    <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Diseño y Montaje de Cocinas
+                    </Link>
+                    <Link to="/services/diseno-de-muebles" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Armarios y Vestidores
+                    </Link>
+                    <Link to="/services/montaje-de-muebles" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Montaje de Muebles
+                    </Link>
+                    <Link to="/services/reformas-de-vivienda" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Reformas de Vivienda
+                    </Link>
+                    <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Puertas, Tarima y Rodapiés
+                    </Link>
+                    <Link to="/services/servicios-de-acabados" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Servicios de Acabados
+                    </Link>
+                    <Link to="/services/manitas" style={styles.dropdownItem} className={`dropdown-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                      Manitas
+                    </Link>
+                  </div>
+                </div>
+              </div>
               
               <Link to="/nosotros" style={styles.navLink} className="nav-link">Nosotros</Link>
               <Link to="/blog" style={styles.navLink} className="nav-link">Blog</Link>
@@ -385,7 +314,7 @@ const Navbar = () => {
               <button 
                 onClick={toggleTheme} 
                 style={styles.themeButton}
-                className="theme-button"
+                className={`theme-button ${isDarkMode ? 'dark-mode' : ''}`}
               >
                 {isDarkMode ? (
                   <svg 
@@ -458,7 +387,7 @@ const Navbar = () => {
         <div id="mobile-menu" style={styles.mobileMenu}>
           <div style={styles.mobileMenuContainer}>
             {/* Mobile nav items */}
-            <Link to="/" style={styles.mobileNavLink} className="mobile-nav-link">
+            <Link to="/" style={styles.mobileNavLink} className={`mobile-nav-link ${isDarkMode ? 'dark-mode' : ''}`}>
               Inicio
             </Link>
             
@@ -467,7 +396,7 @@ const Navbar = () => {
               <button 
                 onClick={toggleServicesMenu} 
                 style={styles.mobileDropdownButton}
-                className="mobile-dropdown-button"
+                className={`mobile-dropdown-button ${isDarkMode ? 'dark-mode' : ''}`}
               >
                 <span>Servicios</span>
                 <svg 
@@ -488,34 +417,34 @@ const Navbar = () => {
               
               {/* Mobile Submenu */}
               <div style={styles.mobileSubmenu}>
-                <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/intalacion-cocinas-electrodomesticos" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Diseño y Montaje de Cocinas
                 </Link>
-                <Link to="/services/diseno-de-muebles" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/diseno-de-muebles" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Armarios y Vestidores
                 </Link>
-                <Link to="/services/montaje-de-muebles" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/montaje-de-muebles" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Montaje de Muebles
                 </Link>
-                <Link to="/services/reformas-de-vivienda" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/reformas-de-vivienda" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Reformas de Vivienda
                 </Link>
-                <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/instalacion-puertas-tarimaflotante-rodapies" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Puertas, Tarima y Rodapiés
                 </Link>
-                <Link to="/services/servicios-de-acabados" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/servicios-de-acabados" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Servicios de Acabados
                 </Link>
-                <Link to="/services/manitas" style={styles.mobileSubmenuItem} className="mobile-submenu-item">
+                <Link to="/services/manitas" style={styles.mobileSubmenuItem} className={`mobile-submenu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                   Manitas
                 </Link>
               </div>
             </div>
             
-            <Link to="/nosotros" style={styles.mobileNavLink} className="mobile-nav-link">
+            <Link to="/nosotros" style={styles.mobileNavLink} className={`mobile-nav-link ${isDarkMode ? 'dark-mode' : ''}`}>
               Nosotros
             </Link>
-            <Link to="/blog" style={styles.mobileNavLink} className="mobile-nav-link">
+            <Link to="/blog" style={styles.mobileNavLink} className={`mobile-nav-link ${isDarkMode ? 'dark-mode' : ''}`}>
               Blog
             </Link>
           </div>

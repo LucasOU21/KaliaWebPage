@@ -6,5 +6,24 @@
     }
   ],
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+
+  "functions": {
+    "api/send-calculator-email.js": {
+      "maxDuration": 30
+    }
+  },
+  "build": {
+    "env": {
+      "EMAIL_USER": "@email_user",
+      "EMAIL_APP_PASSWORD": "@email_app_password"
+    }
+  },
+  "env": {
+    "EMAIL_USER": "@email_user",
+    "EMAIL_APP_PASSWORD": "@email_app_password"
+  }
 }
+
+
+  

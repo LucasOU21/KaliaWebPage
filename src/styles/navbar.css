@@ -1,0 +1,111 @@
+/* navbar.css - External CSS for Navbar component */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Navigation link hover effects */
+.nav-link:hover {
+  color: #FFD000 !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: #FFD000;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Services dropdown hover effects */
+.services-group:hover .dropdown-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) !important;
+}
+
+/* Dropdown item hover effects - Light mode */
+.dropdown-item:hover:not(.dark-mode) {
+  background-color: #F3F4F6 !important;
+  color: #FFD000 !important;
+}
+
+/* Dropdown item hover effects - Dark mode */
+.dropdown-item:hover.dark-mode {
+  background-color: #4B5563 !important;
+  color: #FFD000 !important;
+}
+
+/* Theme button hover effects - Light mode */
+.theme-button:hover:not(.dark-mode) {
+  background-color: #E5E7EB !important;
+  color: #F59E0B !important;
+}
+
+/* Theme button hover effects - Dark mode */
+.theme-button:hover.dark-mode {
+  background-color: #374151 !important;
+  color: #F59E0B !important;
+}
+
+/* Mobile menu button hover effects */
+.mobile-menu-button:hover {
+  color: #FFD000 !important;
+}
+
+/* Mobile nav link hover effects - Light mode */
+.mobile-nav-link:hover:not(.dark-mode) {
+  color: #FFD000 !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Mobile nav link hover effects - Dark mode */
+.mobile-nav-link:hover.dark-mode {
+  color: #FFD000 !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Mobile dropdown button hover effects - Light mode */
+.mobile-dropdown-button:hover:not(.dark-mode) {
+  background-color: #F9FAFB !important;
+}
+
+/* Mobile dropdown button hover effects - Dark mode */
+.mobile-dropdown-button:hover.dark-mode {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Mobile submenu item hover effects - Light mode */
+.mobile-submenu-item:hover:not(.dark-mode) {
+  background-color: #F9FAFB !important;
+  color: #FFD000 !important;
+}
+
+/* Mobile submenu item hover effects - Dark mode */
+.mobile-submenu-item:hover.dark-mode {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #FFD000 !important;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+  
+  .mobile-menu-button {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .logo-container-mobile {
+    margin-left: -2.5rem !important;
+  }
+}

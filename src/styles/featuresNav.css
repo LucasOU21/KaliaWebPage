@@ -1,0 +1,129 @@
+/* featuresNavs.css - External CSS for FeaturesNavs component */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.features-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  position: relative;
+  min-height: 80vh;
+}
+
+/* Left container - Image */
+.image-container {
+  flex: 0 0 45%;
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: -6rem;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  flex-grow: 1;
+}
+
+/* Utility classes */
+.hidden {
+  display: none;
+}
+
+/* Kalia highlighting */
+.text-kalia-gold {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+/* Hide on mobile, show on desktop */
+.features-section {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .features-section {
+    display: flex;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 1024px) {
+  .features-section {
+    padding: 3rem 0 !important;
+    min-height: auto !important;
+  }
+
+  .features-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+    min-height: auto;
+  }
+
+  .image-container {
+    flex: none;
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+  }
+
+  .content-container {
+    margin-left: 0 !important;
+    width: 100%;
+    min-height: auto !important;
+    padding: 2.5rem !important;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-wrapper {
+    padding: 0 1rem;
+  }
+
+  .content-container {
+    padding: 2rem 1.5rem !important;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Light mode hover effects */
+.tab-button:hover:not(.dark-mode) {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hover effects */
+.tab-button:hover.dark-mode {
+  background-color: rgba(55, 65, 81, 0.5) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus states for accessibility - Light mode */
+.tab-button:focus:not(.dark-mode) {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+/* Focus states for accessibility - Dark mode */
+.tab-button:focus.dark-mode {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}

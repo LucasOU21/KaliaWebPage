@@ -21,7 +21,7 @@ import InstalacionPuertasTarimaRodapies from './pages/InstalacionDePuertasTarima
 import ServiciosDeAcabados from './pages/ServiciosDeAcabados';
 import Manitas from './pages/Manitas';
 import Contact from './pages/Contact';
-
+import './styles/global.css';
 
 
 function App() {
