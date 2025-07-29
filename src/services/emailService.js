@@ -1,9 +1,9 @@
-
 class EmailService {
   constructor() {
     // Vercel API endpoint (relative path works in production)
     this.apiEndpoint = '/api/send-calculator-email';
-    this.companyEmail = 'info@kaliareformas.com';
+    this.companyEmail = 'lucasurrutia21@gmail.com'; // Your main business email
+    // Removed testEmail - no longer needed
   }
 
   // Generate professional email template for calculator submission
@@ -352,8 +352,8 @@ Email generado automáticamente desde calculadora
   // Main method to send calculator email via Vercel API
   async sendCalculatorEmail(formData, productList, totalPrice, instalationType, productQuantities) {
     const emailData = {
-      // Email recipient (using test email for development)
-      to: this.testEmail, // Change to this.companyEmail for production
+      // SIMPLIFIED: Always send to your business email
+      to: this.companyEmail,
       subject: `🏠 Nueva Consulta - ${formData.nombre} - ${totalPrice.toFixed(2)}€ (${instalationType})`,
       html: this.generateEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities),
       text: this.generatePlainTextVersion(formData, productList, totalPrice, instalationType, productQuantities),
@@ -426,10 +426,146 @@ Email generado automáticamente desde calculadora
       return { success: true, message: 'No customer email to send confirmation' };
     }
 
-    // For now, just log that we would send a confirmation
-    // You can implement this later if needed
-    console.log('📬 Would send confirmation email to:', formData.email);
-    return { success: true, message: 'Confirmation email skipped for now' };
+    // Generate customer confirmation email
+    const customerEmailData = {
+      to: formData.email, // Send to customer's email
+      subject: `✅ Confirmación de Consulta - Kalia Reformas - ${totalPrice.toFixed(2)}€`,
+      html: this.generateCustomerConfirmationTemplate(formData, totalPrice, instalationType),
+      text: this.generateCustomerConfirmationText(formData, totalPrice, instalationType),
+      
+      customerData: {
+        nombre: formData.nombre,
+        isConfirmation: true
+      },
+      
+      priority: 'normal'
+    };
+
+    try {
+      console.log('📬 Sending customer confirmation email to:', formData.email);
+
+      const response = await fetch(this.apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(customerEmailData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Customer confirmation sent successfully');
+      
+      return { success: true, result };
+
+    } catch (error) {
+      console.error('❌ Error sending customer confirmation:', error);
+      throw new Error(error.message || 'Error al enviar confirmación al cliente');
+    }
+  }
+
+  // Customer confirmation email template
+  generateCustomerConfirmationTemplate(formData, totalPrice, instalationType) {
+    const formatPrice = (price) => price.toFixed(2) + ' €';
+    
+    return `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmación de Consulta - Kalia Reformas</title>
+        <style>
+          body { font-family: 'Poppins', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f5f5f5; }
+          .container { max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+          .header { background: linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%); color: white; padding: 30px; text-align: center; }
+          .content { padding: 25px; }
+          .highlight { background: #f8f9fa; padding: 15px; border-left: 4px solid #1B4F72; margin: 15px 0; }
+          .footer { background: #2c3e50; color: #ecf0f1; text-align: center; padding: 20px; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>🏠 Kalia Reformas</h1>
+            <p>Confirmación de Consulta Recibida</p>
+          </div>
+          
+          <div class="content">
+            <h2>¡Hola ${formData.nombre}!</h2>
+            
+            <p>Hemos recibido tu consulta a través de nuestra calculadora de presupuestos. Te confirmamos los siguientes detalles:</p>
+            
+            <div class="highlight">
+              <h3>📋 Resumen de tu Consulta:</h3>
+              <p><strong>Tipo de Instalación:</strong> ${instalationType}</p>
+              <p><strong>Presupuesto Estimado:</strong> ${formatPrice(totalPrice)}</p>
+              <p><strong>Teléfono de Contacto:</strong> ${formData.telefono}</p>
+              <p><strong>Código Postal:</strong> ${formData.codigopostal}</p>
+            </div>
+            
+            <h3>📞 ¿Qué sucede ahora?</h3>
+            <ol>
+              <li><strong>Contacto:</strong> Te llamaremos en las próximas 2-4 horas (horario laboral)</li>
+              <li><strong>Cita:</strong> Programaremos una visita sin compromiso para evaluar tu proyecto</li>
+              <li><strong>Presupuesto:</strong> Te entregaremos una cotización detallada y personalizada</li>
+            </ol>
+            
+            <p><strong>⏰ Tiempo de respuesta:</strong> Máximo 4 horas en horario laboral</p>
+            
+            <p>Si tienes alguna pregunta urgente, puedes contactarnos directamente:</p>
+            <p>📧 <strong>Email:</strong> info@kaliareformas.com</p>
+            
+            <p>¡Gracias por confiar en Kalia Reformas para tu proyecto!</p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>Kalia Reformas</strong> - Especialistas en Reformas Integrales</p>
+            <p>www.kaliareformas.com</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  // Customer confirmation plain text
+  generateCustomerConfirmationText(formData, totalPrice, instalationType) {
+    const formatPrice = (price) => price.toFixed(2) + ' €';
+    
+    return `
+¡Hola ${formData.nombre}!
+
+Hemos recibido tu consulta a través de nuestra calculadora de presupuestos.
+
+RESUMEN DE TU CONSULTA:
+=======================
+• Tipo de Instalación: ${instalationType}
+• Presupuesto Estimado: ${formatPrice(totalPrice)}
+• Teléfono: ${formData.telefono}
+• Código Postal: ${formData.codigopostal}
+
+¿QUÉ SUCEDE AHORA?
+==================
+1. Te llamaremos en las próximas 2-4 horas (horario laboral)
+2. Programaremos una visita sin compromiso
+3. Te entregaremos una cotización detallada
+
+⏰ Tiempo de respuesta: Máximo 4 horas en horario laboral
+
+Para consultas urgentes: info@kaliareformas.com
+
+¡Gracias por confiar en Kalia Reformas!
+
+---
+Kalia Reformas - www.kaliareformas.com
+Especialistas en Reformas Integrales
+    `;
   }
 
   // Health check method to test API connectivity
@@ -455,11 +591,6 @@ Email generado automáticamente desde calculadora
       return { success: false, error: error.message };
     }
   }
-}
-
-// Helper function for price formatting
-function formatPrice(price) {
-  return price.toFixed(2) + ' €';
 }
 
 // Export the service
