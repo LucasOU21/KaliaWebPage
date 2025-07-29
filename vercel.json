@@ -15,13 +15,13 @@
   },
   "build": {
     "env": {
-      "EMAIL_USER": "@email_user",
-      "EMAIL_APP_PASSWORD": "@email_app_password"
+      "EMAIL_USER": "@EMAIL_USER",
+      "EMAIL_APP_PASSWORD": "@EMAIL_APP_PASSWORD"
     }
   },
   "env": {
-    "EMAIL_USER": "@email_user",
-    "EMAIL_APP_PASSWORD": "@email_app_password"
+    "EMAIL_USER": "@EMAIL_USER",
+    "EMAIL_APP_PASSWORD": "@EMAIL_APP_PASSWORD"
   },
   "ignoreCommand": "exit 0"
 }

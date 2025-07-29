@@ -1,4 +1,3 @@
-// src/services/emailService.js - Updated for Vercel deployment
 
 class EmailService {
   constructor() {
