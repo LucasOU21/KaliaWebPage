@@ -32,47 +32,30 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('🔍 === DETAILED DEBUG INFO ===');
     console.log('📧 Received calculator email request');
-    console.log('📧 Request method:', req.method);
-    console.log('📧 Request body keys:', Object.keys(req.body || {}));
-    
-    // DETAILED ENVIRONMENT VARIABLE DEBUG
-    console.log('🔍 Environment Variables Debug:');
-    console.log('NODE_ENV:', process.env.NODE_ENV);
-    console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
-    console.log('EMAIL_USER value (masked):', process.env.EMAIL_USER ? `${process.env.EMAIL_USER.substring(0, 3)}***@${process.env.EMAIL_USER.split('@')[1]}` : 'NOT SET');
-    console.log('EMAIL_APP_PASSWORD exists:', !!process.env.EMAIL_APP_PASSWORD);
-    console.log('EMAIL_APP_PASSWORD length:', process.env.EMAIL_APP_PASSWORD ? process.env.EMAIL_APP_PASSWORD.length : 0);
-    console.log('EMAIL_PASS exists:', !!process.env.EMAIL_PASS);
-    console.log('EMAIL_PASS length:', process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0);
     
     // Try both possible environment variable names
     const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
-    console.log('Final password to use exists:', !!emailPassword);
-    console.log('Final password length:', emailPassword ? emailPassword.length : 0);
+    
+    console.log('🔍 Environment Variables:');
+    console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
+    console.log('EMAIL_USER value:', process.env.EMAIL_USER);
+    console.log('Password exists:', !!emailPassword);
+    console.log('Password length:', emailPassword ? emailPassword.length : 0);
     
     if (!process.env.EMAIL_USER || !emailPassword) {
       console.error('❌ Missing email credentials!');
-      console.error('EMAIL_USER missing:', !process.env.EMAIL_USER);
-      console.error('EMAIL_PASSWORD missing:', !emailPassword);
-      
       return res.status(500).json({
         success: false,
         error: 'Missing email credentials in environment variables',
-        code: 'CONFIG_ERROR',
-        debug: {
-          emailUserExists: !!process.env.EMAIL_USER,
-          emailPassExists: !!emailPassword,
-          availableEnvVars: Object.keys(process.env).filter(key => key.includes('EMAIL'))
-        }
+        code: 'CONFIG_ERROR'
       });
     }
 
-    // TEST EMAIL CONNECTION FIRST
+    // TEST EMAIL CONNECTION FIRST - FIXED METHOD NAME
     console.log('🔍 Testing email connection...');
     
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({  // FIXED: was createTransporter
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
@@ -88,52 +71,101 @@ export default async function handler(req, res) {
       await transporter.verify();
       console.log('✅ Email server connection verified successfully!');
     } catch (verifyError) {
-      console.error('❌ Email server verification failed:', verifyError);
-      console.error('❌ Error code:', verifyError.code);
-      console.error('❌ Error message:', verifyError.message);
-      console.error('❌ Error response:', verifyError.response);
+      console.error('❌ Email server verification failed:', verifyError.message);
       
       return res.status(401).json({
         success: false,
         error: 'Error de autenticación del email',
         code: 'AUTH_ERROR',
         debug: {
-          errorCode: verifyError.code,
           errorMessage: verifyError.message,
-          errorResponse: verifyError.response,
           emailUser: process.env.EMAIL_USER ? 'SET' : 'NOT SET',
           passwordLength: emailPassword ? emailPassword.length : 0
         }
       });
     }
 
-    // If we get here, email connection is working
     console.log('🎉 Email authentication successful! Processing request...');
     
     const { to, subject, html, text, customerData, priority } = req.body;
 
-    // For now, let's just return success since authentication worked
+    // Validate required fields
+    if (!to || !subject || !html) {
+      console.error('❌ Missing required fields');
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: to, subject, html',
+        code: 'MISSING_FIELDS'
+      });
+    }
+
+    // Validate email format
+    if (!isValidEmail(to)) {
+      console.error('❌ Invalid email format:', to);
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email format',
+        code: 'INVALID_EMAIL'
+      });
+    }
+
+    console.log('📧 Sending email to:', to);
+    console.log('📧 Customer:', customerData?.nombre || 'Unknown');
+
+    // Prepare email options
+    const mailOptions = {
+      from: {
+        name: 'Calculadora Kalia Reformas',
+        address: process.env.EMAIL_USER
+      },
+      to: to,
+      subject: subject,
+      html: html,
+      text: text || 'Este email requiere un cliente que soporte HTML.',
+      
+      // Email headers for better delivery
+      headers: {
+        'X-Priority': priority === 'high' ? '1' : '3',
+        'X-Mailer': 'Kalia Reformas Calculator API',
+        'X-Customer': customerData?.nombre || 'Unknown'
+      },
+
+      // Reply-to customer email if provided
+      replyTo: customerData?.email || process.env.EMAIL_USER,
+
+      // Message ID for tracking
+      messageId: `calculator-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
+    };
+
+    console.log('📧 Attempting to send email...');
+
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('✅ Email sent successfully!');
+    console.log('📧 Message ID:', info.messageId);
+
+    // Return success response
     return res.status(200).json({
       success: true,
-      message: 'Email authentication successful - endpoint working',
-      debug: {
-        emailConfigured: true,
-        requestReceived: true,
-        authenticationPassed: true
+      messageId: info.messageId,
+      message: 'Email enviado correctamente',
+      timestamp: new Date().toISOString(),
+      details: {
+        accepted: info.accepted,
+        rejected: info.rejected
       }
     });
 
   } catch (error) {
     console.error('❌ Unexpected error:', error);
-    console.error('❌ Error stack:', error.stack);
 
     return res.status(500).json({
       success: false,
       error: 'Error interno del servidor',
       code: 'UNEXPECTED_ERROR',
       debug: {
-        errorMessage: error.message,
-        errorCode: error.code
+        errorMessage: error.message
       }
     });
   }
