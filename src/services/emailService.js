@@ -3,7 +3,6 @@ class EmailService {
     // Vercel API endpoint (relative path works in production)
     this.apiEndpoint = '/api/send-calculator-email';
     this.companyEmail = 'lucasurrutia21@gmail.com'; // Your main business email
-    // Removed testEmail - no longer needed
   }
 
   // Generate professional email template for calculator submission
@@ -15,20 +14,20 @@ class EmailService {
       const quantity = productQuantities[product.id] || 0;
       const subtotal = product.precio * quantity;
       return `
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 12px 8px; text-align: left; vertical-align: top;">
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 16px 12px; text-align: left; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
             <strong>${product.nombre}</strong>
           </td>
-          <td style="padding: 12px 8px; text-align: center; vertical-align: top;">
+          <td style="padding: 16px 12px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
             ${quantity}
           </td>
-          <td style="padding: 12px 8px; text-align: center; vertical-align: top;">
+          <td style="padding: 16px 12px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
             ${product.tipoUnidad === 'unidad' ? 'und.' : 'ml'}
           </td>
-          <td style="padding: 12px 8px; text-align: right; vertical-align: top;">
+          <td style="padding: 16px 12px; text-align: right; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
             ${formatPrice(product.precio)}
           </td>
-          <td style="padding: 12px 8px; text-align: right; vertical-align: top; font-weight: bold; color: #1B4F72;">
+          <td style="padding: 16px 12px; text-align: right; vertical-align: top; font-weight: bold; color: #333333; font-family: 'Poppins', Arial, sans-serif;">
             ${formatPrice(subtotal)}
           </td>
         </tr>
@@ -52,124 +51,186 @@ class EmailService {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nueva Consulta - Calculadora Kalia Reformas</title>
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
           
           body {
             font-family: 'Poppins', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: #333333;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #F8F1E7;
           }
           
           .email-container {
             max-width: 800px;
             margin: 20px auto;
             background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
           }
           
           .header {
-            background: linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%);
-            color: white;
-            padding: 30px;
+            background-color: #FFD000;
+            color: #333333;
+            padding: 40px;
             text-align: center;
+            border-bottom: 3px solid #333333;
+          }
+          
+          .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px auto;
+            display: block;
+          }
+          
+          .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #333333;
+          }
+          
+          .header p {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            color: #333333;
+            opacity: 0.8;
           }
           
           .content-section {
-            padding: 25px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 30px;
+            border-bottom: 1px solid #e5e7eb;
           }
           
           .section-title {
-            color: #1B4F72;
+            color: #333333;
             margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 22px;
-            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
           }
           
           .customer-info {
-            background: #f8f9fa;
-            border-left: 4px solid #1B4F72;
+            background-color: #F8F1E7;
+            border-left: 4px solid #FFD000;
           }
           
           .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            gap: 20px;
+            margin-top: 20px;
           }
           
           .info-item {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .info-item strong {
+            color: #333333;
+            font-weight: 600;
           }
           
           .package-badge {
             display: inline-block;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 15px 25px;
+            border-radius: 6px;
             font-weight: 600;
             font-size: 16px;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-family: 'Poppins', Arial, sans-serif;
           }
           
           .package-standard {
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background-color: #333333;
             color: white;
           }
           
           .package-premium {
-            background: linear-gradient(135deg, #28a745, #1e7e34);
-            color: white;
+            background-color: #FFD000;
+            color: #333333;
+            border: 2px solid #333333;
           }
           
           .products-table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
             overflow: hidden;
-            margin-top: 15px;
+            margin-top: 20px;
           }
           
           .products-table th {
-            background: #1B4F72;
+            background-color: #333333;
             color: white;
-            padding: 15px 12px;
+            padding: 18px 12px;
             text-align: left;
             font-weight: 600;
             font-size: 14px;
+            font-family: 'Poppins', Arial, sans-serif;
           }
           
           .total-row {
-            background: #f8f9fa;
+            background-color: #F8F1E7;
             font-weight: bold;
             font-size: 18px;
           }
           
           .total-row td {
-            padding: 20px 12px;
-            border-top: 3px solid #1B4F72;
+            padding: 25px 12px;
+            border-top: 3px solid #FFD000;
+            font-family: 'Poppins', Arial, sans-serif;
           }
           
-          .next-steps {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
+          .package-description {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #FFD000;
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.7;
           }
           
           .footer {
-            background: #2c3e50;
-            color: #ecf0f1;
+            background-color: #333333;
+            color: #F8F1E7;
             text-align: center;
-            padding: 25px;
+            padding: 30px;
             font-size: 14px;
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .footer strong {
+            color: #FFD000;
+          }
+          
+          .contact-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #555555;
+          }
+          
+          .warning-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            font-style: italic;
+            color: #856404;
+            font-family: 'Poppins', Arial, sans-serif;
           }
         </style>
       </head>
@@ -178,31 +239,32 @@ class EmailService {
           
           <!-- Header -->
           <div class="header">
-            <h1>🏠 Kalia Reformas</h1>
+            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
+            <h1>Kalia Reformas y Decoración</h1>
             <p>Nueva consulta desde la calculadora de presupuestos</p>
-            <p style="font-size: 14px; opacity: 0.8;">📅 ${currentDate}</p>
+            <p style="font-size: 13px; margin-top: 10px;">${currentDate}</p>
           </div>
 
           <!-- Customer Information -->
           <div class="content-section customer-info">
-            <h2 class="section-title">👤 Información del Cliente</h2>
+            <h2 class="section-title">Información del Cliente</h2>
             <div class="info-grid">
               <div class="info-item">
                 <strong>Nombre:</strong> ${formData.nombre}
               </div>
               <div class="info-item">
-                <strong>Teléfono:</strong> 📱 ${formData.telefono}
+                <strong>Teléfono:</strong> ${formData.telefono}
               </div>
               <div class="info-item">
-                <strong>Código Postal:</strong> 📍 ${formData.codigopostal}
+                <strong>Código Postal:</strong> ${formData.codigopostal}
               </div>
               ${formData.email ? `
               <div class="info-item">
-                <strong>Email:</strong> 📧 ${formData.email}
+                <strong>Email:</strong> ${formData.email}
               </div>
               ` : `
               <div class="info-item" style="background: #fff3cd; border-color: #ffc107;">
-                <strong>⚠️ Email:</strong> No proporcionado
+                <strong>Email:</strong> No proporcionado
               </div>
               `}
             </div>
@@ -210,21 +272,21 @@ class EmailService {
 
           <!-- Package Type -->
           <div class="content-section">
-            <h2 class="section-title">📦 Tipo de Instalación Seleccionada</h2>
+            <h2 class="section-title">Tipo de Instalación Seleccionada</h2>
             <div class="package-badge ${instalationType === 'Premium' ? 'package-premium' : 'package-standard'}">
-              ${instalationType === 'Premium' ? '⭐ PAQUETE PREMIUM' : '🔧 PAQUETE ESTÁNDAR'}
+              ${instalationType === 'Premium' ? 'PAQUETE PREMIUM' : 'PAQUETE ESTÁNDAR'}
             </div>
-            <p style="margin-top: 15px; color: #666; line-height: 1.8;">
+            <div class="package-description">
               <strong>Características:</strong> 
               ${instalationType === 'Premium' 
                 ? 'Instalación premium con ajustes finos en cortes y alineaciones, nivelación exacta para una estética impecable, y cuidado extra en cada unión y terminación.' 
                 : 'Instalación rápida y eficiente con ajustes esenciales para un buen acabado y servicio confiable a un precio accesible.'}
-            </p>
+            </div>
           </div>
 
           <!-- Products/Services Table -->
           <div class="content-section">
-            <h2 class="section-title">🛠️ Servicios Solicitados</h2>
+            <h2 class="section-title">Servicios Solicitados</h2>
             <table class="products-table">
               <thead>
                 <tr>
@@ -243,46 +305,29 @@ class EmailService {
                   <td colspan="4" style="text-align: right; padding-right: 20px;">
                     <strong>PRESUPUESTO TOTAL ESTIMADO:</strong>
                   </td>
-                  <td style="text-align: right; color: #1B4F72; font-size: 22px;">
+                  <td style="text-align: right; color: #333333; font-size: 22px;">
                     ${formatPrice(totalPrice)}
                   </td>
                 </tr>
               </tfoot>
             </table>
             
-            <p style="font-size: 13px; color: #666; margin-top: 15px; font-style: italic;">
+            <div class="warning-note">
               <strong>Nota:</strong> Este es un presupuesto preliminar basado en la calculadora. 
               El precio final puede variar tras la evaluación presencial.
-            </p>
-          </div>
-
-          <!-- Next Steps -->
-          <div class="content-section next-steps">
-            <h2 class="section-title" style="color: white;">📞 Plan de Acción - Próximos Pasos</h2>
-            <ol style="margin: 15px 0 0 20px; padding-left: 20px;">
-              <li style="margin-bottom: 12px;"><strong>Contacto Inicial:</strong> Llamar al cliente en las próximas 2-4 horas (horario laboral)</li>
-              <li style="margin-bottom: 12px;"><strong>Programar Cita:</strong> Coordinar visita para evaluación presencial sin compromiso</li>
-              <li style="margin-bottom: 12px;"><strong>Evaluación Técnica:</strong> Revisar el espacio, medidas exactas y requerimientos específicos</li>
-              <li style="margin-bottom: 12px;"><strong>Presupuesto Detallado:</strong> Elaborar cotización final personalizada con cronograma</li>
-              <li><strong>Propuesta Comercial:</strong> Presentar opciones de pago y fechas de instalación disponibles</li>
-            </ol>
-            
-            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
-              <strong>⏰ Tiempo de Respuesta Objetivo:</strong> Máximo 4 horas en horario laboral
-              <br>
-              <strong>🎯 Meta de Conversión:</strong> Programar cita dentro de las primeras 24 horas
             </div>
           </div>
 
           <!-- Footer -->
           <div class="footer">
-            <p><strong>Kalia Reformas</strong> - Especialistas en Reformas Integrales</p>
-            <p>Email generado automáticamente desde la calculadora de presupuestos</p>
+            <p><strong>Kalia Reformas y Decoración</strong></p>
+            <p>Especialistas en Reformas Integrales</p>
+            <p style="margin-top: 10px;">Email generado automáticamente desde la calculadora de presupuestos</p>
             
-            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #34495e;">
-              <p><strong>📧 Email:</strong> info@kaliareformas.com</p>
-              <p><strong>🌐 Web:</strong> www.kaliareformas.com</p>
-              <p><strong>⏰ Horario:</strong> Lunes a Viernes 9:00 - 18:00h</p>
+            <div class="contact-info">
+              <p><strong>Email:</strong> info@kaliareformas.com</p>
+              <p><strong>Web:</strong> www.kaliareformas.com</p>
+              <p><strong>Horario:</strong> Lunes a Viernes 9:00 - 18:00h</p>
             </div>
           </div>
 
@@ -302,21 +347,21 @@ NUEVA CONSULTA - CALCULADORA KALIA REFORMAS
 ==========================================
 Fecha: ${currentDate}
 
-👤 INFORMACIÓN DEL CLIENTE:
----------------------------
+INFORMACIÓN DEL CLIENTE:
+-----------------------
 • Nombre: ${formData.nombre}
 • Teléfono: ${formData.telefono}
 • Código Postal: ${formData.codigopostal}
 ${formData.email ? `• Email: ${formData.email}` : '• Email: No proporcionado'}
 
-📦 TIPO DE INSTALACIÓN:
------------------------
+TIPO DE INSTALACIÓN:
+-------------------
 ${instalationType.toUpperCase()} - ${instalationType === 'Premium' 
   ? 'Instalación premium con ajustes finos y cuidado extra en terminaciones' 
   : 'Instalación estándar rápida y eficiente con ajustes esenciales'}
 
-🛠️ SERVICIOS SOLICITADOS:
---------------------------`;
+SERVICIOS SOLICITADOS:
+---------------------`;
 
     productList.forEach(product => {
       const quantity = productQuantities[product.id] || 0;
@@ -328,21 +373,16 @@ ${instalationType.toUpperCase()} - ${instalationType === 'Premium'
     });
 
     text += `\n
-💰 PRESUPUESTO TOTAL ESTIMADO: ${formatPrice(totalPrice)}
+PRESUPUESTO TOTAL ESTIMADO: ${formatPrice(totalPrice)}
 
-📞 PRÓXIMOS PASOS:
-------------------
-1. Contactar al cliente en 2-4 horas (horario laboral)
-2. Programar cita para evaluación presencial sin compromiso
-3. Realizar evaluación técnica y medidas exactas
-4. Elaborar presupuesto detallado personalizado
-5. Presentar propuesta comercial con opciones de pago
-
-⏰ OBJETIVO: Contactar dentro de las primeras 4 horas
-🎯 META: Programar cita en las primeras 24 horas
+NOTA: Este es un presupuesto preliminar basado en la calculadora.
+El precio final puede variar tras la evaluación presencial.
 
 ---
-Kalia Reformas - info@kaliareformas.com
+Kalia Reformas y Decoración
+Especialistas en Reformas Integrales
+Email: info@kaliareformas.com
+Web: www.kaliareformas.com
 Email generado automáticamente desde calculadora
 `;
 
@@ -354,7 +394,7 @@ Email generado automáticamente desde calculadora
     const emailData = {
       // SIMPLIFIED: Always send to your business email
       to: this.companyEmail,
-      subject: `🏠 Nueva Consulta - ${formData.nombre} - ${totalPrice.toFixed(2)}€ (${instalationType})`,
+      subject: `Nueva Consulta - ${formData.nombre} - ${totalPrice.toFixed(2)}€ (${instalationType})`,
       html: this.generateEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities),
       text: this.generatePlainTextVersion(formData, productList, totalPrice, instalationType, productQuantities),
       
@@ -375,7 +415,7 @@ Email generado automáticamente desde calculadora
     };
 
     try {
-      console.log('📧 Sending calculator email via Vercel API...', {
+      console.log('Sending calculator email via Vercel API...', {
         customer: formData.nombre,
         total: totalPrice,
         products: productList.length,
@@ -399,7 +439,7 @@ Email generado automáticamente desde calculadora
 
       const result = await response.json();
       
-      console.log('✅ Calculator email sent successfully:', {
+      console.log('Calculator email sent successfully:', {
         messageId: result.messageId,
         customer: formData.nombre,
         timestamp: new Date().toISOString()
@@ -412,11 +452,244 @@ Email generado automáticamente desde calculadora
       };
 
     } catch (error) {
-      console.error('❌ Error sending calculator email:', error);
+      console.error('Error sending calculator email:', error);
       
       // Return detailed error information
       throw new Error(error.message || 'Error al enviar el email');
     }
+  }
+
+  // Customer confirmation email template
+  generateCustomerConfirmationTemplate(formData, totalPrice, instalationType) {
+    const formatPrice = (price) => price.toFixed(2) + ' €';
+    
+    return `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmación de Consulta - Kalia Reformas</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+          
+          body { 
+            font-family: 'Poppins', Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333333; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #F8F1E7; 
+          }
+          
+          .container { 
+            max-width: 600px; 
+            margin: 20px auto; 
+            background: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+          }
+          
+          .header { 
+            background-color: #FFD000; 
+            color: #333333; 
+            padding: 40px; 
+            text-align: center; 
+            border-bottom: 3px solid #333333;
+          }
+          
+          .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px auto;
+            display: block;
+          }
+          
+          .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #333333;
+          }
+          
+          .header p {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            color: #333333;
+            opacity: 0.8;
+          }
+          
+          .content { 
+            padding: 30px; 
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .content h2 {
+            font-family: 'Georgia', serif;
+            color: #333333;
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+          
+          .content h3 {
+            font-family: 'Georgia', serif;
+            color: #333333;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+          }
+          
+          .highlight { 
+            background-color: #F8F1E7; 
+            padding: 20px; 
+            border-left: 4px solid #FFD000; 
+            margin: 20px 0; 
+            border-radius: 6px;
+          }
+          
+          .highlight h3 {
+            margin-top: 0;
+            font-family: 'Georgia', serif;
+            color: #333333;
+          }
+          
+          .highlight strong {
+            color: #333333;
+            font-weight: 600;
+          }
+          
+          .contact-highlight {
+            background-color: #333333;
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 25px 0;
+          }
+          
+          .contact-highlight strong {
+            color: #FFD000;
+          }
+          
+          .footer { 
+            background-color: #333333; 
+            color: #F8F1E7; 
+            text-align: center; 
+            padding: 25px; 
+            font-size: 14px; 
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .footer strong {
+            color: #FFD000;
+          }
+          
+          ol {
+            padding-left: 20px;
+          }
+          
+          ol li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+          }
+          
+          ol li strong {
+            color: #333333;
+            font-weight: 600;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
+            <h1>Kalia Reformas y Decoración</h1>
+            <p>Confirmación de Consulta Recibida</p>
+          </div>
+          
+          <div class="content">
+            <h2>Estimado/a ${formData.nombre},</h2>
+            
+            <p>Hemos recibido su consulta a través de nuestra calculadora de presupuestos. Le confirmamos los siguientes detalles:</p>
+            
+            <div class="highlight">
+              <h3>Resumen de su Consulta</h3>
+              <p><strong>Tipo de Instalación:</strong> ${instalationType}</p>
+              <p><strong>Presupuesto Estimado:</strong> ${formatPrice(totalPrice)}</p>
+              <p><strong>Teléfono de Contacto:</strong> ${formData.telefono}</p>
+              <p><strong>Código Postal:</strong> ${formData.codigopostal}</p>
+            </div>
+            
+            <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 20px; margin: 20px 0; color: #856404;">
+              <p style="margin: 0; font-weight: 600;"><strong>IMPORTANTE:</strong> Este presupuesto es una estimación preliminar. El precio final puede variar según las características específicas del proyecto y podrían aplicarse cargos adicionales tras la evaluación técnica.</p>
+            </div>
+            
+            <h3>Proceso de Seguimiento</h3>
+            <ol>
+              <li><strong>Contacto:</strong> Le contactaremos en las próximas 2-4 horas durante horario laboral</li>
+              <li><strong>Presupuesto:</strong> Le entregaremos una cotización detallada y personalizada</li>
+            </ol>
+            
+            <div class="contact-highlight">
+              <p><strong>Tiempo de respuesta garantizado:</strong> Máximo 4 horas en horario laboral</p>
+            </div>
+            
+            <p>Si tiene alguna pregunta urgente, puede contactarnos directamente en <strong>info@kaliareformas.com</strong></p>
+            
+            <p>Gracias por confiar en Kalia Reformas y Decoración para su proyecto.</p>
+            
+            <p style="margin-top: 30px;">Atentamente,<br><strong>Equipo Kalia Reformas y Decoración</strong></p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>Kalia Reformas y Decoración</strong></p>
+            <p>Especialistas en Reformas Integrales</p>
+            <p style="margin-top: 15px;">www.kaliareformas.com</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  // Customer confirmation plain text
+  generateCustomerConfirmationText(formData, totalPrice, instalationType) {
+    const formatPrice = (price) => price.toFixed(2) + ' €';
+    
+    return `
+Estimado/a ${formData.nombre},
+
+Hemos recibido su consulta a través de nuestra calculadora de presupuestos.
+
+RESUMEN DE SU CONSULTA:
+=======================
+• Tipo de Instalación: ${instalationType}
+• Presupuesto Estimado: ${formatPrice(totalPrice)}
+• Teléfono: ${formData.telefono}
+• Código Postal: ${formData.codigopostal}
+
+IMPORTANTE: Este presupuesto es una estimación preliminar. El precio final puede variar según las características específicas del proyecto y podrían aplicarse cargos adicionales tras la evaluación técnica.
+
+PROCESO DE SEGUIMIENTO:
+======================
+1. Le contactaremos en las próximas 2-4 horas (horario laboral)
+2. Le entregaremos una cotización detallada y personalizada
+
+Para consultas urgentes: info@kaliareformas.com
+
+Gracias por confiar en Kalia Reformas y Decoración.
+
+Atentamente,
+Equipo Kalia Reformas y Decoración
+
+---
+Kalia Reformas y Decoración
+www.kaliareformas.com
+Especialistas en Reformas Integrales
+    `;
   }
 
   // Optional: Send confirmation email to customer
@@ -429,7 +702,7 @@ Email generado automáticamente desde calculadora
     // Generate customer confirmation email
     const customerEmailData = {
       to: formData.email, // Send to customer's email
-      subject: `✅ Confirmación de Consulta - Kalia Reformas - ${totalPrice.toFixed(2)}€`,
+      subject: `Confirmación de Consulta - Kalia Reformas - ${totalPrice.toFixed(2)}€`,
       html: this.generateCustomerConfirmationTemplate(formData, totalPrice, instalationType),
       text: this.generateCustomerConfirmationText(formData, totalPrice, instalationType),
       
@@ -442,7 +715,7 @@ Email generado automáticamente desde calculadora
     };
 
     try {
-      console.log('📬 Sending customer confirmation email to:', formData.email);
+      console.log('Sending customer confirmation email to:', formData.email);
 
       const response = await fetch(this.apiEndpoint, {
         method: 'POST',
@@ -459,113 +732,14 @@ Email generado automáticamente desde calculadora
       }
 
       const result = await response.json();
-      console.log('✅ Customer confirmation sent successfully');
+      console.log('Customer confirmation sent successfully');
       
       return { success: true, result };
 
     } catch (error) {
-      console.error('❌ Error sending customer confirmation:', error);
+      console.error('Error sending customer confirmation:', error);
       throw new Error(error.message || 'Error al enviar confirmación al cliente');
     }
-  }
-
-  // Customer confirmation email template
-  generateCustomerConfirmationTemplate(formData, totalPrice, instalationType) {
-    const formatPrice = (price) => price.toFixed(2) + ' €';
-    
-    return `
-      <!DOCTYPE html>
-      <html lang="es">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Confirmación de Consulta - Kalia Reformas</title>
-        <style>
-          body { font-family: 'Poppins', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f5f5f5; }
-          .container { max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-          .header { background: linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%); color: white; padding: 30px; text-align: center; }
-          .content { padding: 25px; }
-          .highlight { background: #f8f9fa; padding: 15px; border-left: 4px solid #1B4F72; margin: 15px 0; }
-          .footer { background: #2c3e50; color: #ecf0f1; text-align: center; padding: 20px; font-size: 14px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>🏠 Kalia Reformas</h1>
-            <p>Confirmación de Consulta Recibida</p>
-          </div>
-          
-          <div class="content">
-            <h2>¡Hola ${formData.nombre}!</h2>
-            
-            <p>Hemos recibido tu consulta a través de nuestra calculadora de presupuestos. Te confirmamos los siguientes detalles:</p>
-            
-            <div class="highlight">
-              <h3>📋 Resumen de tu Consulta:</h3>
-              <p><strong>Tipo de Instalación:</strong> ${instalationType}</p>
-              <p><strong>Presupuesto Estimado:</strong> ${formatPrice(totalPrice)}</p>
-              <p><strong>Teléfono de Contacto:</strong> ${formData.telefono}</p>
-              <p><strong>Código Postal:</strong> ${formData.codigopostal}</p>
-            </div>
-            
-            <h3>📞 ¿Qué sucede ahora?</h3>
-            <ol>
-              <li><strong>Contacto:</strong> Te llamaremos en las próximas 2-4 horas (horario laboral)</li>
-              <li><strong>Cita:</strong> Programaremos una visita sin compromiso para evaluar tu proyecto</li>
-              <li><strong>Presupuesto:</strong> Te entregaremos una cotización detallada y personalizada</li>
-            </ol>
-            
-            <p><strong>⏰ Tiempo de respuesta:</strong> Máximo 4 horas en horario laboral</p>
-            
-            <p>Si tienes alguna pregunta urgente, puedes contactarnos directamente:</p>
-            <p>📧 <strong>Email:</strong> info@kaliareformas.com</p>
-            
-            <p>¡Gracias por confiar en Kalia Reformas para tu proyecto!</p>
-          </div>
-          
-          <div class="footer">
-            <p><strong>Kalia Reformas</strong> - Especialistas en Reformas Integrales</p>
-            <p>www.kaliareformas.com</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
-  }
-
-  // Customer confirmation plain text
-  generateCustomerConfirmationText(formData, totalPrice, instalationType) {
-    const formatPrice = (price) => price.toFixed(2) + ' €';
-    
-    return `
-¡Hola ${formData.nombre}!
-
-Hemos recibido tu consulta a través de nuestra calculadora de presupuestos.
-
-RESUMEN DE TU CONSULTA:
-=======================
-• Tipo de Instalación: ${instalationType}
-• Presupuesto Estimado: ${formatPrice(totalPrice)}
-• Teléfono: ${formData.telefono}
-• Código Postal: ${formData.codigopostal}
-
-¿QUÉ SUCEDE AHORA?
-==================
-1. Te llamaremos en las próximas 2-4 horas (horario laboral)
-2. Programaremos una visita sin compromiso
-3. Te entregaremos una cotización detallada
-
-⏰ Tiempo de respuesta: Máximo 4 horas en horario laboral
-
-Para consultas urgentes: info@kaliareformas.com
-
-¡Gracias por confiar en Kalia Reformas!
-
----
-Kalia Reformas - www.kaliareformas.com
-Especialistas en Reformas Integrales
-    `;
   }
 
   // Health check method to test API connectivity
@@ -583,11 +757,11 @@ Especialistas en Reformas Integrales
       }
 
       const result = await response.json();
-      console.log('✅ API connection successful:', result);
+      console.log('API connection successful:', result);
       return { success: true, result };
 
     } catch (error) {
-      console.error('❌ API connection failed:', error);
+      console.error('API connection failed:', error);
       return { success: false, error: error.message };
     }
   }

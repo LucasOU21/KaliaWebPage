@@ -241,7 +241,24 @@ const CalculadoraContent = () => {
     });
   };
 
-  // ONLY REPLACE THIS FUNCTION - Handle form submission with email
+  // UPDATED: Filter products with valid quantities for email
+  const getValidProductsForEmail = () => {
+    return productList.filter(product => {
+      const quantity = productQuantities[product.id];
+      return quantity !== undefined && quantity !== '' && parseFloat(quantity) > 0;
+    });
+  };
+
+  // UPDATED: Calculate total for valid products only
+  const getValidTotalForEmail = () => {
+    const validProducts = getValidProductsForEmail();
+    return validProducts.reduce((sum, product) => {
+      const quantity = productQuantities[product.id] || 0;
+      return sum + (product.precio * quantity);
+    }, 0);
+  };
+
+  // UPDATED: Handle form submission with filtering
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
@@ -273,35 +290,45 @@ const CalculadoraContent = () => {
       return;
     }
 
-    // Log the data (keep your existing log)
-    console.log('Sending email with data:', {
+    // Get only products with valid quantities for email
+    const validProducts = getValidProductsForEmail();
+    const validTotal = getValidTotalForEmail();
+
+    // Create filtered productQuantities for valid products only
+    const validProductQuantities = {};
+    validProducts.forEach(product => {
+      validProductQuantities[product.id] = productQuantities[product.id];
+    });
+
+    // Log the data with filtered products
+    console.log('Sending email with filtered data:', {
       cliente: formData.nombre,
       telefono: formData.telefono,
-      productos: productList,
-      total: totalPrice,
+      productos: validProducts, // Only products with quantities > 0
+      total: validTotal, // Recalculated total for valid products only
       instalacion: selectedCategory === 'premium' ? 'Premium' : 'Estándar'
     });
 
-    // ADD EMAIL FUNCTIONALITY HERE (no visual changes)
+    // Send email with filtered data
     try {
       const emailService = new EmailService();
       
       await emailService.sendCalculatorEmail(
         formData,
-        productList,
-        totalPrice,
+        validProducts, // Only products with valid quantities
+        validTotal, // Recalculated total
         selectedCategory === 'premium' ? 'Premium' : 'Estándar',
-        productQuantities
+        validProductQuantities // Only quantities for valid products
       );
 
-      console.log('✅ Email sent successfully');
+      console.log('✅ Email sent successfully with filtered products');
       
       // Send customer confirmation if email provided
       if (formData.email && formData.email.trim()) {
         try {
           await emailService.sendCustomerConfirmation(
             formData,
-            totalPrice,
+            validTotal, // Use filtered total
             selectedCategory === 'premium' ? 'Premium' : 'Estándar'
           );
           console.log('✅ Customer confirmation sent');
@@ -343,7 +370,6 @@ const CalculadoraContent = () => {
     updateTotal();
   }, [productQuantities, productList]);
 
-  // ALL YOUR EXISTING JSX REMAINS EXACTLY THE SAME
   return (
     <div className={`calc-container ${isDarkMode ? 'dark' : ''}`}>
       <h1 className="calc-title">Calculadora para tus Presupuestos</h1>
@@ -705,7 +731,7 @@ const CalculadoraContent = () => {
           </button>
         )}
 
-        {/* Next Button - Step 2 to Form */}
+        {/* Next Button - Step 2 to Form (NO VALIDATION - original condition) */}
         {currentStep === 2 && !showForm && productList.length > 0 && totalPrice > 0 && (
           <button
             onClick={() => {
