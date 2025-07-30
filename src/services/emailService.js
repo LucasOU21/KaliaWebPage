@@ -80,8 +80,8 @@ class EmailService {
           }
           
           .logo {
-            width: 80px;
-            height: 80px;
+            width: 400px;
+            height: 400px;
             margin: 0 auto 20px auto;
             display: block;
           }
