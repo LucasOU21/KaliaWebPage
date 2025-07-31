@@ -1,6 +1,6 @@
-// Complete Nosotros.jsx with EmailService integration
+// Complete Nosotros.jsx with ContactEmailService integration
 import React, { useState } from 'react';
-import EmailService from '../services/emailService'; // Add EmailService import
+import ContactEmailService from '../services/contactEmailService'; 
 import '../styles/nosotros.css';
 
 const Nosotros = () => {
@@ -16,8 +16,8 @@ const Nosotros = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // Initialize EmailService
-  const emailService = new EmailService();
+  // Initialize ContactEmailService (not EmailService)
+  const contactEmailService = new ContactEmailService();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -78,15 +78,15 @@ const Nosotros = () => {
     setIsSubmitting(true);
 
     try {
-      console.log('Sending nosotros contact form via EmailService:', formData);
+      console.log('Sending nosotros contact form via ContactEmailService:', formData);
       
-      // Send email to Kalia team
-      await emailService.sendContactEmail(formData, 'nosotros');
+      // Send email to Kalia team using ContactEmailService
+      await contactEmailService.sendContactEmail(formData, 'nosotros');
       console.log('Nosotros contact email sent successfully');
       
       // Send confirmation email to customer (optional, will skip if no email)
       try {
-        await emailService.sendContactConfirmation(formData, 'nosotros');
+        await contactEmailService.sendContactConfirmation(formData, 'nosotros');
         console.log('Nosotros confirmation email sent successfully');
       } catch (confirmationError) {
         console.warn('Nosotros confirmation email failed, but main email was sent:', confirmationError.message);
