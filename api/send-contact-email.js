@@ -8,7 +8,7 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
-// Main serverless function for contact emails
+// DEBUG VERSION - Main serverless function for contact emails
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -32,29 +32,73 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('📧 Received contact form email request');
+    console.log('📧 [DEBUG] Received contact form email request');
+    console.log('📧 [DEBUG] Request body keys:', Object.keys(req.body || {}));
     
-    // Try both possible environment variable names
-    const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
-    
-    console.log('🔍 Contact Form Environment Variables:');
-    console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
-    console.log('EMAIL_USER value:', process.env.EMAIL_USER);
-    console.log('Password exists:', !!emailPassword);
-    console.log('Password length:', emailPassword ? emailPassword.length : 0);
-    
-    if (!process.env.EMAIL_USER || !emailPassword) {
-      console.error('❌ Missing email credentials for contact forms!');
-      return res.status(500).json({
+    // DEBUG: Log the request body structure
+    const { to, subject, html, text, customerData, priority } = req.body;
+    console.log('📧 [DEBUG] Extracted fields:', {
+      hasTo: !!to,
+      hasSubject: !!subject,
+      hasHtml: !!html,
+      hasText: !!text,
+      hasCustomerData: !!customerData,
+      customerDataKeys: customerData ? Object.keys(customerData) : 'none'
+    });
+
+    // Validate required fields FIRST
+    if (!to || !subject || !html) {
+      console.error('❌ [DEBUG] Missing required fields');
+      return res.status(400).json({
         success: false,
-        error: 'Missing email credentials in environment variables',
-        code: 'CONFIG_ERROR'
+        error: 'Missing required fields: to, subject, html',
+        code: 'MISSING_FIELDS',
+        debug: {
+          hasTo: !!to,
+          hasSubject: !!subject,
+          hasHtml: !!html
+        }
       });
     }
 
-    // TEST EMAIL CONNECTION FIRST
-    console.log('🔍 Testing contact form email connection...');
+    // Validate email format
+    if (!isValidEmail(to)) {
+      console.error('❌ [DEBUG] Invalid email format:', to);
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email format',
+        code: 'INVALID_EMAIL'
+      });
+    }
+
+    console.log('✅ [DEBUG] Basic validation passed');
+
+    // Try both possible environment variable names
+    const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
     
+    console.log('🔍 [DEBUG] Environment Variables Check:');
+    console.log('  - EMAIL_USER exists:', !!process.env.EMAIL_USER);
+    console.log('  - EMAIL_USER value:', process.env.EMAIL_USER ? 'SET' : 'NOT SET');
+    console.log('  - Password exists:', !!emailPassword);
+    console.log('  - Password length:', emailPassword ? emailPassword.length : 0);
+    
+    if (!process.env.EMAIL_USER || !emailPassword) {
+      console.error('❌ [DEBUG] Missing email credentials!');
+      return res.status(500).json({
+        success: false,
+        error: 'Missing email credentials in environment variables',
+        code: 'CONFIG_ERROR',
+        debug: {
+          emailUserExists: !!process.env.EMAIL_USER,
+          passwordExists: !!emailPassword
+        }
+      });
+    }
+
+    console.log('✅ [DEBUG] Environment variables found');
+
+    // Create transporter
+    console.log('🔍 [DEBUG] Creating email transporter...');
     const transporter = nodemailer.createTransporter({
       service: 'gmail',
       auth: {
@@ -66,12 +110,13 @@ export default async function handler(req, res) {
       }
     });
 
+    // Test connection
+    console.log('🔍 [DEBUG] Testing email connection...');
     try {
-      console.log('🔍 Attempting to verify contact form email connection...');
       await transporter.verify();
-      console.log('✅ Contact form email server connection verified successfully!');
+      console.log('✅ [DEBUG] Email server connection verified!');
     } catch (verifyError) {
-      console.error('❌ Contact form email server verification failed:', verifyError.message);
+      console.error('❌ [DEBUG] Email server verification failed:', verifyError.message);
       
       return res.status(401).json({
         success: false,
@@ -79,52 +124,30 @@ export default async function handler(req, res) {
         code: 'AUTH_ERROR',
         debug: {
           errorMessage: verifyError.message,
-          emailUser: process.env.EMAIL_USER ? 'SET' : 'NOT SET',
-          passwordLength: emailPassword ? emailPassword.length : 0
+          errorCode: verifyError.code,
+          errorStack: verifyError.stack?.substring(0, 200)
         }
       });
     }
 
-    console.log('🎉 Contact form email authentication successful! Processing request...');
-    
-    const { to, subject, html, text, customerData, priority } = req.body;
-
-    // Validate required fields
-    if (!to || !subject || !html) {
-      console.error('❌ Missing required fields in contact form');
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required fields: to, subject, html',
-        code: 'MISSING_FIELDS'
-      });
-    }
-
-    // Validate email format
-    if (!isValidEmail(to)) {
-      console.error('❌ Invalid email format in contact form:', to);
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format',
-        code: 'INVALID_EMAIL'
-      });
-    }
-
-    // Determine email type and source
+    // Process email data
+    console.log('🔍 [DEBUG] Processing email data...');
     const formType = customerData?.formType || 'contact';
     const formSource = customerData?.formSource || 'unknown';
     const isConfirmation = customerData?.isConfirmation || false;
     
-    console.log('📧 Contact Form Details:');
-    console.log('  - Form Type:', formType);
-    console.log('  - Form Source:', formSource);
-    console.log('  - Is Confirmation:', isConfirmation);
-    console.log('  - Sending to:', to);
-    console.log('  - Customer:', customerData?.nombre || 'Unknown');
+    console.log('📧 [DEBUG] Email details:', {
+      formType,
+      formSource,
+      isConfirmation,
+      to,
+      subject: subject.substring(0, 50) + '...'
+    });
 
-    // Prepare email options
+    // Prepare simplified mail options
     const mailOptions = {
       from: {
-        name: isConfirmation ? 'Kalia Reformas y Decoración' : `Formulario ${formSource.charAt(0).toUpperCase() + formSource.slice(1)} - Kalia`,
+        name: isConfirmation ? 'Kalia Reformas y Decoración' : `Formulario ${formSource} - Kalia`,
         address: process.env.EMAIL_USER
       },
       to: to,
@@ -132,44 +155,38 @@ export default async function handler(req, res) {
       html: html,
       text: text || 'Este email requiere un cliente que soporte HTML.',
       
-      // Email headers for better delivery and organization
+      // Simplified headers
       headers: {
         'X-Priority': priority === 'high' ? '1' : '3',
-        'X-Mailer': isConfirmation ? 'Kalia Contact Confirmation' : 'Kalia Contact Forms',
-        'X-Customer': customerData?.nombre || 'Unknown',
-        'X-Form-Type': formType,
-        'X-Form-Source': formSource,
-        'X-Contact-Type': 'contact-form'
+        'X-Mailer': 'Kalia Contact Forms DEBUG',
+        'X-Form-Source': formSource
       },
 
-      // Reply-to customer email if provided and not a confirmation
+      // Reply-to
       replyTo: !isConfirmation && customerData?.email ? customerData.email : process.env.EMAIL_USER,
 
-      // Message ID for tracking
-      messageId: `contact-${formSource}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
+      // Simple message ID
+      messageId: `contact-debug-${Date.now()}@kaliareformas.com`
     };
 
-    console.log('📧 Attempting to send contact form email...');
+    console.log('📧 [DEBUG] Attempting to send email...');
+    console.log('📧 [DEBUG] Mail options summary:', {
+      from: mailOptions.from.name,
+      to: mailOptions.to,
+      subject: mailOptions.subject.substring(0, 50) + '...',
+      hasHtml: !!mailOptions.html,
+      hasText: !!mailOptions.text
+    });
 
     // Send the email
     const info = await transporter.sendMail(mailOptions);
 
-    console.log('✅ Contact form email sent successfully!');
-    console.log('📧 Message ID:', info.messageId);
-
-    // Log success with contact form context
-    const logContext = {
-      formType,
-      formSource,
-      isConfirmation,
-      customer: customerData?.nombre || 'Unknown',
-      customerEmail: customerData?.email || 'Not provided',
-      customerPhone: customerData?.telefono || 'Not provided',
-      timestamp: new Date().toISOString(),
-      messageId: info.messageId
-    };
-
-    console.log('📝 Contact form email details:', logContext);
+    console.log('✅ [DEBUG] Email sent successfully!');
+    console.log('📧 [DEBUG] Send result:', {
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected
+    });
 
     // Return success response
     return res.status(200).json({
@@ -179,45 +196,38 @@ export default async function handler(req, res) {
         ? 'Email de confirmación enviado correctamente al cliente' 
         : 'Formulario de contacto enviado correctamente a Kalia',
       timestamp: new Date().toISOString(),
-      formType: formType,
-      formSource: formSource,
-      isConfirmation: isConfirmation,
-      details: {
-        accepted: info.accepted,
-        rejected: info.rejected,
-        customer: customerData?.nombre || 'Unknown'
+      debug: {
+        formType,
+        formSource,
+        isConfirmation,
+        emailSent: true
       }
     });
 
   } catch (error) {
-    console.error('❌ Unexpected error in contact form handler:', error);
+    console.error('❌ [DEBUG] Unexpected error in contact form handler:', error);
+    console.error('❌ [DEBUG] Error details:', {
+      message: error.message,
+      code: error.code,
+      stack: error.stack?.substring(0, 500)
+    });
 
-    // Log comprehensive error details for debugging
-    const errorContext = {
-      errorMessage: error.message,
-      errorStack: error.stack,
-      timestamp: new Date().toISOString(),
-      requestDetails: req.body ? {
-        hasTo: !!req.body.to,
-        hasSubject: !!req.body.subject,
-        hasHtml: !!req.body.html,
-        customerName: req.body.customerData?.nombre || 'Unknown',
-        formType: req.body.customerData?.formType || 'unknown',
-        formSource: req.body.customerData?.formSource || 'unknown',
-        isConfirmation: req.body.customerData?.isConfirmation || false
-      } : 'No request body'
-    };
-
-    console.error('📧 Contact form email sending failed:', errorContext);
-
+    // Return detailed error for debugging  
     return res.status(500).json({
       success: false,
       error: 'Error interno del servidor al procesar formulario de contacto',
       code: 'CONTACT_FORM_ERROR',
       debug: {
         errorMessage: error.message,
+        errorCode: error.code,
         timestamp: new Date().toISOString(),
-        endpoint: 'send-contact-email'
+        endpoint: 'send-contact-email-debug',
+        requestBody: req.body ? {
+          hasTo: !!req.body.to,
+          hasSubject: !!req.body.subject,
+          hasHtml: !!req.body.html,
+          customerName: req.body.customerData?.nombre || 'Unknown'
+        } : 'No request body'
       }
     });
   }
