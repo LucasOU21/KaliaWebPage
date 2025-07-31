@@ -1,7 +1,8 @@
 class EmailService {
   constructor() {
-    // Vercel API endpoint (relative path works in production)
-    this.apiEndpoint = '/api/send-contact-email';
+    // Different endpoints for different email types
+    this.calculatorApiEndpoint = '/api/send-calculator-email';  // For calculator emails
+    this.contactApiEndpoint = '/api/send-contact-email';        // For contact forms
     this.companyEmail = 'lucasurrutia21@gmail.com'; // Your main business email
   }
 
@@ -917,7 +918,7 @@ Especialistas en Reformas Integrales
   // MAIN EMAIL SENDING METHODS
   // ========================================
 
-  // Send calculator email (existing method)
+  // Send calculator email (uses calculator endpoint)
   async sendCalculatorEmail(formData, productList, totalPrice, instalationType, productQuantities) {
     const emailData = {
       to: this.companyEmail,
@@ -940,10 +941,10 @@ Especialistas en Reformas Integrales
       priority: totalPrice > 1000 ? 'high' : 'normal'
     };
 
-    return this.sendEmail(emailData, 'calculadora');
+    return this.sendEmail(emailData, 'calculadora', this.calculatorApiEndpoint);
   }
 
-  // NEW: Send contact form email
+  // Send contact form email (uses contact endpoint)
   async sendContactEmail(formData, formSource = 'contact') {
     const fullName = this.getFullName(formData);
     
@@ -966,10 +967,10 @@ Especialistas en Reformas Integrales
       priority: 'normal'
     };
 
-    return this.sendEmail(emailData, formSource);
+    return this.sendEmail(emailData, formSource, this.contactApiEndpoint);
   }
 
-  // NEW: Send customer confirmation for contact forms
+  // Send customer confirmation for contact forms (uses contact endpoint)
   async sendContactConfirmation(formData, formSource = 'contact') {
     if (!formData.email) {
       console.log('No customer email provided, skipping confirmation');
@@ -987,7 +988,8 @@ Especialistas en Reformas Integrales
       customerData: {
         nombre: fullName,
         isConfirmation: true,
-        formSource: formSource
+        formSource: formSource,
+        formType: 'contact'
       },
       
       priority: 'normal'
@@ -995,7 +997,7 @@ Especialistas en Reformas Integrales
 
     try {
       console.log('Sending contact confirmation email to:', formData.email);
-      const response = await this.sendEmail(customerEmailData, `${formSource}_confirmation`);
+      const response = await this.sendEmail(customerEmailData, `${formSource}_confirmation`, this.contactApiEndpoint);
       console.log('Contact confirmation sent successfully');
       return response;
     } catch (error) {
@@ -1019,16 +1021,16 @@ Especialistas en Reformas Integrales
   // CORE EMAIL SENDING METHOD
   // ========================================
 
-  // Unified email sending method
-  async sendEmail(emailData, source) {
+  // Unified email sending method (now accepts endpoint parameter)
+  async sendEmail(emailData, source, apiEndpoint) {
     try {
-      console.log(`Sending ${source} email via Vercel API...`, {
+      console.log(`Sending ${source} email via ${apiEndpoint}...`, {
         customer: emailData.customerData?.nombre,
         to: emailData.to,
         source: source
       });
 
-      const response = await fetch(this.apiEndpoint, {
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1118,7 +1120,7 @@ Email generado automáticamente desde calculadora
     return text;
   }
 
-  // Customer confirmation for calculator (existing)
+  // Customer confirmation for calculator (uses calculator endpoint)
   async sendCustomerConfirmation(formData, totalPrice, instalationType) {
     if (!formData.email) {
       console.log('No customer email provided, skipping confirmation');
@@ -1135,13 +1137,14 @@ Email generado automáticamente desde calculadora
       
       customerData: {
         nombre: formData.nombre,
-        isConfirmation: true
+        isConfirmation: true,
+        formType: 'calculator'
       },
       
       priority: 'normal'
     };
 
-    return this.sendEmail(customerEmailData, 'calculator_confirmation');
+    return this.sendEmail(customerEmailData, 'calculator_confirmation', this.calculatorApiEndpoint);
   }
 
   // Generate customer confirmation template for calculator (existing)
