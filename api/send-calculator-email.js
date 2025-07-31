@@ -8,7 +8,7 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
-// Main serverless function
+// Main serverless function for contact emails
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('📧 Received calculator email request');
+    console.log('📧 Received contact email request');
     
     // Try both possible environment variable names
     const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
@@ -52,10 +52,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // TEST EMAIL CONNECTION FIRST - FIXED METHOD NAME
+    // TEST EMAIL CONNECTION FIRST
     console.log('🔍 Testing email connection...');
     
-    const transporter = nodemailer.createTransport({  // FIXED: was createTransporter
+    const transporter = nodemailer.createTransporter({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
@@ -109,13 +109,19 @@ export default async function handler(req, res) {
       });
     }
 
+    // Determine email type based on customerData
+    const emailType = customerData?.formType || 'contact';
+    const isConfirmation = customerData?.isConfirmation || false;
+    
+    console.log('📧 Email type:', emailType);
+    console.log('📧 Is confirmation:', isConfirmation);
     console.log('📧 Sending email to:', to);
     console.log('📧 Customer:', customerData?.nombre || 'Unknown');
 
     // Prepare email options
     const mailOptions = {
       from: {
-        name: 'Calculadora Kalia Reformas',
+        name: isConfirmation ? 'Kalia Reformas y Decoración' : 'Formulario Web Kalia Reformas',
         address: process.env.EMAIL_USER
       },
       to: to,
@@ -126,15 +132,17 @@ export default async function handler(req, res) {
       // Email headers for better delivery
       headers: {
         'X-Priority': priority === 'high' ? '1' : '3',
-        'X-Mailer': 'Kalia Reformas Calculator API',
-        'X-Customer': customerData?.nombre || 'Unknown'
+        'X-Mailer': isConfirmation ? 'Kalia Reformas Confirmation' : 'Kalia Reformas Web Forms',
+        'X-Customer': customerData?.nombre || 'Unknown',
+        'X-Form-Type': emailType,
+        'X-Form-Source': customerData?.formSource || 'unknown'
       },
 
-      // Reply-to customer email if provided
-      replyTo: customerData?.email || process.env.EMAIL_USER,
+      // Reply-to customer email if provided and not a confirmation
+      replyTo: !isConfirmation && customerData?.email ? customerData.email : process.env.EMAIL_USER,
 
       // Message ID for tracking
-      messageId: `calculator-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
+      messageId: `${emailType}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
     };
 
     console.log('📧 Attempting to send email...');
@@ -145,12 +153,34 @@ export default async function handler(req, res) {
     console.log('✅ Email sent successfully!');
     console.log('📧 Message ID:', info.messageId);
 
+    // Log success with appropriate context
+    const logContext = {
+      emailType,
+      isConfirmation,
+      customer: customerData?.nombre || 'Unknown',
+      formSource: customerData?.formSource || 'unknown',
+      timestamp: new Date().toISOString()
+    };
+
+    if (emailType === 'calculator') {
+      console.log('💰 Calculator email sent:', {
+        ...logContext,
+        totalPrice: customerData?.totalPrice,
+        instalationType: customerData?.instalationType,
+        productCount: customerData?.productCount
+      });
+    } else {
+      console.log('📝 Contact form email sent:', logContext);
+    }
+
     // Return success response
     return res.status(200).json({
       success: true,
       messageId: info.messageId,
-      message: 'Email enviado correctamente',
+      message: isConfirmation ? 'Email de confirmación enviado correctamente' : 'Email enviado correctamente',
       timestamp: new Date().toISOString(),
+      emailType: emailType,
+      isConfirmation: isConfirmation,
       details: {
         accepted: info.accepted,
         rejected: info.rejected
@@ -160,12 +190,29 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('❌ Unexpected error:', error);
 
+    // Log error with context
+    const errorContext = {
+      errorMessage: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString(),
+      requestBody: req.body ? {
+        hasTo: !!req.body.to,
+        hasSubject: !!req.body.subject,
+        hasHtml: !!req.body.html,
+        customerName: req.body.customerData?.nombre || 'Unknown',
+        formType: req.body.customerData?.formType || 'unknown'
+      } : 'No body'
+    };
+
+    console.error('📧 Email sending failed:', errorContext);
+
     return res.status(500).json({
       success: false,
       error: 'Error interno del servidor',
       code: 'UNEXPECTED_ERROR',
       debug: {
-        errorMessage: error.message
+        errorMessage: error.message,
+        timestamp: new Date().toISOString()
       }
     });
   }

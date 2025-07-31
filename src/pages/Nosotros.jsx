@@ -1,4 +1,6 @@
+// Complete Nosotros.jsx with EmailService integration
 import React, { useState } from 'react';
+import EmailService from '../services/emailService'; // Add EmailService import
 import '../styles/nosotros.css';
 
 const Nosotros = () => {
@@ -13,6 +15,9 @@ const Nosotros = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Initialize EmailService
+  const emailService = new EmailService();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,21 +78,20 @@ const Nosotros = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission (replace with actual emailjs integration)
-      console.log('Form submitted:', formData);
+      console.log('Sending nosotros contact form via EmailService:', formData);
       
-      // Here you would integrate with emailjs like in the original
-      // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
-      //   .then(function (response) {
-      //     setShowSuccess(true);
-      //     console.log("Correo enviado", response);
-      //   })
-      //   .catch(function (error) {
-      //     console.error("Error", error);
-      //   });
+      // Send email to Kalia team
+      await emailService.sendContactEmail(formData, 'nosotros');
+      console.log('Nosotros contact email sent successfully');
       
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Send confirmation email to customer (optional, will skip if no email)
+      try {
+        await emailService.sendContactConfirmation(formData, 'nosotros');
+        console.log('Nosotros confirmation email sent successfully');
+      } catch (confirmationError) {
+        console.warn('Nosotros confirmation email failed, but main email was sent:', confirmationError.message);
+        // Don't fail the whole process if confirmation fails
+      }
       
       setShowSuccess(true);
       
@@ -106,8 +110,14 @@ const Nosotros = () => {
       }, 5000);
       
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+      console.error('Error sending nosotros contact form:', error);
+      
+      // Show user-friendly error message
+      const errorMessage = error.message.includes('Error de autenticación') 
+        ? 'Error de configuración del servidor. Por favor, contacte directamente a info@kaliareformas.com'
+        : 'Error al enviar el mensaje. Por favor, inténtalo de nuevo o contacta directamente a info@kaliareformas.com';
+        
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -265,6 +275,18 @@ const Nosotros = () => {
                       <div className="form-row">
                         <div className="form-group">
                           <label htmlFor="apellido" className="sr-only">Apellidos</label>
+                          <input
+                            type="text"
+                            name="apellido"
+                            id="apellido"
+                            value={formData.apellido}
+                            onChange={handleInputChange}
+                            className={`form-input ${errors.name ? 'error' : ''}`}
+                            placeholder="Apellidos"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="nombre" className="sr-only">Nombres</label>
                           <input
                             type="text"
                             name="nombre"

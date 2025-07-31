@@ -1,5 +1,5 @@
-// src/pages/Services.jsx - Complete services page matching the Astro design
 import React, { useState } from 'react';
+import EmailService from '../services/emailService'; // Add EmailService import
 
 const Services = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,9 @@ const Services = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Initialize EmailService
+  const emailService = new EmailService();
 
   // Services data matching the HTML structure
   const services = [
@@ -126,21 +129,20 @@ const Services = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission (replace with actual emailjs integration)
-      console.log('Form submitted:', formData);
+      console.log('Sending services contact form via EmailService:', formData);
       
-      // Here you would integrate with emailjs like in the original
-      // emailjs.send("service_8t7pklm","template_lnq0jea", formData)
-      //   .then(function (response) {
-      //     setShowSuccess(true);
-      //     console.log("Correo enviado", response);
-      //   })
-      //   .catch(function (error) {
-      //     console.error("Error", error);
-      //   });
+      // Send email to Kalia team
+      await emailService.sendContactEmail(formData, 'services');
+      console.log('Services contact email sent successfully');
       
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Send confirmation email to customer (optional, will skip if no email)
+      try {
+        await emailService.sendContactConfirmation(formData, 'services');
+        console.log('Services confirmation email sent successfully');
+      } catch (confirmationError) {
+        console.warn('Services confirmation email failed, but main email was sent:', confirmationError.message);
+        // Don't fail the whole process if confirmation fails
+      }
       
       setShowSuccess(true);
       
@@ -159,8 +161,14 @@ const Services = () => {
       }, 5000);
       
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+      console.error('Error sending services contact form:', error);
+      
+      // Show user-friendly error message
+      const errorMessage = error.message.includes('Error de autenticación') 
+        ? 'Error de configuración del servidor. Por favor, contacte directamente a info@kaliareformas.com'
+        : 'Error al enviar el mensaje. Por favor, inténtalo de nuevo o contacta directamente a info@kaliareformas.com';
+        
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

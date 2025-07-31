@@ -1,12 +1,16 @@
 class EmailService {
   constructor() {
     // Vercel API endpoint (relative path works in production)
-    this.apiEndpoint = '/api/send-calculator-email';
+    this.apiEndpoint = '/api/send-contact-email';
     this.companyEmail = 'lucasurrutia21@gmail.com'; // Your main business email
   }
 
+  // ========================================
+  // CALCULATOR EMAIL METHODS (existing)
+  // ========================================
+
   // Generate professional email template for calculator submission
-  generateEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities) {
+  generateCalculatorEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities) {
     const formatPrice = (price) => price.toFixed(2) + ' €';
     
     // Create products table with actual quantities
@@ -74,15 +78,15 @@ class EmailService {
           .header {
             background-color: #FFD000;
             color: #333333;
-            padding: 40px;
+            padding: 40px 40px 20px 40px;
             text-align: center;
             border-bottom: 3px solid #333333;
           }
           
           .logo {
-            width: 400px;
-            height: 400px;
-            margin: 0 auto 20px auto;
+            width: 80px;
+            height: 80px;
+            margin: -20px auto 10px auto;
             display: block;
           }
           
@@ -337,7 +341,732 @@ class EmailService {
     `;
   }
 
-  // Generate plain text version
+  // ========================================
+  // NEW: CONTACT FORM EMAIL METHODS
+  // ========================================
+
+  // Generate contact form email template for Kalia team
+  generateContactEmailTemplate(formData, formSource) {
+    const currentDate = new Date().toLocaleDateString('es-ES', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    // Determine full name (handle different field structures)
+    const fullName = this.getFullName(formData);
+    
+    // Determine form source display name
+    const sourceNames = {
+      'contact': 'Página de Contacto',
+      'services': 'Página de Servicios',
+      'nosotros': 'Página de Nosotros',
+      'contact-section': 'Sección de Contacto'
+    };
+    const sourceName = sourceNames[formSource] || 'Formulario de Contacto';
+
+    return `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nueva Consulta - ${sourceName}</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+          
+          body {
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F1E7;
+          }
+          
+          .email-container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+          }
+          
+          .header {
+            background-color: #FFD000;
+            color: #333333;
+            padding: 40px;
+            text-align: center;
+            border-bottom: 3px solid #333333;
+          }
+          
+          .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px auto;
+            display: block;
+          }
+          
+          .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #333333;
+          }
+          
+          .header p {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            color: #333333;
+            opacity: 0.8;
+          }
+          
+          .content-section {
+            padding: 30px;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          
+          .section-title {
+            color: #333333;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
+          }
+          
+          .customer-info {
+            background-color: #F8F1E7;
+            border-left: 4px solid #FFD000;
+          }
+          
+          .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+          }
+          
+          .info-item {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .info-item strong {
+            color: #333333;
+            font-weight: 600;
+          }
+          
+          .message-section {
+            background-color: #f8f9fa;
+          }
+          
+          .message-content {
+            background: white;
+            padding: 25px;
+            border-radius: 6px;
+            border-left: 4px solid #FFD000;
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.7;
+            font-size: 16px;
+            color: #333333;
+            white-space: pre-wrap;
+          }
+          
+          .source-badge {
+            display: inline-block;
+            background-color: #333333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+          }
+          
+          .urgent-notice {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #856404;
+            font-family: 'Poppins', Arial, sans-serif;
+            text-align: center;
+          }
+          
+          .urgent-notice strong {
+            color: #333333;
+          }
+          
+          .footer {
+            background-color: #333333;
+            color: #F8F1E7;
+            text-align: center;
+            padding: 30px;
+            font-size: 14px;
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .footer strong {
+            color: #FFD000;
+          }
+          
+          .contact-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #555555;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="email-container">
+          
+          <!-- Header -->
+          <div class="header">
+            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
+            <h1>Kalia Reformas y Decoración</h1>
+            <p>Nueva consulta desde ${sourceName}</p>
+            <p style="font-size: 13px; margin-top: 10px;">${currentDate}</p>
+          </div>
+
+          <!-- Form Source -->
+          <div class="content-section">
+            <div class="source-badge">${sourceName}</div>
+            <div class="urgent-notice">
+              <strong>⏰ ACCIÓN REQUERIDA:</strong> Nuevo cliente potencial esperando respuesta en 2-4 horas laborables
+            </div>
+          </div>
+
+          <!-- Customer Information -->
+          <div class="content-section customer-info">
+            <h2 class="section-title">Información del Cliente</h2>
+            <div class="info-grid">
+              <div class="info-item">
+                <strong>Nombre Completo:</strong> ${fullName}
+              </div>
+              <div class="info-item">
+                <strong>Email:</strong> ${formData.email}
+              </div>
+              <div class="info-item">
+                <strong>Teléfono:</strong> ${formData.telefono}
+              </div>
+              <div class="info-item">
+                <strong>Formulario Origen:</strong> ${sourceName}
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Content -->
+          <div class="content-section message-section">
+            <h2 class="section-title">Mensaje del Cliente</h2>
+            <div class="message-content">
+${this.getMessageContent(formData)}
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            <p><strong>Kalia Reformas y Decoración</strong></p>
+            <p>Especialistas en Reformas Integrales</p>
+            <p style="margin-top: 10px;">Email generado automáticamente desde formulario web</p>
+            
+            <div class="contact-info">
+              <p><strong>Email:</strong> info@kaliareformas.com</p>
+              <p><strong>Web:</strong> www.kaliareformas.com</p>
+              <p><strong>Tiempo de respuesta objetivo:</strong> 2-4 horas laborables</p>
+            </div>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  // Generate contact form plain text version
+  generateContactPlainTextVersion(formData, formSource) {
+    const currentDate = new Date().toLocaleDateString('es-ES');
+    const fullName = this.getFullName(formData);
+    
+    const sourceNames = {
+      'contact': 'Página de Contacto',
+      'services': 'Página de Servicios', 
+      'nosotros': 'Página de Nosotros',
+      'contact-section': 'Sección de Contacto'
+    };
+    const sourceName = sourceNames[formSource] || 'Formulario de Contacto';
+    
+    return `
+NUEVA CONSULTA - ${sourceName.toUpperCase()}
+${'='.repeat(50)}
+Fecha: ${currentDate}
+
+⏰ ACCIÓN REQUERIDA: Nuevo cliente potencial esperando respuesta en 2-4 horas laborables
+
+INFORMACIÓN DEL CLIENTE:
+-----------------------
+• Nombre: ${fullName}
+• Email: ${formData.email}
+• Teléfono: ${formData.telefono}
+• Origen: ${sourceName}
+
+MENSAJE DEL CLIENTE:
+-------------------
+${this.getMessageContent(formData)}
+
+TIEMPO DE RESPUESTA OBJETIVO: 2-4 horas laborables
+
+---
+Kalia Reformas y Decoración
+Especialistas en Reformas Integrales
+Email: info@kaliareformas.com
+Web: www.kaliareformas.com
+Email generado automáticamente desde formulario web
+    `;
+  }
+
+  // Customer confirmation email for contact forms
+  generateContactConfirmationTemplate(formData, formSource) {
+    const fullName = this.getFullName(formData);
+    const sourceNames = {
+      'contact': 'nuestra página de contacto',
+      'services': 'nuestra página de servicios',
+      'nosotros': 'nuestra página de nosotros', 
+      'contact-section': 'nuestro formulario de contacto'
+    };
+    const sourceName = sourceNames[formSource] || 'nuestro formulario de contacto';
+    
+    return `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmación de Mensaje - Kalia Reformas</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+          
+          body { 
+            font-family: 'Poppins', Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333333; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #F8F1E7; 
+          }
+          
+          .container { 
+            max-width: 600px; 
+            margin: 20px auto; 
+            background: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+          }
+          
+          .header { 
+            background-color: #FFD000; 
+            color: #333333; 
+            padding: 40px; 
+            text-align: center; 
+            border-bottom: 3px solid #333333;
+          }
+          
+          .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px auto;
+            display: block;
+          }
+          
+          .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #333333;
+          }
+          
+          .header p {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            color: #333333;
+            opacity: 0.8;
+          }
+          
+          .content { 
+            padding: 30px; 
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .content h2 {
+            font-family: 'Georgia', serif;
+            color: #333333;
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+          
+          .content h3 {
+            font-family: 'Georgia', serif;
+            color: #333333;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+          }
+          
+          .highlight { 
+            background-color: #F8F1E7; 
+            padding: 20px; 
+            border-left: 4px solid #FFD000; 
+            margin: 20px 0; 
+            border-radius: 6px;
+          }
+          
+          .highlight h3 {
+            margin-top: 0;
+            font-family: 'Georgia', serif;
+            color: #333333;
+          }
+          
+          .highlight strong {
+            color: #333333;
+            font-weight: 600;
+          }
+          
+          .contact-highlight {
+            background-color: #333333;
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 25px 0;
+          }
+          
+          .contact-highlight strong {
+            color: #FFD000;
+          }
+          
+          .footer { 
+            background-color: #333333; 
+            color: #F8F1E7; 
+            text-align: center; 
+            padding: 25px; 
+            font-size: 14px; 
+            font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          .footer strong {
+            color: #FFD000;
+          }
+          
+          ol {
+            padding-left: 20px;
+          }
+          
+          ol li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+          }
+          
+          ol li strong {
+            color: #333333;
+            font-weight: 600;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
+            <h1>Kalia Reformas y Decoración</h1>
+            <p>Confirmación de Mensaje Recibido</p>
+          </div>
+          
+          <div class="content">
+            <h2>Estimado/a ${fullName},</h2>
+            
+            <p>Hemos recibido su mensaje enviado desde ${sourceName} y nos pondremos en contacto con usted a la mayor brevedad posible.</p>
+            
+            <div class="highlight">
+              <h3>Resumen de su Consulta</h3>
+              <p><strong>Nombre:</strong> ${fullName}</p>
+              <p><strong>Email:</strong> ${formData.email}</p>
+              <p><strong>Teléfono:</strong> ${formData.telefono}</p>
+              <p><strong>Origen:</strong> ${sourceName}</p>
+            </div>
+            
+            <h3>Proceso de Seguimiento</h3>
+            <ol>
+              <li><strong>Revisión:</strong> Nuestro equipo revisará su consulta en las próximas horas</li>
+              <li><strong>Contacto:</strong> Le contactaremos en un plazo máximo de 2-4 horas durante horario laboral</li>
+              <li><strong>Solución:</strong> Trabajaremos juntos para encontrar la mejor solución para su proyecto</li>
+            </ol>
+            
+            <div class="contact-highlight">
+              <p><strong>Tiempo de respuesta garantizado:</strong> Máximo 4 horas en horario laboral</p>
+            </div>
+            
+            <p>Si tiene alguna pregunta urgente, puede contactarnos directamente en <strong>info@kaliareformas.com</strong></p>
+            
+            <p>Gracias por confiar en Kalia Reformas y Decoración para su proyecto.</p>
+            
+            <p style="margin-top: 30px;">Atentamente,<br><strong>Equipo Kalia Reformas y Decoración</strong></p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>Kalia Reformas y Decoración</strong></p>
+            <p>Especialistas en Reformas Integrales</p>
+            <p style="margin-top: 15px;">www.kaliareformas.com</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  // Customer confirmation plain text for contact forms
+  generateContactConfirmationText(formData, formSource) {
+    const fullName = this.getFullName(formData);
+    const sourceNames = {
+      'contact': 'nuestra página de contacto',
+      'services': 'nuestra página de servicios',
+      'nosotros': 'nuestra página de nosotros',
+      'contact-section': 'nuestro formulario de contacto'
+    };
+    const sourceName = sourceNames[formSource] || 'nuestro formulario de contacto';
+    
+    return `
+Estimado/a ${fullName},
+
+Hemos recibido su mensaje enviado desde ${sourceName} y nos pondremos en contacto con usted a la mayor brevedad posible.
+
+RESUMEN DE SU CONSULTA:
+=======================
+• Nombre: ${fullName}
+• Email: ${formData.email}
+• Teléfono: ${formData.telefono}
+• Origen: ${sourceName}
+
+PROCESO DE SEGUIMIENTO:
+======================
+1. Nuestro equipo revisará su consulta en las próximas horas
+2. Le contactaremos en un plazo máximo de 2-4 horas durante horario laboral
+3. Trabajaremos juntos para encontrar la mejor solución para su proyecto
+
+Tiempo de respuesta garantizado: Máximo 4 horas en horario laboral
+
+Para consultas urgentes: info@kaliareformas.com
+
+Gracias por confiar en Kalia Reformas y Decoración.
+
+Atentamente,
+Equipo Kalia Reformas y Decoración
+
+---
+Kalia Reformas y Decoración
+www.kaliareformas.com
+Especialistas en Reformas Integrales
+    `;
+  }
+
+  // ========================================
+  // UTILITY METHODS
+  // ========================================
+
+  // Get full name from different form structures
+  getFullName(formData) {
+    // Handle different field name combinations across forms
+    if (formData.nombre && formData.apellido) {
+      return `${formData.nombre} ${formData.apellido}`;
+    }
+    if (formData.nombres && formData.apellidos) {
+      return `${formData.nombres} ${formData.apellidos}`;
+    }
+    if (formData.nombre) {
+      return formData.nombre;
+    }
+    if (formData.nombres) {
+      return formData.nombres;
+    }
+    if (formData.apellido) {
+      return formData.apellido;
+    }
+    if (formData.apellidos) {
+      return formData.apellidos;
+    }
+    return 'Cliente';
+  }
+
+  // Get message content from different form structures
+  getMessageContent(formData) {
+    return formData.message || formData.detalles || 'Sin mensaje específico proporcionado.';
+  }
+
+  // ========================================
+  // MAIN EMAIL SENDING METHODS
+  // ========================================
+
+  // Send calculator email (existing method)
+  async sendCalculatorEmail(formData, productList, totalPrice, instalationType, productQuantities) {
+    const emailData = {
+      to: this.companyEmail,
+      subject: `Nueva Consulta Calculadora - ${formData.nombre} - ${totalPrice.toFixed(2)}€ (${instalationType})`,
+      html: this.generateCalculatorEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities),
+      text: this.generatePlainTextVersion(formData, productList, totalPrice, instalationType, productQuantities),
+      
+      customerData: {
+        nombre: formData.nombre,
+        telefono: formData.telefono,
+        codigopostal: formData.codigopostal,
+        email: formData.email || null,
+        instalationType: instalationType,
+        totalPrice: totalPrice,
+        productCount: productList.length,
+        timestamp: new Date().toISOString(),
+        formType: 'calculator'
+      },
+      
+      priority: totalPrice > 1000 ? 'high' : 'normal'
+    };
+
+    return this.sendEmail(emailData, 'calculadora');
+  }
+
+  // NEW: Send contact form email
+  async sendContactEmail(formData, formSource = 'contact') {
+    const fullName = this.getFullName(formData);
+    
+    const emailData = {
+      to: this.companyEmail,
+      subject: `Nueva Consulta ${this.getSourceDisplayName(formSource)} - ${fullName}`,
+      html: this.generateContactEmailTemplate(formData, formSource),
+      text: this.generateContactPlainTextVersion(formData, formSource),
+      
+      customerData: {
+        nombre: fullName,
+        email: formData.email,
+        telefono: formData.telefono,
+        mensaje: this.getMessageContent(formData),
+        formSource: formSource,
+        timestamp: new Date().toISOString(),
+        formType: 'contact'
+      },
+      
+      priority: 'normal'
+    };
+
+    return this.sendEmail(emailData, formSource);
+  }
+
+  // NEW: Send customer confirmation for contact forms
+  async sendContactConfirmation(formData, formSource = 'contact') {
+    if (!formData.email) {
+      console.log('No customer email provided, skipping confirmation');
+      return { success: true, message: 'No customer email to send confirmation' };
+    }
+
+    const fullName = this.getFullName(formData);
+
+    const customerEmailData = {
+      to: formData.email,
+      subject: `Confirmación de Mensaje - Kalia Reformas`,
+      html: this.generateContactConfirmationTemplate(formData, formSource),
+      text: this.generateContactConfirmationText(formData, formSource),
+      
+      customerData: {
+        nombre: fullName,
+        isConfirmation: true,
+        formSource: formSource
+      },
+      
+      priority: 'normal'
+    };
+
+    try {
+      console.log('Sending contact confirmation email to:', formData.email);
+      const response = await this.sendEmail(customerEmailData, `${formSource}_confirmation`);
+      console.log('Contact confirmation sent successfully');
+      return response;
+    } catch (error) {
+      console.error('Error sending contact confirmation:', error);
+      throw new Error(error.message || 'Error al enviar confirmación al cliente');
+    }
+  }
+
+  // Get display name for form source
+  getSourceDisplayName(formSource) {
+    const sourceNames = {
+      'contact': 'Contacto',
+      'services': 'Servicios', 
+      'nosotros': 'Nosotros',
+      'contact-section': 'Contacto'
+    };
+    return sourceNames[formSource] || 'Contacto';
+  }
+
+  // ========================================
+  // CORE EMAIL SENDING METHOD
+  // ========================================
+
+  // Unified email sending method
+  async sendEmail(emailData, source) {
+    try {
+      console.log(`Sending ${source} email via Vercel API...`, {
+        customer: emailData.customerData?.nombre,
+        to: emailData.to,
+        source: source
+      });
+
+      const response = await fetch(this.apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
+      }
+
+      const result = await response.json();
+      
+      console.log(`${source} email sent successfully:`, {
+        messageId: result.messageId,
+        customer: emailData.customerData?.nombre,
+        timestamp: new Date().toISOString()
+      });
+
+      return { 
+        success: true, 
+        result,
+        message: 'Email enviado correctamente'
+      };
+
+    } catch (error) {
+      console.error(`Error sending ${source} email:`, error);
+      throw new Error(error.message || 'Error al enviar el email');
+    }
+  }
+
+  // ========================================
+  // EXISTING METHODS (maintained for compatibility)
+  // ========================================
+
+  // Generate plain text version for calculator (existing)
   generatePlainTextVersion(formData, productList, totalPrice, instalationType, productQuantities) {
     const formatPrice = (price) => price.toFixed(2) + ' €';
     const currentDate = new Date().toLocaleDateString('es-ES');
@@ -389,77 +1118,33 @@ Email generado automáticamente desde calculadora
     return text;
   }
 
-  // Main method to send calculator email via Vercel API
-  async sendCalculatorEmail(formData, productList, totalPrice, instalationType, productQuantities) {
-    const emailData = {
-      // SIMPLIFIED: Always send to your business email
-      to: this.companyEmail,
-      subject: `Nueva Consulta - ${formData.nombre} - ${totalPrice.toFixed(2)}€ (${instalationType})`,
-      html: this.generateEmailTemplate(formData, productList, totalPrice, instalationType, productQuantities),
-      text: this.generatePlainTextVersion(formData, productList, totalPrice, instalationType, productQuantities),
+  // Customer confirmation for calculator (existing)
+  async sendCustomerConfirmation(formData, totalPrice, instalationType) {
+    if (!formData.email) {
+      console.log('No customer email provided, skipping confirmation');
+      return { success: true, message: 'No customer email to send confirmation' };
+    }
+
+    const formatPrice = (price) => price.toFixed(2) + ' €';
+    
+    const customerEmailData = {
+      to: formData.email,
+      subject: `Confirmación de Consulta - Kalia Reformas - ${formatPrice(totalPrice)}`,
+      html: this.generateCustomerConfirmationTemplate(formData, totalPrice, instalationType),
+      text: this.generateCustomerConfirmationText(formData, totalPrice, instalationType),
       
-      // Additional data for the backend
       customerData: {
         nombre: formData.nombre,
-        telefono: formData.telefono,
-        codigopostal: formData.codigopostal,
-        email: formData.email || null,
-        instalationType: instalationType,
-        totalPrice: totalPrice,
-        productCount: productList.length,
-        timestamp: new Date().toISOString()
+        isConfirmation: true
       },
       
-      // Priority flag for urgent follow-up
-      priority: totalPrice > 1000 ? 'high' : 'normal'
+      priority: 'normal'
     };
 
-    try {
-      console.log('Sending calculator email via Vercel API...', {
-        customer: formData.nombre,
-        total: totalPrice,
-        products: productList.length,
-        type: instalationType
-      });
-
-      const response = await fetch(this.apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
-      });
-
-      // Handle non-200 responses
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
-      }
-
-      const result = await response.json();
-      
-      console.log('Calculator email sent successfully:', {
-        messageId: result.messageId,
-        customer: formData.nombre,
-        timestamp: new Date().toISOString()
-      });
-
-      return { 
-        success: true, 
-        result,
-        message: 'Email enviado correctamente a Kalia Reformas'
-      };
-
-    } catch (error) {
-      console.error('Error sending calculator email:', error);
-      
-      // Return detailed error information
-      throw new Error(error.message || 'Error al enviar el email');
-    }
+    return this.sendEmail(customerEmailData, 'calculator_confirmation');
   }
 
-  // Customer confirmation email template
+  // Generate customer confirmation template for calculator (existing)
   generateCustomerConfirmationTemplate(formData, totalPrice, instalationType) {
     const formatPrice = (price) => price.toFixed(2) + ' €';
     
@@ -655,7 +1340,7 @@ Email generado automáticamente desde calculadora
     `;
   }
 
-  // Customer confirmation plain text
+  // Generate customer confirmation text for calculator (existing)
   generateCustomerConfirmationText(formData, totalPrice, instalationType) {
     const formatPrice = (price) => price.toFixed(2) + ' €';
     
@@ -678,6 +1363,8 @@ PROCESO DE SEGUIMIENTO:
 1. Le contactaremos en las próximas 2-4 horas (horario laboral)
 2. Le entregaremos una cotización detallada y personalizada
 
+Tiempo de respuesta garantizado: Máximo 4 horas en horario laboral
+
 Para consultas urgentes: info@kaliareformas.com
 
 Gracias por confiar en Kalia Reformas y Decoración.
@@ -692,57 +1379,7 @@ Especialistas en Reformas Integrales
     `;
   }
 
-  // Optional: Send confirmation email to customer
-  async sendCustomerConfirmation(formData, totalPrice, instalationType) {
-    if (!formData.email) {
-      console.log('No customer email provided, skipping confirmation');
-      return { success: true, message: 'No customer email to send confirmation' };
-    }
-
-    // Generate customer confirmation email
-    const customerEmailData = {
-      to: formData.email, // Send to customer's email
-      subject: `Confirmación de Consulta - Kalia Reformas - ${totalPrice.toFixed(2)}€`,
-      html: this.generateCustomerConfirmationTemplate(formData, totalPrice, instalationType),
-      text: this.generateCustomerConfirmationText(formData, totalPrice, instalationType),
-      
-      customerData: {
-        nombre: formData.nombre,
-        isConfirmation: true
-      },
-      
-      priority: 'normal'
-    };
-
-    try {
-      console.log('Sending customer confirmation email to:', formData.email);
-
-      const response = await fetch(this.apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(customerEmailData)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
-      }
-
-      const result = await response.json();
-      console.log('Customer confirmation sent successfully');
-      
-      return { success: true, result };
-
-    } catch (error) {
-      console.error('Error sending customer confirmation:', error);
-      throw new Error(error.message || 'Error al enviar confirmación al cliente');
-    }
-  }
-
-  // Health check method to test API connectivity
+  // Health check method (existing)
   async testConnection() {
     try {
       const response = await fetch('/api/health', {
