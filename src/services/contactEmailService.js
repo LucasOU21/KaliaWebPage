@@ -1,7 +1,7 @@
 class ContactEmailService {
   constructor() {
     // Dedicated endpoint for contact forms only
-    this.apiEndpoint = '/api/send-calculator-email';
+    this.apiEndpoint = '/api/send-contact-email';
     this.companyEmail = 'lucasurrutia21@gmail.com';
   }
 
