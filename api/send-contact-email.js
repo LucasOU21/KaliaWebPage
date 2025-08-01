@@ -97,9 +97,9 @@ export default async function handler(req, res) {
 
     console.log('✅ [DEBUG] Environment variables found');
 
-    // Create transporter
+    // Create transporter - FIXED: Changed createTransporter to createTransport
     console.log('🔍 [DEBUG] Creating email transporter...');
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({  // ✅ FIXED: Removed 'r'
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
