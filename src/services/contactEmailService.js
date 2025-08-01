@@ -69,8 +69,8 @@ class ContactEmailService {
           }
           
           .logo {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px auto;
             display: block;
           }
@@ -299,7 +299,7 @@ Email generado automáticamente desde formulario web
     `;
   }
 
-  // Customer confirmation email for contact forms
+  // SIMPLIFIED Customer confirmation email for contact forms
   generateContactConfirmationTemplate(formData, formSource) {
     const fullName = this.getFullName(formData);
     const sourceNames = {
@@ -347,8 +347,8 @@ Email generado automáticamente desde formulario web
           }
           
           .logo {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px auto;
             display: block;
           }
@@ -370,37 +370,32 @@ Email generado automáticamente desde formulario web
           }
           
           .content { 
-            padding: 30px; 
+            padding: 40px 30px; 
             font-family: 'Poppins', Arial, sans-serif;
+            text-align: center;
           }
           
           .content h2 {
             font-family: 'Georgia', serif;
             color: #333333;
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
           }
           
-          .content h3 {
-            font-family: 'Georgia', serif;
+          .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
             color: #333333;
-            font-size: 20px;
-            margin-top: 30px;
-            margin-bottom: 15px;
           }
           
           .highlight { 
             background-color: #F8F1E7; 
-            padding: 20px; 
+            padding: 25px; 
             border-left: 4px solid #FFD000; 
-            margin: 20px 0; 
+            margin: 30px 0; 
             border-radius: 6px;
-          }
-          
-          .highlight h3 {
-            margin-top: 0;
-            font-family: 'Georgia', serif;
-            color: #333333;
+            text-align: left;
           }
           
           .highlight strong {
@@ -414,11 +409,12 @@ Email generado automáticamente desde formulario web
             padding: 20px;
             border-radius: 6px;
             text-align: center;
-            margin: 25px 0;
+            margin: 30px 0;
           }
           
           .contact-highlight strong {
             color: #FFD000;
+            font-size: 18px;
           }
           
           .footer { 
@@ -433,20 +429,6 @@ Email generado automáticamente desde formulario web
           .footer strong {
             color: #FFD000;
           }
-          
-          ol {
-            padding-left: 20px;
-          }
-          
-          ol li {
-            margin-bottom: 12px;
-            line-height: 1.6;
-          }
-          
-          ol li strong {
-            color: #333333;
-            font-weight: 600;
-          }
         </style>
       </head>
       <body>
@@ -454,38 +436,27 @@ Email generado automáticamente desde formulario web
           <div class="header">
             <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
             <h1>Kalia Reformas y Decoración</h1>
-            <p>Confirmación de Mensaje Recibido</p>
+            <p>Confirmación de Mensaje</p>
           </div>
           
           <div class="content">
             <h2>Estimado/a ${fullName},</h2>
             
-            <p>Hemos recibido su mensaje enviado desde ${sourceName} y nos pondremos en contacto con usted a la mayor brevedad posible.</p>
+            <p>Gracias por contactarnos a través de ${sourceName}. Hemos recibido su mensaje correctamente.</p>
             
             <div class="highlight">
-              <h3>Resumen de su Consulta</h3>
               <p><strong>Nombre:</strong> ${fullName}</p>
               <p><strong>Email:</strong> ${formData.email}</p>
               <p><strong>Teléfono:</strong> ${formData.telefono}</p>
-              <p><strong>Origen:</strong> ${sourceName}</p>
             </div>
-            
-            <h3>Proceso de Seguimiento</h3>
-            <ol>
-              <li><strong>Revisión:</strong> Nuestro equipo revisará su consulta en las próximas horas</li>
-              <li><strong>Contacto:</strong> Le contactaremos en un plazo máximo de 2-4 horas durante horario laboral</li>
-              <li><strong>Solución:</strong> Trabajaremos juntos para encontrar la mejor solución para su proyecto</li>
-            </ol>
             
             <div class="contact-highlight">
-              <p><strong>Tiempo de respuesta garantizado:</strong> Máximo 4 horas en horario laboral</p>
+              <p><strong>Nos pondremos en contacto con usted en las próximas 2-4 horas laborables</strong></p>
             </div>
             
-            <p>Si tiene alguna pregunta urgente, puede contactarnos directamente en <strong>info@kaliareformas.com</strong></p>
+            <p>Para consultas urgentes, puede contactarnos directamente en <strong>info@kaliareformas.com</strong></p>
             
-            <p>Gracias por confiar en Kalia Reformas y Decoración para su proyecto.</p>
-            
-            <p style="margin-top: 30px;">Atentamente,<br><strong>Equipo Kalia Reformas y Decoración</strong></p>
+            <p style="margin-top: 40px;">Atentamente,<br><strong>Equipo Kalia Reformas y Decoración</strong></p>
           </div>
           
           <div class="footer">
@@ -499,7 +470,7 @@ Email generado automáticamente desde formulario web
     `;
   }
 
-  // Customer confirmation plain text for contact forms
+  // SIMPLIFIED Customer confirmation plain text for contact forms
   generateContactConfirmationText(formData, formSource) {
     const fullName = this.getFullName(formData);
     const sourceNames = {
@@ -513,9 +484,16 @@ Email generado automáticamente desde formulario web
     return `
 Estimado/a ${fullName},
 
-Hemos recibido su mensaje enviado desde ${sourceName} y nos pondremos en contacto con usted a la mayor brevedad posible.
+Gracias por contactarnos a través de ${sourceName}. Hemos recibido su mensaje correctamente.
 
-Gracias por confiar en Kalia Reformas y Decoración.
+DATOS DE CONTACTO:
+• Nombre: ${fullName}
+• Email: ${formData.email}
+• Teléfono: ${formData.telefono}
+
+Nos pondremos en contacto con usted en las próximas 2-4 horas laborables.
+
+Para consultas urgentes: info@kaliareformas.com
 
 Atentamente,
 Equipo Kalia Reformas y Decoración
