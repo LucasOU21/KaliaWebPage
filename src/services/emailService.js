@@ -63,31 +63,24 @@ class CalculatorEmailService {
             color: #333333;
             margin: 0;
             padding: 0;
-            background-color: #F8F1E7;
+            background-color: rgba(248, 241, 231, 0.7);
           }
           
           .email-container {
             max-width: 800px;
             margin: 20px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
           }
           
           .header {
-            background-color: #FFD000;
-            color: #333333;
-            padding: 40px 40px 20px 40px;
+            background-color: rgba(255, 208, 0, 0.8);
+            color: rgba(51, 51, 51, 0.9);
+            padding: 40px 40px 30px 40px;
             text-align: center;
-            border-bottom: 3px solid #333333;
-          }
-          
-          .logo {
-            width: 80px;
-            height: 80px;
-            margin: -20px auto 10px auto;
-            display: block;
+            border-bottom: 3px solid rgba(51, 51, 51, 0.8);
           }
           
           .header h1 {
@@ -95,24 +88,23 @@ class CalculatorEmailService {
             font-size: 28px;
             font-weight: 700;
             margin: 0 0 10px 0;
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
           }
           
           .header p {
             font-family: 'Poppins', Arial, sans-serif;
             font-size: 16px;
             margin: 0;
-            color: #333333;
-            opacity: 0.8;
+            color: rgba(51, 51, 51, 0.8);
           }
           
           .content-section {
             padding: 30px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.7);
           }
           
           .section-title {
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             margin-top: 0;
             margin-bottom: 25px;
             font-size: 24px;
@@ -121,8 +113,8 @@ class CalculatorEmailService {
           }
           
           .customer-info {
-            background-color: #F8F1E7;
-            border-left: 4px solid #FFD000;
+            background-color: rgba(248, 241, 231, 0.6);
+            border-left: 4px solid rgba(255, 208, 0, 0.8);
           }
           
           .info-grid {
@@ -133,15 +125,15 @@ class CalculatorEmailService {
           }
           
           .info-item {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 6px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(229, 231, 235, 0.7);
             font-family: 'Poppins', Arial, sans-serif;
           }
           
           .info-item strong {
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             font-weight: 600;
           }
           
@@ -156,28 +148,28 @@ class CalculatorEmailService {
           }
           
           .package-standard {
-            background-color: #333333;
-            color: white;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: rgba(255, 255, 255, 0.95);
           }
           
           .package-premium {
-            background-color: #FFD000;
-            color: #333333;
-            border: 2px solid #333333;
+            background-color: rgba(255, 208, 0, 0.8);
+            color: rgba(51, 51, 51, 0.9);
+            border: 2px solid rgba(51, 51, 51, 0.8);
           }
           
           .products-table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(229, 231, 235, 0.7);
             border-radius: 6px;
             overflow: hidden;
             margin-top: 20px;
           }
           
           .products-table th {
-            background-color: #333333;
-            color: white;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: rgba(255, 255, 255, 0.95);
             padding: 18px 12px;
             text-align: left;
             font-weight: 600;
@@ -186,30 +178,30 @@ class CalculatorEmailService {
           }
           
           .total-row {
-            background-color: #F8F1E7;
+            background-color: rgba(248, 241, 231, 0.6);
             font-weight: bold;
             font-size: 18px;
           }
           
           .total-row td {
             padding: 25px 12px;
-            border-top: 3px solid #FFD000;
+            border-top: 3px solid rgba(255, 208, 0, 0.8);
             font-family: 'Poppins', Arial, sans-serif;
           }
           
           .package-description {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: rgba(248, 249, 250, 0.7);
             border-radius: 6px;
-            border-left: 4px solid #FFD000;
+            border-left: 4px solid rgba(255, 208, 0, 0.8);
             font-family: 'Poppins', Arial, sans-serif;
             line-height: 1.7;
           }
           
           .footer {
-            background-color: #333333;
-            color: #F8F1E7;
+            background-color: rgba(51, 51, 51, 0.9);
+            color: rgba(248, 241, 231, 0.9);
             text-align: center;
             padding: 30px;
             font-size: 14px;
@@ -217,23 +209,23 @@ class CalculatorEmailService {
           }
           
           .footer strong {
-            color: #FFD000;
+            color: rgba(255, 208, 0, 0.9);
           }
           
           .contact-info {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #555555;
+            border-top: 1px solid rgba(85, 85, 85, 0.7);
           }
           
           .warning-note {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
+            background-color: rgba(255, 243, 205, 0.8);
+            border: 1px solid rgba(255, 234, 167, 0.8);
             border-radius: 6px;
             padding: 15px;
             margin-top: 20px;
             font-style: italic;
-            color: #856404;
+            color: rgba(133, 100, 4, 0.9);
             font-family: 'Poppins', Arial, sans-serif;
           }
         </style>
@@ -241,9 +233,8 @@ class CalculatorEmailService {
       <body>
         <div class="email-container">
           
-          <!-- Header -->
+          <!-- Header (Logo Removed) -->
           <div class="header">
-            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
             <h1>Kalia Reformas y Decoración</h1>
             <p>Nueva consulta desde la calculadora de presupuestos</p>
             <p style="font-size: 13px; margin-top: 10px;">${currentDate}</p>
@@ -267,7 +258,7 @@ class CalculatorEmailService {
                 <strong>Email:</strong> ${formData.email}
               </div>
               ` : `
-              <div class="info-item" style="background: #fff3cd; border-color: #ffc107;">
+              <div class="info-item" style="background: rgba(255, 243, 205, 0.8); border-color: rgba(255, 193, 7, 0.7);">
                 <strong>Email:</strong> No proporcionado
               </div>
               `}
@@ -309,7 +300,7 @@ class CalculatorEmailService {
                   <td colspan="4" style="text-align: right; padding-right: 20px;">
                     <strong>PRESUPUESTO TOTAL ESTIMADO:</strong>
                   </td>
-                  <td style="text-align: right; color: #333333; font-size: 22px;">
+                  <td style="text-align: right; color: rgba(51, 51, 51, 0.9); font-size: 22px;">
                     ${formatPrice(totalPrice)}
                   </td>
                 </tr>
@@ -410,34 +401,27 @@ Email generado automáticamente desde calculadora
           body { 
             font-family: 'Poppins', Arial, sans-serif; 
             line-height: 1.6; 
-            color: #333333; 
+            color: rgba(51, 51, 51, 0.9); 
             margin: 0; 
             padding: 0; 
-            background-color: #F8F1E7; 
+            background-color: rgba(248, 241, 231, 0.7); 
           }
           
           .container { 
             max-width: 600px; 
             margin: 20px auto; 
-            background: white; 
+            background: rgba(255, 255, 255, 0.95); 
             border-radius: 8px; 
             overflow: hidden; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
           }
           
           .header { 
-            background-color: #FFD000; 
-            color: #333333; 
+            background-color: rgba(255, 208, 0, 0.8); 
+            color: rgba(51, 51, 51, 0.9); 
             padding: 40px; 
             text-align: center; 
-            border-bottom: 3px solid #333333;
-          }
-          
-          .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px auto;
-            display: block;
+            border-bottom: 3px solid rgba(51, 51, 51, 0.8);
           }
           
           .header h1 {
@@ -445,15 +429,14 @@ Email generado automáticamente desde calculadora
             font-size: 28px;
             font-weight: 700;
             margin: 0 0 10px 0;
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
           }
           
           .header p {
             font-family: 'Poppins', Arial, sans-serif;
             font-size: 16px;
             margin: 0;
-            color: #333333;
-            opacity: 0.8;
+            color: rgba(51, 51, 51, 0.8);
           }
           
           .content { 
@@ -463,23 +446,23 @@ Email generado automáticamente desde calculadora
           
           .content h2 {
             font-family: 'Georgia', serif;
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             font-size: 24px;
             margin-bottom: 20px;
           }
           
           .content h3 {
             font-family: 'Georgia', serif;
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             font-size: 20px;
             margin-top: 30px;
             margin-bottom: 15px;
           }
           
           .highlight { 
-            background-color: #F8F1E7; 
+            background-color: rgba(248, 241, 231, 0.6); 
             padding: 20px; 
-            border-left: 4px solid #FFD000; 
+            border-left: 4px solid rgba(255, 208, 0, 0.8); 
             margin: 20px 0; 
             border-radius: 6px;
           }
@@ -487,17 +470,17 @@ Email generado automáticamente desde calculadora
           .highlight h3 {
             margin-top: 0;
             font-family: 'Georgia', serif;
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
           }
           
           .highlight strong {
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             font-weight: 600;
           }
           
           .contact-highlight {
-            background-color: #333333;
-            color: white;
+            background-color: rgba(51, 51, 51, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 6px;
             text-align: center;
@@ -505,12 +488,12 @@ Email generado automáticamente desde calculadora
           }
           
           .contact-highlight strong {
-            color: #FFD000;
+            color: rgba(255, 208, 0, 0.9);
           }
           
           .footer { 
-            background-color: #333333; 
-            color: #F8F1E7; 
+            background-color: rgba(51, 51, 51, 0.9); 
+            color: rgba(248, 241, 231, 0.9); 
             text-align: center; 
             padding: 25px; 
             font-size: 14px; 
@@ -518,7 +501,7 @@ Email generado automáticamente desde calculadora
           }
           
           .footer strong {
-            color: #FFD000;
+            color: rgba(255, 208, 0, 0.9);
           }
           
           ol {
@@ -531,7 +514,7 @@ Email generado automáticamente desde calculadora
           }
           
           ol li strong {
-            color: #333333;
+            color: rgba(51, 51, 51, 0.9);
             font-weight: 600;
           }
         </style>
@@ -539,7 +522,6 @@ Email generado automáticamente desde calculadora
       <body>
         <div class="container">
           <div class="header">
-            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
             <h1>Kalia Reformas y Decoración</h1>
             <p>Confirmación de Consulta Recibida</p>
           </div>
@@ -557,7 +539,7 @@ Email generado automáticamente desde calculadora
               <p><strong>Código Postal:</strong> ${formData.codigopostal}</p>
             </div>
             
-            <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 20px; margin: 20px 0; color: #856404;">
+            <div style="background-color: rgba(255, 243, 205, 0.8); border: 1px solid rgba(255, 234, 167, 0.8); border-radius: 6px; padding: 20px; margin: 20px 0; color: rgba(133, 100, 4, 0.9);">
               <p style="margin: 0; font-weight: 600;"><strong>IMPORTANTE:</strong> Este presupuesto es una estimación preliminar. El precio final puede variar según las características específicas del proyecto y podrían aplicarse cargos adicionales tras la evaluación técnica.</p>
             </div>
             
