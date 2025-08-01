@@ -515,23 +515,6 @@ Estimado/a ${fullName},
 
 Hemos recibido su mensaje enviado desde ${sourceName} y nos pondremos en contacto con usted a la mayor brevedad posible.
 
-RESUMEN DE SU CONSULTA:
-=======================
-• Nombre: ${fullName}
-• Email: ${formData.email}
-• Teléfono: ${formData.telefono}
-• Origen: ${sourceName}
-
-PROCESO DE SEGUIMIENTO:
-======================
-1. Nuestro equipo revisará su consulta en las próximas horas
-2. Le contactaremos en un plazo máximo de 2-4 horas durante horario laboral
-3. Trabajaremos juntos para encontrar la mejor solución para su proyecto
-
-Tiempo de respuesta garantizado: Máximo 4 horas en horario laboral
-
-Para consultas urgentes: info@kaliareformas.com
-
 Gracias por confiar en Kalia Reformas y Decoración.
 
 Atentamente,
