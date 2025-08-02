@@ -1,8 +1,8 @@
 class CalculatorEmailService {
   constructor() {
     // Dedicated endpoint for calculator only
-    this.apiEndpoint = '/api/send-calculator-email';
-    this.companyEmail = 'lucasurrutia21@gmail.com';
+    this.apiEndpoint = 'https://kalia-email-woker.2mmanitasmadrid.workers.dev';
+    this.companyEmail = '2mmanitasmadrid@gmail.com';
   }
 
   // ========================================
