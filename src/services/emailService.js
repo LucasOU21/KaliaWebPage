@@ -233,7 +233,7 @@ class CalculatorEmailService {
       <body>
         <div class="email-container">
           
-          <!-- Header (Logo Removed) -->
+          <!-- Header -->
           <div class="header">
             <h1>Kalia Reformas y Decoración</h1>
             <p>Nueva consulta desde la calculadora de presupuestos</p>

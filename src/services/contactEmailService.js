@@ -68,13 +68,6 @@ class ContactEmailService {
             border-bottom: 3px solid #333333;
           }
           
-          .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px auto;
-            display: block;
-          }
-          
           .header h1 {
             font-family: 'Georgia', serif;
             font-size: 28px;
@@ -197,7 +190,6 @@ class ContactEmailService {
           
           <!-- Header -->
           <div class="header">
-            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
             <h1>Kalia Reformas y Decoración</h1>
             <p>Nueva consulta desde ${sourceName}</p>
             <p style="font-size: 13px; margin-top: 10px;">${currentDate}</p>
@@ -346,13 +338,6 @@ Email generado automáticamente desde formulario web
             border-bottom: 3px solid #333333;
           }
           
-          .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px auto;
-            display: block;
-          }
-          
           .header h1 {
             font-family: 'Georgia', serif;
             font-size: 28px;
@@ -434,7 +419,6 @@ Email generado automáticamente desde formulario web
       <body>
         <div class="container">
           <div class="header">
-            <img src="https://kaliareformas.com/images/logos/KaliaLogo-300x300.png" alt="Kalia Logo" class="logo" />
             <h1>Kalia Reformas y Decoración</h1>
             <p>Confirmación de Mensaje</p>
           </div>
