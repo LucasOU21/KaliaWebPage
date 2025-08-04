@@ -8,7 +8,7 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
-// DEBUG VERSION - Main serverless function for contact emails
+// Contact form handler with professional routing
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -32,74 +32,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('📧 [DEBUG] Received contact form email request');
-    console.log('📧 [DEBUG] Request body keys:', Object.keys(req.body || {}));
+    console.log('📧 [CONTACT] Received contact form email request with routing');
     
-    // DEBUG: Log the request body structure
-    const { to, subject, html, text, customerData, priority } = req.body;
-    console.log('📧 [DEBUG] Extracted fields:', {
-      hasTo: !!to,
-      hasSubject: !!subject,
-      hasHtml: !!html,
-      hasText: !!text,
-      hasCustomerData: !!customerData,
-      customerDataKeys: customerData ? Object.keys(customerData) : 'none'
-    });
-
-    // Validate required fields FIRST
-    if (!to || !subject || !html) {
-      console.error('❌ [DEBUG] Missing required fields');
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required fields: to, subject, html',
-        code: 'MISSING_FIELDS',
-        debug: {
-          hasTo: !!to,
-          hasSubject: !!subject,
-          hasHtml: !!html
-        }
-      });
-    }
-
-    // Validate email format
-    if (!isValidEmail(to)) {
-      console.error('❌ [DEBUG] Invalid email format:', to);
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format',
-        code: 'INVALID_EMAIL'
-      });
-    }
-
-    console.log('✅ [DEBUG] Basic validation passed');
-
-    // Try both possible environment variable names
+    // Environment variables check
     const emailPassword = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
     
-    console.log('🔍 [DEBUG] Environment Variables Check:');
-    console.log('  - EMAIL_USER exists:', !!process.env.EMAIL_USER);
-    console.log('  - EMAIL_USER value:', process.env.EMAIL_USER ? 'SET' : 'NOT SET');
-    console.log('  - Password exists:', !!emailPassword);
-    console.log('  - Password length:', emailPassword ? emailPassword.length : 0);
-    
     if (!process.env.EMAIL_USER || !emailPassword) {
-      console.error('❌ [DEBUG] Missing email credentials!');
+      console.error('❌ [CONTACT] Missing email credentials!');
       return res.status(500).json({
         success: false,
         error: 'Missing email credentials in environment variables',
-        code: 'CONFIG_ERROR',
-        debug: {
-          emailUserExists: !!process.env.EMAIL_USER,
-          passwordExists: !!emailPassword
-        }
+        code: 'CONFIG_ERROR'
       });
     }
 
-    console.log('✅ [DEBUG] Environment variables found');
-
-    // Create transporter - FIXED: Changed createTransporter to createTransport
-    console.log('🔍 [DEBUG] Creating email transporter...');
-    const transporter = nodemailer.createTransport({  // ✅ FIXED: Removed 'r'
+    // Create transporter
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
@@ -110,124 +58,123 @@ export default async function handler(req, res) {
       }
     });
 
-    // Test connection
-    console.log('🔍 [DEBUG] Testing email connection...');
+    // Verify connection
     try {
       await transporter.verify();
-      console.log('✅ [DEBUG] Email server connection verified!');
+      console.log('✅ [CONTACT] Email server connection verified!');
     } catch (verifyError) {
-      console.error('❌ [DEBUG] Email server verification failed:', verifyError.message);
-      
+      console.error('❌ [CONTACT] Email server verification failed:', verifyError.message);
       return res.status(401).json({
         success: false,
-        error: 'Error de autenticación del email para formularios de contacto',
-        code: 'AUTH_ERROR',
-        debug: {
-          errorMessage: verifyError.message,
-          errorCode: verifyError.code,
-          errorStack: verifyError.stack?.substring(0, 200)
-        }
+        error: 'Error de autenticación del email',
+        code: 'AUTH_ERROR'
       });
     }
 
-    // Process email data
-    console.log('🔍 [DEBUG] Processing email data...');
-    const formType = customerData?.formType || 'contact';
-    const formSource = customerData?.formSource || 'unknown';
+    const { to, subject, html, text, customerData, priority } = req.body;
+
+    // Validate required fields
+    if (!to || !subject || !html) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: to, subject, html',
+        code: 'MISSING_FIELDS'
+      });
+    }
+
     const isConfirmation = customerData?.isConfirmation || false;
+    const emailType = customerData?.formType || 'contact';
+    const formSource = customerData?.formSource || 'unknown';
     
-    console.log('📧 [DEBUG] Email details:', {
-      formType,
-      formSource,
-      isConfirmation,
-      to,
-      subject: subject.substring(0, 50) + '...'
+    // CONTACT ROUTING LOGIC: Route company emails to both Lucas and 2mmanitasmadrid
+    let actualRecipients;
+    if (isConfirmation) {
+      // Customer confirmations go only to customer
+      actualRecipients = [to];
+    } else {
+      // Company contact emails go to both Lucas and 2mmanitasmadrid
+      actualRecipients = ['lucasurrutia21@gmail.com', '2mmanitasmadrid@gmail.com'];
+    }
+
+    console.log('📧 [CONTACT] Email routing:', {
+      originalTo: to,
+      actualRecipients: actualRecipients,
+      isConfirmation: isConfirmation,
+      emailType: emailType,
+      formSource: formSource
     });
 
-    // Prepare simplified mail options
+    // Prepare email options
     const mailOptions = {
       from: {
         name: isConfirmation ? 'Kalia Reformas y Decoración' : `Formulario ${formSource} - Kalia`,
-        address: process.env.EMAIL_USER
+        address: 'info@kaliareformas.com'  // Always show professional address
       },
-      to: to,
+      to: actualRecipients[0],  // Primary recipient
+      cc: actualRecipients.length > 1 ? actualRecipients.slice(1) : undefined,  // Additional recipients
       subject: subject,
       html: html,
       text: text || 'Este email requiere un cliente que soporte HTML.',
       
-      // Simplified headers
+      // Email headers
       headers: {
         'X-Priority': priority === 'high' ? '1' : '3',
-        'X-Mailer': 'Kalia Contact Forms DEBUG',
-        'X-Form-Source': formSource
+        'X-Mailer': 'Kalia Contact Forms',
+        'X-Customer': customerData?.nombre || 'Unknown',
+        'X-Form-Type': emailType,
+        'X-Form-Source': formSource,
+        'X-Original-To': to,
+        'X-Routed-To': actualRecipients.join(', ')
       },
 
-      // Reply-to
-      replyTo: !isConfirmation && customerData?.email ? customerData.email : process.env.EMAIL_USER,
+      // Reply-to handling
+      replyTo: !isConfirmation && customerData?.email 
+        ? customerData.email 
+        : 'info@kaliareformas.com',
 
-      // Simple message ID
-      messageId: `contact-debug-${Date.now()}@kaliareformas.com`
+      // Message ID for tracking
+      messageId: `contact-${formSource}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@kaliareformas.com`
     };
 
-    console.log('📧 [DEBUG] Attempting to send email...');
-    console.log('📧 [DEBUG] Mail options summary:', {
-      from: mailOptions.from.name,
-      to: mailOptions.to,
-      subject: mailOptions.subject.substring(0, 50) + '...',
-      hasHtml: !!mailOptions.html,
-      hasText: !!mailOptions.text
-    });
-
+    console.log('📧 [CONTACT] Sending contact form email with routing...');
+    
     // Send the email
     const info = await transporter.sendMail(mailOptions);
 
-    console.log('✅ [DEBUG] Email sent successfully!');
-    console.log('📧 [DEBUG] Send result:', {
-      messageId: info.messageId,
-      accepted: info.accepted,
-      rejected: info.rejected
+    console.log('✅ [CONTACT] Email sent successfully with routing!');
+    console.log('📧 [CONTACT] Message ID:', info.messageId);
+
+    // Log contact form details
+    console.log('📝 [CONTACT] Contact form sent:', {
+      formSource,
+      customer: customerData?.nombre || 'Unknown',
+      isConfirmation,
+      routedTo: actualRecipients.join(', '),
+      timestamp: new Date().toISOString()
     });
 
-    // Return success response
+    // Success response (don't reveal internal routing)
     return res.status(200).json({
       success: true,
       messageId: info.messageId,
       message: isConfirmation 
-        ? 'Email de confirmación enviado correctamente al cliente' 
-        : 'Formulario de contacto enviado correctamente a Kalia',
+        ? 'Email de confirmación enviado correctamente' 
+        : 'Formulario de contacto enviado correctamente',
       timestamp: new Date().toISOString(),
-      debug: {
-        formType,
-        formSource,
-        isConfirmation,
-        emailSent: true
-      }
+      emailType: emailType,
+      isConfirmation: isConfirmation
     });
 
   } catch (error) {
-    console.error('❌ [DEBUG] Unexpected error in contact form handler:', error);
-    console.error('❌ [DEBUG] Error details:', {
-      message: error.message,
-      code: error.code,
-      stack: error.stack?.substring(0, 500)
-    });
+    console.error('❌ [CONTACT] Email sending error:', error);
 
-    // Return detailed error for debugging  
     return res.status(500).json({
       success: false,
       error: 'Error interno del servidor al procesar formulario de contacto',
       code: 'CONTACT_FORM_ERROR',
       debug: {
         errorMessage: error.message,
-        errorCode: error.code,
-        timestamp: new Date().toISOString(),
-        endpoint: 'send-contact-email-debug',
-        requestBody: req.body ? {
-          hasTo: !!req.body.to,
-          hasSubject: !!req.body.subject,
-          hasHtml: !!req.body.html,
-          customerName: req.body.customerData?.nombre || 'Unknown'
-        } : 'No request body'
+        timestamp: new Date().toISOString()
       }
     });
   }
