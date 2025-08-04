@@ -548,10 +548,6 @@ Email generado automáticamente desde calculadora
               <li><strong>Presupuesto:</strong> Le entregaremos una cotización detallada y personalizada</li>
             </ol>
             
-            <div class="contact-highlight">
-              <p><strong>Tiempo de respuesta garantizado:</strong> Máximo 4 horas en horario laboral</p>
-            </div>
-            
             <p>Si tiene alguna pregunta urgente, puede contactarnos directamente en <strong>info@kaliareformas.com</strong></p>
             
             <p>Gracias por confiar en Kalia Reformas y Decoración para su proyecto.</p>
@@ -592,8 +588,6 @@ PROCESO DE SEGUIMIENTO:
 ======================
 1. Le contactaremos en las próximas 2-4 horas (horario laboral)
 2. Le entregaremos una cotización detallada y personalizada
-
-Tiempo de respuesta garantizado: Máximo 4 horas en horario laboral
 
 Para consultas urgentes: info@kaliareformas.com
 
