@@ -1,7 +1,7 @@
 class ContactEmailService {
   constructor() {
     // Dedicated endpoint for contact forms only
-    this.apiEndpoint = '/api/send-contact-email'; 
+    this.apiEndpoint = 'https://kalia-email-worker.2mmanitasmadrid.workers.dev';
     this.companyEmail = 'info@kaliareformas.com';
   }
 
