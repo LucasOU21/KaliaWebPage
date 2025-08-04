@@ -605,47 +605,49 @@ Especialistas en Reformas Integrales
 
   // Email sending method (contact forms only)
   async sendEmail(emailData, source) {
-    try {
-      console.log(`Sending ${source} contact email via Vercel API...`, {
-        customer: emailData.customerData?.nombre,
-        to: emailData.to,
-        source: source
-      });
+  try {
+    console.log(`Sending ${source} contact email via MailChannels Worker...`, {
+      customer: emailData.customerData?.nombre,
+      to: emailData.to,
+      source: source,
+      willRouteToActual: emailData.customerData?.isConfirmation ? 'customer email' : '2mmanitasmadrid@gmail.com'
+    });
 
-      const response = await fetch(this.apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
-      });
+    const response = await fetch(this.apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
-      }
-
-      const result = await response.json();
-      
-      console.log(`${source} contact email sent successfully:`, {
-        messageId: result.messageId,
-        customer: emailData.customerData?.nombre,
-        timestamp: new Date().toISOString()
-      });
-
-      return { 
-        success: true, 
-        result,
-        message: 'Email de contacto enviado correctamente'
-      };
-
-    } catch (error) {
-      console.error(`Error sending ${source} contact email:`, error);
-      throw new Error(error.message || 'Error al enviar el email de contacto');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
     }
-  }
 
+    const result = await response.json();
+    
+    console.log(`${source} contact email sent successfully via MailChannels:`, {
+      messageId: result.messageId,
+      customer: emailData.customerData?.nombre,
+      actualRecipients: result.debug?.routedTo || 'See worker logs',
+      fromAddress: result.debug?.fromAddress || 'info@kaliareformas.com',
+      timestamp: new Date().toISOString()
+    });
+
+    return { 
+      success: true, 
+      result,
+      message: 'Email de contacto enviado correctamente'
+    };
+
+  } catch (error) {
+    console.error(`Error sending ${source} contact email:`, error);
+    throw new Error(error.message || 'Error al enviar el email de contacto');
+  }
+}
   // Test connection method
   async testConnection() {
     try {

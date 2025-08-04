@@ -672,46 +672,49 @@ Especialistas en Reformas Integrales
 
   // Email sending method (calculator only)
   async sendEmail(emailData, source) {
-    try {
-      console.log(`Sending ${source} calculator email via Vercel API...`, {
-        customer: emailData.customerData?.nombre,
-        to: emailData.to,
-        source: source
-      });
+  try {
+    console.log(`Sending ${source} calculator email via MailChannels Worker...`, {
+      customer: emailData.customerData?.nombre,
+      to: emailData.to,
+      source: source,
+      willRouteToActual: emailData.customerData?.isConfirmation ? 'customer email' : '2mmanitasmadrid@gmail.com'
+    });
 
-      const response = await fetch(this.apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
-      });
+    const response = await fetch(this.apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
-      }
-
-      const result = await response.json();
-      
-      console.log(`${source} calculator email sent successfully:`, {
-        messageId: result.messageId,
-        customer: emailData.customerData?.nombre,
-        timestamp: new Date().toISOString()
-      });
-
-      return { 
-        success: true, 
-        result,
-        message: 'Email de calculadora enviado correctamente'
-      };
-
-    } catch (error) {
-      console.error(`Error sending ${source} calculator email:`, error);
-      throw new Error(error.message || 'Error al enviar el email de calculadora');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`HTTP ${response.status}: ${errorData.error || 'Server error'}`);
     }
+
+    const result = await response.json();
+    
+    console.log(`${source} calculator email sent successfully via MailChannels:`, {
+      messageId: result.messageId,
+      customer: emailData.customerData?.nombre,
+      actualRecipients: result.debug?.routedTo || 'See worker logs',
+      fromAddress: result.debug?.fromAddress || 'info@kaliareformas.com',
+      timestamp: new Date().toISOString()
+    });
+
+    return { 
+      success: true, 
+      result,
+      message: 'Email de calculadora enviado correctamente'
+    };
+
+  } catch (error) {
+    console.error(`Error sending ${source} calculator email:`, error);
+    throw new Error(error.message || 'Error al enviar el email de calculadora');
   }
+}
 
   // Test connection method
   async testConnection() {
