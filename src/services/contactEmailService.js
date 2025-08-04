@@ -606,7 +606,7 @@ Especialistas en Reformas Integrales
   // Email sending method (contact forms only)
   async sendEmail(emailData, source) {
   try {
-    console.log(`Sending ${source} contact email via MailChannels Worker...`, {
+    console.log(`Sending ${source} contact email via Resend Worker...`, {
       customer: emailData.customerData?.nombre,
       to: emailData.to,
       source: source,
@@ -629,11 +629,12 @@ Especialistas en Reformas Integrales
 
     const result = await response.json();
     
-    console.log(`${source} contact email sent successfully via MailChannels:`, {
+    console.log(`${source} contact email sent successfully via Resend:`, {
       messageId: result.messageId,
       customer: emailData.customerData?.nombre,
       actualRecipients: result.debug?.routedTo || 'See worker logs',
-      fromAddress: result.debug?.fromAddress || 'info@kaliareformas.com',
+      fromAddress: result.debug?.fromAddress || 'noreply@resend.dev',
+      service: result.service || 'Resend',
       timestamp: new Date().toISOString()
     });
 
