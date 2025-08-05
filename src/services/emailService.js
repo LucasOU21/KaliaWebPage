@@ -179,36 +179,39 @@ class CalculatorEmailService {
           }
           
           .products-table th:first-child {
-            width: 40%;
+            width: 35%;
             text-align: left;
           }
           
           .products-table th:nth-child(2) {
-            width: 15%;
+            width: 12%;
             text-align: center;
           }
           
           .products-table th:nth-child(3) {
-            width: 15%;
+            width: 12%;
             text-align: center;
           }
           
           .products-table th:nth-child(4) {
-            width: 15%;
+            width: 18%;
             text-align: right;
           }
           
           .products-table th:nth-child(5) {
-            width: 15%;
+            width: 23%;
             text-align: right;
           }
           
           .total-section {
-            margin-top: 30px;
-            padding: 25px;
+            margin-top: 25px;
+            padding: 20px;
             background-color: rgba(248, 241, 231, 0.6);
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid rgba(255, 208, 0, 0.8);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
           }
           
           .total-row {
@@ -216,28 +219,28 @@ class CalculatorEmailService {
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
           }
           
           .total-label {
             font-family: 'Poppins', Arial, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: rgba(51, 51, 51, 0.9);
             flex: 1;
-            min-width: 200px;
+            min-width: 150px;
           }
           
           .total-price {
             font-family: 'Poppins', Arial, sans-serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: rgba(51, 51, 51, 0.9);
             text-align: right;
-            min-width: 120px;
+            min-width: 100px;
             background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 4px;
             border: 1px solid rgba(229, 231, 235, 0.7);
           }
           
@@ -298,20 +301,27 @@ class CalculatorEmailService {
               font-size: 12px;
             }
             
+            .total-section {
+              max-width: 100%;
+              margin: 20px 0;
+            }
+            
             .total-row {
               flex-direction: column;
               text-align: center;
+              gap: 8px;
             }
             
             .total-label {
               text-align: center;
               min-width: auto;
+              font-size: 14px;
             }
             
             .total-price {
               text-align: center;
               min-width: auto;
-              font-size: 24px;
+              font-size: 20px;
             }
           }
         </style>
