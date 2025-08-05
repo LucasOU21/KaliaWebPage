@@ -18,19 +18,19 @@ class CalculatorEmailService {
       const subtotal = product.precio * quantity;
       return `
         <tr style="border-bottom: 1px solid #e5e7eb;">
-          <td style="padding: 16px 12px; text-align: left; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
+          <td style="padding: 16px 8px; text-align: left; vertical-align: top; font-family: 'Poppins', Arial, sans-serif; word-wrap: break-word;">
             <strong>${product.nombre}</strong>
           </td>
-          <td style="padding: 16px 12px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
+          <td style="padding: 16px 8px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif; white-space: nowrap;">
             ${quantity}
           </td>
-          <td style="padding: 16px 12px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
+          <td style="padding: 16px 8px; text-align: center; vertical-align: top; font-family: 'Poppins', Arial, sans-serif; white-space: nowrap;">
             ${product.tipoUnidad === 'unidad' ? 'und.' : 'ml'}
           </td>
-          <td style="padding: 16px 12px; text-align: right; vertical-align: top; font-family: 'Poppins', Arial, sans-serif;">
+          <td style="padding: 16px 8px; text-align: right; vertical-align: top; font-family: 'Poppins', Arial, sans-serif; white-space: nowrap;">
             ${formatPrice(product.precio)}
           </td>
-          <td style="padding: 16px 12px; text-align: right; vertical-align: top; font-weight: bold; color: #333333; font-family: 'Poppins', Arial, sans-serif;">
+          <td style="padding: 16px 8px; text-align: right; vertical-align: top; font-weight: bold; color: #333333; font-family: 'Poppins', Arial, sans-serif; white-space: nowrap;">
             ${formatPrice(subtotal)}
           </td>
         </tr>
@@ -164,28 +164,81 @@ class CalculatorEmailService {
             border-radius: 6px;
             overflow: hidden;
             margin-top: 20px;
+            table-layout: auto;
           }
           
           .products-table th {
             background-color: rgba(51, 51, 51, 0.8);
             color: rgba(255, 255, 255, 0.95);
-            padding: 18px 12px;
+            padding: 18px 8px;
             text-align: left;
             font-weight: 600;
             font-size: 14px;
             font-family: 'Poppins', Arial, sans-serif;
+            white-space: nowrap;
+          }
+          
+          .products-table th:first-child {
+            width: 40%;
+            text-align: left;
+          }
+          
+          .products-table th:nth-child(2) {
+            width: 15%;
+            text-align: center;
+          }
+          
+          .products-table th:nth-child(3) {
+            width: 15%;
+            text-align: center;
+          }
+          
+          .products-table th:nth-child(4) {
+            width: 15%;
+            text-align: right;
+          }
+          
+          .products-table th:nth-child(5) {
+            width: 15%;
+            text-align: right;
+          }
+          
+          .total-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: rgba(248, 241, 231, 0.6);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 208, 0, 0.8);
           }
           
           .total-row {
-            background-color: rgba(248, 241, 231, 0.6);
-            font-weight: bold;
-            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
           }
           
-          .total-row td {
-            padding: 25px 12px;
-            border-top: 3px solid rgba(255, 208, 0, 0.8);
+          .total-label {
             font-family: 'Poppins', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: rgba(51, 51, 51, 0.9);
+            flex: 1;
+            min-width: 200px;
+          }
+          
+          .total-price {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: rgba(51, 51, 51, 0.9);
+            text-align: right;
+            min-width: 120px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid rgba(229, 231, 235, 0.7);
           }
           
           .package-description {
@@ -226,6 +279,40 @@ class CalculatorEmailService {
             font-style: italic;
             color: rgba(133, 100, 4, 0.9);
             font-family: 'Poppins', Arial, sans-serif;
+          }
+          
+          /* Mobile responsiveness */
+          @media only screen and (max-width: 600px) {
+            .email-container {
+              margin: 10px;
+              max-width: calc(100% - 20px);
+            }
+            
+            .content-section {
+              padding: 20px;
+            }
+            
+            .products-table th,
+            .products-table td {
+              padding: 12px 4px;
+              font-size: 12px;
+            }
+            
+            .total-row {
+              flex-direction: column;
+              text-align: center;
+            }
+            
+            .total-label {
+              text-align: center;
+              min-width: auto;
+            }
+            
+            .total-price {
+              text-align: center;
+              min-width: auto;
+              font-size: 24px;
+            }
           }
         </style>
       </head>
@@ -285,7 +372,7 @@ class CalculatorEmailService {
               <thead>
                 <tr>
                   <th>Servicio / Producto</th>
-                  <th style="text-align: center;">Cantidad</th>
+                  <th style="text-align: center;">Cant.</th>
                   <th style="text-align: center;">Unidad</th>
                   <th style="text-align: right;">Precio Unit.</th>
                   <th style="text-align: right;">Subtotal</th>
@@ -294,17 +381,19 @@ class CalculatorEmailService {
               <tbody>
                 ${productsTable}
               </tbody>
-              <tfoot>
-                <tr class="total-row">
-                  <td colspan="4" style="text-align: right; padding-right: 20px;">
-                    <strong>PRESUPUESTO TOTAL ESTIMADO:</strong>
-                  </td>
-                  <td style="text-align: right; color: rgba(51, 51, 51, 0.9); font-size: 22px;">
-                    ${formatPrice(totalPrice)}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
+            
+            <!-- Separate Total Section for Better Display -->
+            <div class="total-section">
+              <div class="total-row">
+                <div class="total-label">
+                  PRESUPUESTO TOTAL ESTIMADO:
+                </div>
+                <div class="total-price">
+                  ${formatPrice(totalPrice)}
+                </div>
+              </div>
+            </div>
             
             <div class="warning-note">
               <strong>Nota:</strong> Este es un presupuesto preliminar basado en la calculadora. 
